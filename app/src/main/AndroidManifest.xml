@@ -24,6 +24,9 @@
         <activity android:name=".activity.ActivityLogin"/>
         <activity android:name=".activity.ActivityRegister"/>
         <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.ActivityThreads"/>
+        <activity android:name=".activity.ActivityReport"/>
+        <activity android:name=".activity.ActivityChat"/>
 
     </application>
 

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text = "Hi. Coklat"/>
+            android:text = "Hi. Sans"/>
 
     </LinearLayout>
 
@@ -36,7 +36,7 @@
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="1dp"
+        app:cardElevation="6dp"
         app:cardCornerRadius="5dp">
 
         <RelativeLayout
@@ -84,6 +84,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/ivThreads"
                     android:padding="15dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -114,6 +115,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/ivReport"
                     android:padding="15dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -144,6 +146,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/ivChat"
                     android:padding="15dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -158,6 +161,8 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text = "Chat"/>
+
+
 
         </LinearLayout>
 
