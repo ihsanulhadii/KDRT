@@ -86,11 +86,11 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/ivGoogle"
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/google"/>
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
@@ -110,6 +110,7 @@
 
 
             <TextView
+                android:id="@+id/tvAlready"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue"
