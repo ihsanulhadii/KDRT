@@ -3,6 +3,10 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+
+        //Jika mengambil library dari Github Wajib Menambahkan  jitpack di bawah ini
+        maven { url 'https://jitpack.io' }
+        ////Oke
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +14,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        //Jika mengambil library dari Github Wajib Menambahkan jitpack di bawah ini
+        maven { url 'https://jitpack.io' }
+        ////Oke
     }
 }
 rootProject.name = "My Application"

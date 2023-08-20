@@ -36,11 +36,24 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //Ini library untuk firebase
     implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+
+    //ini library untuk authentifikasi untuk login pakai google
     implementation 'com.google.android.gms:play-services-auth:20.6.0' // Check for the latest version
+
+    // ini library get lokasi
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    //ini library untuk custom progress dialog
+    implementation 'com.github.welcome2c:LottieProgressDialog:1.0.1'
+
 
 
 }
+
+//ini wajib di tambahkan jika menggunakana firebase, pastikan file google-service.json telah di tambahkan pada folder app
 apply plugin: 'com.google.gms.google-services'

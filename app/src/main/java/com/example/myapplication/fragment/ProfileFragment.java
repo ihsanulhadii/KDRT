@@ -1,10 +1,13 @@
 package com.example.myapplication.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -20,21 +23,35 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
     }
 
+    EditText etName,etEmail,etPhoneNumber;
+
+    SharedPreferences sharedPreferences;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        sharedPreferences = getActivity().getSharedPreferences("kdrt", Context.MODE_PRIVATE);
+
         // You can initialize UI components and handle interactions here
+
+        etName = rootView.findViewById(R.id.etFullname);
+        etPhoneNumber = rootView.findViewById(R.id.etPhoneNumber);
+        etEmail = rootView.findViewById(R.id.etEmail);
+        etName.setText(sharedPreferences.getString("username",""));
+        etEmail.setText(sharedPreferences.getString("email",""));
+        etPhoneNumber.setText(sharedPreferences.getString("phoneNumber",""));
+
+
 
         ivBack = rootView.findViewById(R.id.ivBack);
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backpage = new Intent (getActivity(), HomeFragment.class);
-                startActivity(backpage);
+                //Harus nya tidak ada tombol back karena sudah pakai bottom menu
             }
         });
         return rootView;

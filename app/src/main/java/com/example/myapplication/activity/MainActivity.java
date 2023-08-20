@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
 
-                switch (item.getItemId()) {
-                    case 1:
+                switch (item.getTitle().toString()) {
+                    case "Home":
                         selectedFragment = new HomeFragment();
                         break;
-                    case 2:
+                    case "Profile":
                         selectedFragment = new ProfileFragment();
                         break;
-                    case 3:
+                    case "Setting":
                         selectedFragment = new SettingFragment();
                         break;
                     // Add cases for other tabs

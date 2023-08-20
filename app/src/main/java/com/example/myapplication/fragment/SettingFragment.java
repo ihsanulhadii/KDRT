@@ -1,6 +1,8 @@
 package com.example.myapplication.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +15,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activity.ActivityLogin;
 
 public class SettingFragment extends Fragment {
 
 
-    TextView tvProfile ;
+    TextView tvProfile,tvLogOut ;
     ImageView ivBack;
+
+    SharedPreferences sharedPreferences;
 
     // Required empty constructor
     public SettingFragment() {
@@ -32,7 +37,11 @@ public class SettingFragment extends Fragment {
 
         // You can initialize UI components and handle interactions here
 
+        sharedPreferences = getActivity().getSharedPreferences("kdrt", Context.MODE_PRIVATE);
+
         tvProfile = rootView.findViewById(R.id.tvProfile);
+        tvLogOut = rootView.findViewById(R.id.tvLogOut);
+
         ivBack = rootView.findViewById(R.id.ivBack);
 
         tvProfile.setOnClickListener(new View.OnClickListener() {
@@ -44,15 +53,32 @@ public class SettingFragment extends Fragment {
         }
         );
 
+
+        tvLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logOut();
+            }
+        });
+
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backpage = new Intent(getActivity(), HomeFragment.class);
-                startActivity(backpage);
+                //Harus nya tidak ada tombol back karena sudah pakai bottom menu
             }
         }
         );
 
         return rootView;
+    }
+
+    private void logOut(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLogin",false);
+        editor.apply();
+
+        Intent intent = new Intent(getActivity(), ActivityLogin.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 }
