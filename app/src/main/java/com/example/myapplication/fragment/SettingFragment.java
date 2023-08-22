@@ -21,7 +21,7 @@ public class SettingFragment extends Fragment {
 
 
     TextView tvProfile,tvLogOut ;
-    ImageView ivBack;
+
 
     SharedPreferences sharedPreferences;
 
@@ -42,7 +42,6 @@ public class SettingFragment extends Fragment {
         tvProfile = rootView.findViewById(R.id.tvProfile);
         tvLogOut = rootView.findViewById(R.id.tvLogOut);
 
-        ivBack = rootView.findViewById(R.id.ivBack);
 
         tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,15 +58,9 @@ public class SettingFragment extends Fragment {
             public void onClick(View view) {
                 logOut();
             }
-        });
-
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Harus nya tidak ada tombol back karena sudah pakai bottom menu
-            }
         }
         );
+
 
         return rootView;
     }

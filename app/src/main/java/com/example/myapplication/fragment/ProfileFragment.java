@@ -18,7 +18,6 @@ import com.example.myapplication.R;
 
 public class ProfileFragment extends Fragment {
 
-    ImageView ivBack;
     // Required empty constructor
     public ProfileFragment() {
     }
@@ -46,14 +45,6 @@ public class ProfileFragment extends Fragment {
 
 
 
-        ivBack = rootView.findViewById(R.id.ivBack);
-
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Harus nya tidak ada tombol back karena sudah pakai bottom menu
-            }
-        });
         return rootView;
     }
 }

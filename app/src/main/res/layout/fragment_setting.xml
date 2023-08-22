@@ -8,13 +8,9 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <ImageView
-        android:id="@+id/ivBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/button_back"/>
 
     <TextView
+        android:id="@+id/tvSetting"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
         android:layout_alignParentTop="true"
@@ -32,7 +28,7 @@
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@+id/ivBack"/>
+        android:layout_below="@+id/tvSetting"/>
 
     <LinearLayout
         android:id="@+id/xx"
@@ -45,7 +41,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/profile"
+            android:src="@drawable/profile_2"
             android:id="@+id/ivProfile"/>
 
         <TextView
