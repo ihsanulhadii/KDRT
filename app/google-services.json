@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "744455468540",
-    "project_id": "kdrt-9a683",
-    "storage_bucket": "kdrt-9a683.appspot.com"
+    "project_number": "469101746110",
+    "project_id": "kdrt-9221b",
+    "storage_bucket": "kdrt-9221b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:744455468540:android:9c45f893890ace60c4ae79",
+        "mobilesdk_app_id": "1:469101746110:android:4e495ccb5a645f65c44bef",
         "android_client_info": {
           "package_name": "com.kdrt.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "744455468540-nrt8qcrjevupn74gl6v4l7ttl6aqgpea.apps.googleusercontent.com",
+          "client_id": "469101746110-0q50d4kjt4qu64s6lbiuhaafndteoip8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA6sgtBx-RUEkVb4CWRtaW7XqESuZTecMg"
+          "current_key": "AIzaSyDaxk0oINAFCXqCIXuEC6mDOuH-IO6xG6Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "744455468540-nrt8qcrjevupn74gl6v4l7ttl6aqgpea.apps.googleusercontent.com",
+              "client_id": "469101746110-0q50d4kjt4qu64s6lbiuhaafndteoip8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
