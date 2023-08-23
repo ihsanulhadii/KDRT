@@ -24,8 +24,7 @@ public class ActivityReport extends AppCompatActivity {
       ivBack.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-            Intent backpage = new Intent(ActivityReport.this, HomeFragment.class);
-            startActivity(backpage);
+            finish();
          }
       }
       );
