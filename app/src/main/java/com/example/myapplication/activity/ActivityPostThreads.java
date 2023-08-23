@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,16 +25,13 @@ import androidx.core.content.ContextCompat;
 
 import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.myapplication.R;
-import com.example.myapplication.fragment.HomeFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -48,7 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ActivityThreads extends AppCompatActivity {
+public class ActivityPostThreads extends AppCompatActivity {
 
     ImageView ivBack, ivAddImage,ivClearImage;
 
@@ -72,6 +67,8 @@ public class ActivityThreads extends AppCompatActivity {
     private String urlImage;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private Boolean isPostSuccess = false;
 
 
 
@@ -100,8 +97,10 @@ public class ActivityThreads extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("isLoad",isPostSuccess);
+                setResult(RESULT_OK,intent);
                 finish();
-
             }
         });
 
@@ -354,6 +353,7 @@ public class ActivityThreads extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        isPostSuccess = true;
                         hideLoading();
                         clearAllData();
                         showToast("Posting Berhasil");
@@ -379,4 +379,11 @@ public class ActivityThreads extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("isLoad",isPostSuccess);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 }

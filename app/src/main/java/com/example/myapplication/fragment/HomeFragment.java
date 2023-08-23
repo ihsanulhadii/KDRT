@@ -16,8 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityChat;
+import com.example.myapplication.activity.ActivityListThreads;
 import com.example.myapplication.activity.ActivityReport;
-import com.example.myapplication.activity.ActivityThreads;
+import com.example.myapplication.activity.ActivityPostThreads;
 
 public class HomeFragment extends Fragment {
 
@@ -54,8 +55,8 @@ public class HomeFragment extends Fragment {
         ivThreads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextpage = new Intent(getActivity(), ActivityThreads.class );
-                startActivity(nextpage);
+                Intent nextPage = new Intent(getActivity(), ActivityListThreads.class );
+                startActivity(nextPage);
             }
         }
         );

@@ -125,10 +125,11 @@ public class ActivityReport extends AppCompatActivity {
                     //jika deskripsi kosong
                     else if (description.isEmpty()) {
                        showToast("Deskripsi Harus diisi");
+                    } else {
+                       //jika terpenuhi semua
+                       showLoading();
+                       postingReport();
                     }
-                    //jika terpenuhi semua
-                    showLoading();
-                    postingReport();
 
 
                  }

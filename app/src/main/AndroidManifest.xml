@@ -10,6 +10,7 @@
 
     <application
         android:allowBackup="true"
+        android:largeHeap="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -36,9 +37,10 @@
         <activity android:name=".activity.ActivityLogin"/>
         <activity android:name=".activity.ActivityRegister"/>
         <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.ActivityThreads"/>
+        <activity android:name=".activity.ActivityPostThreads"/>
         <activity android:name=".activity.ActivityReport"/>
         <activity android:name=".activity.ActivityChat"/>
+        <activity android:name=".activity.ActivityListThreads"/>
 
 
 
