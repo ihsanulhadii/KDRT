@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:text="Reporting"
+        android:text="Laporan"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -48,6 +48,7 @@
 
         <ImageView
             android:id="@+id/ivAddfoto"
+            android:scaleType="fitXY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/add_report"/>
@@ -66,65 +67,79 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title Report"
+            android:text="Judul Laporan"
             android:textStyle="bold"/>
 
         <EditText
+            android:id="@+id/etTitleReport"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
             android:background="@drawable/rounded_threads"/>
-
-
-
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/aa">
 
 
         <TextView
-            android:id="@+id/tvAlamat"
+            android:id="@+id/tvPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mobile Number And Address"
+            android:text="No Hp"
             android:textStyle="bold"/>
+
         <EditText
-            android:id="@+id/etAlamat"
-            android:layout_below="@id/tvAlamat"
-            android:layout_marginTop="5dp"
+            android:id="@+id/etPhoneNumber"
+            android:layout_below="@id/tvPhoneNumber"
+            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:paddingHorizontal="10dp"
-            android:inputType="number|text"
+            android:inputType="number"
             android:background="@drawable/rounded_threads"/>
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/tvDescription"
-            android:layout_below="@id/etAlamat"
+            android:id="@+id/tvAddres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alamat"
+            android:layout_below="@id/etPhoneNumber"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/etAddres"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@id/tvAddres"
+            android:layout_marginTop="2dp"
+            android:paddingHorizontal="10dp"
+            android:inputType="text"
+            android:background="@drawable/rounded_threads"/>
+
+        <TextView
+            android:id="@+id/etDescription"
+            android:layout_below="@id/etAddres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Deskripsi"
             android:textStyle="bold"/>
 
         <ImageView
-            android:id="@+id/ivText"
-            android:layout_below="@+id/tvDescription"
-            android:layout_marginTop="5dp"
+            android:id="@+id/ivA"
+            android:layout_below="@+id/etDescription"
+            android:layout_marginTop="2dp"
             android:layout_width="334dp"
             android:layout_height="150dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
             android:background="@drawable/rounded_threads"/>
         <EditText
-            android:layout_below="@+id/tvDescription"
+            android:layout_below="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"

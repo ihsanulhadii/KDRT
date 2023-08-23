@@ -24,8 +24,7 @@ public class ActivityChat extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent backpage = new Intent(ActivityChat.this, HomeFragment.class);
-                startActivity(backpage);
+                finish();
             }
         }
         );
