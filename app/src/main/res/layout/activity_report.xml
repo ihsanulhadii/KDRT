@@ -71,7 +71,7 @@
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginTop="5dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
@@ -100,7 +100,7 @@
             android:layout_below="@id/tvAlamat"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:paddingHorizontal="10dp"
             android:inputType="number|text"
             android:background="@drawable/rounded_threads"/>
@@ -113,7 +113,8 @@
             android:layout_height="wrap_content"
             android:text="Description"
             android:textStyle="bold"/>
-        <EditText
+
+        <ImageView
             android:id="@+id/ivText"
             android:layout_below="@+id/tvDescription"
             android:layout_marginTop="5dp"
@@ -122,11 +123,18 @@
             android:paddingHorizontal="10dp"
             android:inputType="text"
             android:background="@drawable/rounded_threads"/>
-
-
+        <EditText
+            android:layout_below="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentStart="true"
+            android:inputType="text"
+            android:paddingLeft="20dp"/>
 
     </RelativeLayout>
-
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"

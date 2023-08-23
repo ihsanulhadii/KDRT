@@ -199,7 +199,7 @@ public class ActivityRegister extends AppCompatActivity {
                                 //Muncul kan error ini, ini merupakan erorr yang di mapping
                                 showToast("Pendaftaran Gagal....Email telah terdaftar");
                             } else {
-                                //Jika error nya selain message di atas makan tampilkan ini
+                                //Jika error nya selain message di atas maka tampilkan ini
                                 showToast(responseFailed);
                             }
                         }
@@ -234,7 +234,6 @@ public class ActivityRegister extends AppCompatActivity {
     private void registerToFireStoreDataBase(String userId) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference usersCollection = db.collection("user");
 
         Map<String, Object> data = new HashMap<>();
         data.put("userId",userId);

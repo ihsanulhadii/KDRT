@@ -224,6 +224,7 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
     @Override
     public void onLoginSuccess(User user) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userId",user.getUserId());
         editor.putString("email",user.getEmail());
         editor.putString("phoneNumber",user.getPhoneNumber());
         editor.putString("username",user.getName());

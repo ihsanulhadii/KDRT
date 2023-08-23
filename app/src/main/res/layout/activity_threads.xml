@@ -65,45 +65,56 @@
         android:layout_below="@+id/x"
         android:layout_marginTop="30dp">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title Report"
+            android:text="Judul"
             android:textStyle="bold"/>
 
         <EditText
+            android:id="@+id/etTitleReport"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="30dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
             android:background="@drawable/rounded_threads"/>
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kronologi SIngkat"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
+        <EditText
+            android:id="@+id/etShortDescription"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/rounded_threads"
+            android:inputType="text"/>
 
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/aa">
 
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Deskripsi"
             android:textStyle="bold"/>
         <ImageView
-            android:layout_marginTop="5dp"
             android:id="@+id/ivText"
             android:layout_below="@+id/tvDescription"
             android:layout_width="334dp"
             android:layout_height="150dp"
             android:background="@drawable/rounded_threads"/>
         <EditText
+            android:id="@+id/etDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -122,12 +133,10 @@
             android:text="Do not exceed 120 characters when entering\nthe report description."
             android:layout_marginTop="5dp"/>
 
-
     </RelativeLayout>
 
-
-
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddThreads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
