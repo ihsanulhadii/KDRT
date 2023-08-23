@@ -1,9 +1,12 @@
 package com.example.myapplication.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,17 +22,28 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.myapplication.R;
 import com.example.myapplication.fragment.HomeFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -54,6 +68,11 @@ public class ActivityThreads extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
 
+    Bitmap imageBitmap;
+    private String urlImage;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
 
 
     @Override
@@ -64,6 +83,16 @@ public class ActivityThreads extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
 
         userId = sharedPreferences.getString("userId","");
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11);
+        }
+
+
+        //initiate focusedLocation
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        //fungsi untuk getLocation
+        getLocation();
 
 
         ivBack = findViewById(R.id.ivBack);
@@ -113,7 +142,7 @@ public class ActivityThreads extends AppCompatActivity {
                         }
                         //jika kronolgi singkat kosong
                         else if (shortDescription.isEmpty()) {
-                            showToast("Kronologi SIngkat Harus diisi");
+                            showToast("Kronologi Singkat Harus diisi");
                         }
                         //jika deskripsi kosong
                         else if (description.isEmpty()) {
@@ -121,7 +150,7 @@ public class ActivityThreads extends AppCompatActivity {
                         } else {
                             //jika terpenuhi semua
                             showLoading();
-                            postingThreads();
+                            uploadImageToFirebaseStorage();
                         }
 
                     }
@@ -130,7 +159,65 @@ public class ActivityThreads extends AppCompatActivity {
 
     }
 
+
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+                });
+    }
+
     private void uploadImageToFirebaseStorage(){
+        // Reference to your Firebase Storage location
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+// Create a child reference in the "images" folder
+        StorageReference imageRef = storageRef.child("threads/" + UUID.randomUUID().toString());
+
+// Get the image data (assuming you have a Bitmap imageBitmap)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageData = baos.toByteArray();
+
+// Upload the image to Firebase Storage
+        UploadTask uploadTask = imageRef.putBytes(imageData);
+
+// Monitor the upload task
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Image upload successful, get the download URL
+                imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            urlImage = downloadUri.toString();
+                            postingThreads();
+                            // Handle the image URL here (e.g., save it to a database)
+                        } else {
+                            hideLoading();
+                            showToast("Failed Upload Image");
+                            // Handle the error
+                        }
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle the error
+            }
+        });
 
     }
 
@@ -185,7 +272,7 @@ public class ActivityThreads extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             if (extras != null) {
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                imageBitmap = (Bitmap) extras.get("data");
                 ivAddImage.setImageBitmap(imageBitmap);
                 //Jika Image Sudah tampil , munculkan tombol clear image
                 ivClearImage.setVisibility(View.VISIBLE);
@@ -194,7 +281,16 @@ public class ActivityThreads extends AppCompatActivity {
         } else if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             ivAddImage.setImageURI(selectedImageUri);
+          //  Uri selectedImageUri = data.getData();
 
+            try {
+                // Convert the selected image URI to a Bitmap
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+
+                // Now you can use 'imageBitmap' to upload to Firebase Storage
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             //Jika Image Sudah tampil , munculkan tombol clear image
             ivClearImage.setVisibility(View.VISIBLE);
             setupClearImage();
@@ -240,6 +336,7 @@ public class ActivityThreads extends AppCompatActivity {
         data.put("userId",userId);
         data.put("kronologisingkat",shortDescription);
         data.put("kronologikeseluruhan", description);
+        data.put("img",urlImage);
 
         Map<String, Object> date = new HashMap<>();
         date.put("createdDate", Timestamp.now());
@@ -258,6 +355,7 @@ public class ActivityThreads extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         hideLoading();
+                        clearAllData();
                         showToast("Posting Berhasil");
                     }
                 })
@@ -268,6 +366,16 @@ public class ActivityThreads extends AppCompatActivity {
                         showToast("Posting Gagal Error "+e.getMessage());
                     }
                 });;
+
+    }
+
+
+    public void clearAllData(){
+        etDescription.setText("");
+        etShortDescription.setText("");
+        etTitleReport.setText("");
+        ivClearImage.setVisibility(View.GONE);
+        ivAddImage.setImageDrawable(getDrawable(R.drawable.image_blank));
 
     }
 
