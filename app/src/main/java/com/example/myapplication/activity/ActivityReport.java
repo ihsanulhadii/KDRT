@@ -1,20 +1,28 @@
 package com.example.myapplication.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.myapplication.R;
 import com.example.myapplication.fragment.HomeFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -28,7 +36,8 @@ public class ActivityReport extends AppCompatActivity {
 
    ImageView ivBack, ivAddFoto;
 
-   EditText etTitleReport, etPhoneNumber, etAddres,etDescription;
+
+   EditText etTitleReport, etPhoneNumber,etAddres, etDescription;
 
    AppCompatButton btnAddReport;
 
@@ -42,6 +51,8 @@ public class ActivityReport extends AppCompatActivity {
    private SharedPreferences sharedPreferences;
    String userId;
 
+   private FusedLocationProviderClient fusedLocationProviderClient;
+
 
 
    @Override
@@ -52,6 +63,16 @@ public class ActivityReport extends AppCompatActivity {
       sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
 
       userId = sharedPreferences.getString("userId","");
+
+      if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11);
+      }
+
+
+      //initiate focusedLocation
+      fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+      //fungsi untuk getLocation
+      getLocation();
 
 
       ivBack = findViewById(R.id.ivBack);
@@ -81,6 +102,7 @@ public class ActivityReport extends AppCompatActivity {
                  @Override
                  public void onClick(View view) {
                     //kita buat String dari semua edittext dulu untuk validasi
+
                     titleReport = etTitleReport.getText().toString();
                     phoneNumber = etPhoneNumber.getText().toString();
                     addres = etAddres.getText().toString();
@@ -113,6 +135,22 @@ public class ActivityReport extends AppCompatActivity {
               })
       );
 
+   }
+
+   private void getLocation() {
+      if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+         return;
+      }
+      fusedLocationProviderClient.getLastLocation()
+              .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                 @Override
+                 public void onSuccess(Location location) {
+                    if (location != null) {
+                       latitude = location.getLatitude();
+                       longitude = location.getLongitude();
+                    }
+                 }
+              });
    }
 
 
