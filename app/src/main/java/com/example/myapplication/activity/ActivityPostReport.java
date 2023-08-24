@@ -360,7 +360,7 @@ public class ActivityPostReport extends AppCompatActivity {
 
 
       //collection database
-      db.collection("Laporan").document(idReport).set(data)
+      db.collection("report").document(idReport).set(data)
               .addOnSuccessListener(new OnSuccessListener<Void>() {
                  @Override
                  public void onSuccess(Void aVoid) {
