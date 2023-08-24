@@ -16,9 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityChat;
+import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
-import com.example.myapplication.activity.ActivityReport;
-import com.example.myapplication.activity.ActivityPostThreads;
+import com.example.myapplication.activity.ActivityPostReport;
 
 public class HomeFragment extends Fragment {
 
@@ -64,8 +64,8 @@ public class HomeFragment extends Fragment {
         ivReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pagereport = new Intent(getActivity(), ActivityReport.class);
-                startActivity(pagereport);
+                Intent pageReport = new Intent(getActivity(), ActivityListReport.class);
+                startActivity(pageReport);
             }
         }
         );

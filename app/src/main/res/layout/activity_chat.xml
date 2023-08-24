@@ -11,7 +11,7 @@
         android:id="@+id/ivBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/button_back"/>
+        android:src="@drawable/back"/>
 
     <ImageView
         android:layout_width="wrap_content"
