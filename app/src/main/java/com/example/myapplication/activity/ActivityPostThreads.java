@@ -341,6 +341,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         data.put("title",titleReport);
         data.put("id",idReport);
         data.put("userId",userId);
+        data.put("publish",true);
         data.put("kronologisingkat",shortDescription);
         data.put("kronologikeseluruhan", description);
         data.put("img",urlImage);

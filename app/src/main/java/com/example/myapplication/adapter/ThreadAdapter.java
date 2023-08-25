@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.ThreadModel;
+import com.example.myapplication.model.User;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -22,9 +24,11 @@ import java.util.Locale;
 public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder> {
 
    private List<ThreadModel> threadList;
+   private List<User> userList;
 
-   public ThreadAdapter(List<ThreadModel> threadList) {
+   public ThreadAdapter(List<ThreadModel> threadList,List<User> userList) {
       this.threadList = threadList;
+      this.userList = userList;
    }
 
    @NonNull
@@ -34,9 +38,11 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
       return new ThreadViewHolder(view);
    }
 
+   @SuppressLint("SetTextI18n")
    @Override
    public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
       ThreadModel thread = threadList.get(position);
+      User user = userList.get(position);
       holder.titleTextView.setText(thread.getTitle());
       Picasso.get()
               .load(thread.getImg())  // Assuming getImg() returns the image URL
@@ -52,9 +58,6 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
       Date datePublish = thread.getDateValue("createdDate");
 
       String inputDateString = datePublish.toString();
-      Log.d("yameroo",inputDateString);
-
-
       SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US);
       SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale
 
@@ -68,30 +71,8 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
          e.printStackTrace();
       }
 
-     // SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm:ss a 'UTC'Z", Locale.US);
+      holder.tvAuthor.setText("Oleh "+user.getName());
 
-    /*  SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale for month
-
-      try {
-        // Date date = inputFormat.parse(inputDateString);
-         String outputDateString = outputFormat.format(date);
-         holder.tvDate.setText(outputDateString);
-      } catch (ParseException e) {
-         e.printStackTrace();
-      }*/
-   }
-
-
-   public static String formatDateToIndonesia(String dateTime, String format, String originFormat) {
-      SimpleDateFormat fmt = new SimpleDateFormat(originFormat);
-      Date date = null;
-      try {
-         date = fmt.parse(dateTime);
-      } catch (ParseException e) {
-         e.printStackTrace();
-      }
-      SimpleDateFormat fmtOut = new SimpleDateFormat(format, new Locale("ID"));
-      return fmtOut.format(date);
    }
 
    @Override
@@ -100,7 +81,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
    }
 
    public class ThreadViewHolder extends RecyclerView.ViewHolder {
-      TextView titleTextView,tvShortDescription,tvDate;
+      TextView titleTextView,tvShortDescription,tvDate,tvAuthor;
       ImageView ivThreads;
 
       public ThreadViewHolder(@NonNull View itemView) {
@@ -109,6 +90,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
          ivThreads = itemView.findViewById(R.id.ivThreads);
          tvShortDescription = itemView.findViewById(R.id.tvShortDescription);
          tvDate = itemView.findViewById(R.id.tvDate);
+         tvAuthor = itemView.findViewById(R.id.tvAuthor);
 
          // Inisialisasi elemen UI lainnya
       }

@@ -1,9 +1,12 @@
 package com.example.myapplication.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +22,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ThreadAdapter;
 import com.example.myapplication.model.ThreadModel;
+import com.example.myapplication.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,8 +38,10 @@ public class ActivityListThreads extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ThreadAdapter threadAdapter;
     private List<ThreadModel> threadList = new ArrayList<>();
+    private List<User>userList = new ArrayList<>();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference threadsCollection = firestore.collection("threads");
+    private CollectionReference userCollection = firestore.collection("users");
     private DocumentSnapshot lastVisible;
     private boolean isScrolling = false;
     private int visibleThreshold = 5;
@@ -52,10 +60,14 @@ public class ActivityListThreads extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_threads);
 
+
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        threadAdapter = new ThreadAdapter(threadList);
+
+        threadAdapter = new ThreadAdapter(threadList,userList);
         recyclerView.setAdapter(threadAdapter);
+
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         ivBack = findViewById(R.id.ivBack);
         rlEmpty = findViewById(R.id.rlEmpty);
@@ -115,12 +127,14 @@ public class ActivityListThreads extends AppCompatActivity {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void loadThreads() {
         // Clear the existing threadList before loading new data
         threadList.clear();
 
         threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .limit(10)
+                .whereEqualTo("isPublish",true)
                 .get()
                 .addOnCompleteListener(task -> {
                     swipeRefreshLayout.setRefreshing(false);
@@ -130,14 +144,33 @@ public class ActivityListThreads extends AppCompatActivity {
                             for (DocumentSnapshot document : querySnapshot) {
                                 ThreadModel thread = document.toObject(ThreadModel.class);
                                 threadList.add(thread);
-                            }
-                            if(!threadList.isEmpty()){
-                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                threadAdapter.notifyDataSetChanged();
-                            }else {
-                                rlEmpty.setVisibility(View.VISIBLE);
-                            }
 
+
+                                FirebaseFirestore.getInstance().collection("users")
+                                        .document(thread.getUserId()).get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+                                                        User user = document.toObject(User.class);
+                                                        if (user != null) {
+                                                            userList.add(user);
+                                                        }
+                                                        if(!threadList.isEmpty()){
+                                                            lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                                            threadAdapter.notifyDataSetChanged();
+                                                            rlEmpty.setVisibility(View.GONE);
+
+                                                        }else {
+                                                            rlEmpty.setVisibility(View.VISIBLE);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                            }
                         }
                     } else {
                         // Handle errors
@@ -149,6 +182,7 @@ public class ActivityListThreads extends AppCompatActivity {
     private void loadMoreThreads() {
         threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
+                .whereEqualTo("isPublish",true)
                 .limit(10)
                 .get()
                 .addOnCompleteListener(task -> {

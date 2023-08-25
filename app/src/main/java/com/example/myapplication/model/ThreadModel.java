@@ -72,13 +72,6 @@ public class ThreadModel implements Serializable {
         this.id = id;
     }
 
-    public String getStringValue(String key) {
-        if (date != null && date.containsKey(key)) {
-            return (String) date.get(key);
-        }
-        return null;
-    }
-
     public Date getDateValue(String key) {
         if (date != null && date.containsKey(key)) {
             Object value = date.get(key);
