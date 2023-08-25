@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +42,11 @@ public class ActivityListThreads extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private RelativeLayout rlEmpty;
+
+    private ImageView ivBack;
+    private TextView tvTitleToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +57,17 @@ public class ActivityListThreads extends AppCompatActivity {
         threadAdapter = new ThreadAdapter(threadList);
         recyclerView.setAdapter(threadAdapter);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+        ivBack = findViewById(R.id.ivBack);
+        rlEmpty = findViewById(R.id.rlEmpty);
+        tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+
+        tvTitleToolbar.setText("List Threads");
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
         btnAddThreads = findViewById(R.id.btnAddThreads);
@@ -95,6 +114,7 @@ public class ActivityListThreads extends AppCompatActivity {
         });
     }
 
+
     private void loadThreads() {
         // Clear the existing threadList before loading new data
         threadList.clear();
@@ -111,8 +131,13 @@ public class ActivityListThreads extends AppCompatActivity {
                                 ThreadModel thread = document.toObject(ThreadModel.class);
                                 threadList.add(thread);
                             }
-                            lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                            threadAdapter.notifyDataSetChanged();
+                            if(!threadList.isEmpty()){
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                threadAdapter.notifyDataSetChanged();
+                            }else {
+                                rlEmpty.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     } else {
                         // Handle errors
@@ -130,21 +155,20 @@ public class ActivityListThreads extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null) {
-                            for (DocumentSnapshot document : querySnapshot) {
-                                ThreadModel thread = document.toObject(ThreadModel.class);
-                                threadList.add(thread);
-                            }
-                            if (!querySnapshot.isEmpty()) {
+                            if (!querySnapshot.isEmpty()) { // Check if there are documents in the query result
+                                for (DocumentSnapshot document : querySnapshot) {
+                                    ThreadModel thread = document.toObject(ThreadModel.class);
+                                    threadList.add(thread);
+                                }
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                threadAdapter.notifyDataSetChanged();
                             }
-                            threadAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        // Penanganan kesalahan
+                        // Handle errors
                     }
                 });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

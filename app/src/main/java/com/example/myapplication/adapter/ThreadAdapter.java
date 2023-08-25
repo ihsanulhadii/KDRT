@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,18 +49,49 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
 
       holder.tvShortDescription.setText(thread.getKronologisingkat());
 
-     /* String inputDateString = thread.getDate().getCreatedDate();
-      SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm:ss a 'UTC'Z", Locale.US);
+      Date datePublish = thread.getDateValue("createdDate");
 
-      SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale for month
+      String inputDateString = datePublish.toString();
+      Log.d("yameroo",inputDateString);
+
+
+      SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US);
+      SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale
 
       try {
          Date date = inputFormat.parse(inputDateString);
+         String outputDate = outputFormat.format(date);
+         holder.tvDate.setText(outputDate);
+
+         System.out.println(outputDate);
+      } catch (ParseException e) {
+         e.printStackTrace();
+      }
+
+     // SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm:ss a 'UTC'Z", Locale.US);
+
+    /*  SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale for month
+
+      try {
+        // Date date = inputFormat.parse(inputDateString);
          String outputDateString = outputFormat.format(date);
          holder.tvDate.setText(outputDateString);
       } catch (ParseException e) {
          e.printStackTrace();
       }*/
+   }
+
+
+   public static String formatDateToIndonesia(String dateTime, String format, String originFormat) {
+      SimpleDateFormat fmt = new SimpleDateFormat(originFormat);
+      Date date = null;
+      try {
+         date = fmt.parse(dateTime);
+      } catch (ParseException e) {
+         e.printStackTrace();
+      }
+      SimpleDateFormat fmtOut = new SimpleDateFormat(format, new Locale("ID"));
+      return fmtOut.format(date);
    }
 
    @Override

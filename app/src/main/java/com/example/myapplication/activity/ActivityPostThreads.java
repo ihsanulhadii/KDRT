@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,6 +71,8 @@ public class ActivityPostThreads extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private Boolean isPostSuccess = false;
+    private TextView tvTitleToolbar;
+    private LinearLayout llAddImage;
 
 
 
@@ -93,6 +97,10 @@ public class ActivityPostThreads extends AppCompatActivity {
 
 
         ivBack = findViewById(R.id.ivBack);
+        llAddImage = findViewById(R.id.llAddImage);
+        tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+
+        tvTitleToolbar.setText("Tambah Threads");
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +125,7 @@ public class ActivityPostThreads extends AppCompatActivity {
 
 
         //klik button add image
-        ivAddImage.setOnClickListener(new View.OnClickListener() {
+        llAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialogCameraGallery();
@@ -301,7 +309,7 @@ public class ActivityPostThreads extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ivClearImage.setVisibility(View.GONE);
-                ivAddImage.setImageDrawable(getDrawable(R.drawable.image_blank));
+                ivAddImage.setImageBitmap(null);
 
             }
         });
@@ -375,7 +383,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         etShortDescription.setText("");
         etTitleReport.setText("");
         ivClearImage.setVisibility(View.GONE);
-        ivAddImage.setImageDrawable(getDrawable(R.drawable.image_blank));
+        ivAddImage.setImageDrawable(null);
 
     }
 
