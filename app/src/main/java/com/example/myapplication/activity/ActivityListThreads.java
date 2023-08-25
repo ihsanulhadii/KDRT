@@ -50,10 +50,11 @@ public class ActivityListThreads extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RelativeLayout rlEmpty;
+    private RelativeLayout rlEmpty,rlLoading;
 
     private ImageView ivBack;
     private TextView tvTitleToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class ActivityListThreads extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         ivBack = findViewById(R.id.ivBack);
         rlEmpty = findViewById(R.id.rlEmpty);
+        rlLoading = findViewById(R.id.rlLoading);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
 
         tvTitleToolbar.setText("List Threads");
@@ -158,15 +160,21 @@ public class ActivityListThreads extends AppCompatActivity {
                                                         if (user != null) {
                                                             userList.add(user);
                                                         }
-                                                        if(!threadList.isEmpty()){
-                                                            lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                                            threadAdapter.notifyDataSetChanged();
-                                                            rlEmpty.setVisibility(View.GONE);
-
-                                                        }else {
-                                                            rlEmpty.setVisibility(View.VISIBLE);
-                                                        }
                                                     }
+                                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            if(!threadList.isEmpty()){
+                                                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                                                threadAdapter.notifyDataSetChanged();
+                                                                rlEmpty.setVisibility(View.GONE);
+                                                                rlLoading.setVisibility(View.GONE);
+
+                                                            }else {
+                                                                rlEmpty.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
+                                                    }, 200);
                                                 }
                                             }
                                         });
@@ -193,7 +201,7 @@ public class ActivityListThreads extends AppCompatActivity {
                                 for (DocumentSnapshot document : querySnapshot) {
                                     ThreadModel thread = document.toObject(ThreadModel.class);
                                     threadList.add(thread);
-                                    
+
                                 }
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                                 threadAdapter.notifyDataSetChanged();
