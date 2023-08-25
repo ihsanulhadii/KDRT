@@ -193,6 +193,7 @@ public class ActivityListThreads extends AppCompatActivity {
                                 for (DocumentSnapshot document : querySnapshot) {
                                     ThreadModel thread = document.toObject(ThreadModel.class);
                                     threadList.add(thread);
+                                    
                                 }
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                                 threadAdapter.notifyDataSetChanged();
