@@ -12,18 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.model.ReportModel;
 import com.example.myapplication.model.ThreadModel;
+import com.example.myapplication.model.User;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
 
    private List<ReportModel> reportList;
+   private List<User> userList;
 
-   public ReportAdapter(List<ReportModel> reportList) {
+   public ReportAdapter(List<ReportModel> reportList,List<User> userList) {
       this.reportList = reportList;
+      this.userList = userList;
    }
-
    @NonNull
    @Override
    public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,6 +40,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
    @Override
    public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
       ReportModel report = reportList.get(position);
+      User user = userList.get(position);
       holder.titleTextView.setText(report.getTitle());
       Picasso.get()
               .load(report.getImg())  // Assuming getImg() returns the image URL
@@ -46,18 +53,23 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
       holder.tvDescription.setText(report.getKeseluruhan());
 
-     /* String inputDateString = thread.getDate().getCreatedDate();
-      SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM dd, yyyy 'at' hh:mm:ss a 'UTC'Z", Locale.US);
+      Date datePublish = report.getDateValue("createdDate");
 
-      SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale for month
+      String inputDateString = datePublish.toString();
+      SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US);
+      SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale
 
       try {
          Date date = inputFormat.parse(inputDateString);
-         String outputDateString = outputFormat.format(date);
-         holder.tvDate.setText(outputDateString);
+         String outputDate = outputFormat.format(date);
+         holder.tvDate.setText(outputDate);
+
+         System.out.println(outputDate);
       } catch (ParseException e) {
          e.printStackTrace();
-      }*/
+      }
+
+      holder.tvAuthor.setText("Oleh "+user.getName());
    }
 
    @Override
@@ -66,7 +78,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
    }
 
    public class ReportViewHolder extends RecyclerView.ViewHolder {
-      TextView titleTextView,tvDescription,tvDate;
+      TextView titleTextView,tvDescription,tvDate,tvAuthor;
       ImageView ivReport;
 
       public ReportViewHolder(@NonNull View itemView) {
@@ -75,6 +87,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
          ivReport = itemView.findViewById(R.id.ivReport);
          tvDescription = itemView.findViewById(R.id.tvDescription);
          tvDate = itemView.findViewById(R.id.tvDate);
+         tvAuthor = itemView.findViewById(R.id.tvAuthor);
 
          // Inisialisasi elemen UI lainnya
       }

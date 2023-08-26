@@ -72,8 +72,8 @@ public class HomeFragment extends Fragment {
         ivChat.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent pagechat = new Intent(getActivity(), ActivityChat.class);
-                startActivity(pagechat);
+                Intent pageChat = new Intent(getActivity(), ActivityChat.class);
+                startActivity(pageChat);
             }
         }
         );

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activity.ActivityChat;
 import com.example.myapplication.activity.ActivityLogin;
 
 public class SettingFragment extends Fragment {
@@ -46,8 +47,9 @@ public class SettingFragment extends Fragment {
         tvProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pageprofile = new Intent(getActivity(),ProfileFragment.class);
-                startActivity(pageprofile);
+                Intent pageProfile = new Intent(getActivity(), ProfileFragment.class);
+                startActivity(pageProfile);
+                getActivity().finish();
             }
         }
         );

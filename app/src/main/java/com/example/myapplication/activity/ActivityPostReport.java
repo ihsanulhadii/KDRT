@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,6 +74,9 @@ public class ActivityPostReport extends AppCompatActivity {
 
    private Boolean isPostSuccess = false;
 
+   private TextView tvTitleToolbar;
+   private LinearLayout llAddImage;
+
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,10 @@ public class ActivityPostReport extends AppCompatActivity {
 
 
       ivBack = findViewById(R.id.ivBack);
+      llAddImage = findViewById(R.id.llAddImage);
+      tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+
+      tvTitleToolbar.setText("Tambah Threads");
 
       ivBack.setOnClickListener(new View.OnClickListener() {
          @Override
