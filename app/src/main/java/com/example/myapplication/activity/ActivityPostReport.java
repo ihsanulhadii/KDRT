@@ -112,7 +112,7 @@ public class ActivityPostReport extends AppCompatActivity {
 
       //ini untuk initiate/pengenalakan variabel
 
-      btnAddReport = findViewById(R.id.btnAddreport);
+      btnAddReport = findViewById(R.id.btnAddReport);
       etTitleReport = findViewById(R.id.etTitleReport);
       etPhoneNumber = findViewById(R.id.etPhoneNumber);
       etAddres = findViewById(R.id.etAddres);
