@@ -90,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:maxLines="4"
+                android:fontFamily="@font/nunito_regular"
                 android:ellipsize="end"
                 android:textSize="15sp"
                 tools:text="Description" />

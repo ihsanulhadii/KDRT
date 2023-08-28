@@ -2,6 +2,7 @@ package com.example.myapplication.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -54,6 +55,8 @@ public class ActivityListReport extends AppCompatActivity {
 
     private ImageView ivBack;
     private TextView tvTitleToolbar;
+    private String userId;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -61,6 +64,8 @@ public class ActivityListReport extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_report);
 
+        sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
+        userId = sharedPreferences.getString("userId","");
 
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -136,6 +141,7 @@ public class ActivityListReport extends AppCompatActivity {
 
         threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .limit(10)
+                .whereEqualTo("userId",userId)
                 .get()
                 .addOnCompleteListener(task -> {
                     swipeRefreshLayout.setRefreshing(false);
@@ -170,6 +176,7 @@ public class ActivityListReport extends AppCompatActivity {
         threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
                 .limit(10)
+                .whereEqualTo("userId",userId)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
