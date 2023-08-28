@@ -2,28 +2,11 @@ package com.example.myapplication.model;
 
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ReportModel implements Serializable {
     private String userId;
-    private String title;
-    private String img;
-    private String addres;
-
-    private String phoneMumber;
-    private String keseluruhan;
-    private String id;
-
-  //  private Date date;
-
-   /* public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }*/
-
-
 
     public String getUserId() {
         return userId;
@@ -49,16 +32,20 @@ public class ReportModel implements Serializable {
         this.img = img;
     }
 
-    public void setAddres(String addres) {this.addres = addres;}
-
-    public void setPhoneMumber(String phoneMumber) {this.phoneMumber = phoneMumber;}
-
-    public String getKeseluruhan() {
-        return keseluruhan;
+    public String getStatus() {
+        return status;
     }
 
-    public void setKeseluruhan(String keseluruhan) {
-        this.keseluruhan = keseluruhan;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getId() {
@@ -68,5 +55,36 @@ public class ReportModel implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
+
+    private String title;
+    private String img;
+    private String status;
+    private String description;
+    private String id;
+
+    public HashMap<String, Object> getDate() {
+        return date;
+    }
+
+    public void setDate(HashMap<String, Object> date) {
+        this.date = date;
+    }
+
+    private HashMap<String, Object> date;
+
+
+
+    public java.util.Date getDateValue(String key) {
+        if (date != null && date.containsKey(key)) {
+            Object value = date.get(key);
+            if (value instanceof java.util.Date) {
+                return (Date) value;
+            } else if (value instanceof com.google.firebase.Timestamp) {
+                return ((com.google.firebase.Timestamp) value).toDate();
+            }
+        }
+        return null;
+    }
+
 
 }

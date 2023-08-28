@@ -35,7 +35,7 @@
                     app:cardCornerRadius="10dp">
 
                     <ImageView
-                        android:id="@+id/ivThreads"
+                        android:id="@+id/ivThread"
                         android:layout_width="130dp"
                         android:layout_height="100dp"
                         android:scaleType="centerCrop"
