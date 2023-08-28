@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,6 +73,8 @@ public class ActivityPostReport extends AppCompatActivity {
    private FusedLocationProviderClient fusedLocationProviderClient;
 
    private Boolean isPostSuccess = false;
+
+   private TextView tvTitleToolbar;
    private LinearLayout llAddImage;
 
 
@@ -108,6 +111,9 @@ public class ActivityPostReport extends AppCompatActivity {
       ivAddImage = findViewById(R.id.ivAddImage);
       ivClearImage = findViewById(R.id.ivClearImage);
       llAddImage = findViewById(R.id.llAddImage);
+      tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+
+      tvTitleToolbar.setText("Tambah Laporan");
 
       llAddImage.setOnClickListener(new View.OnClickListener() {
          @Override

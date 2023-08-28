@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bukti Foto*"
+            android:text="Bukti Foto"
             android:textSize="16sp"
             android:fontFamily="@font/ooredoo" />
 
@@ -41,19 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <ImageView
-                    app:srcCompat="@drawable/image_blank"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/ooredoo"
-                    android:text="Ambil Foto"
-                    tools:ignore="HardcodedText" />
-
 
             </LinearLayout>
 
@@ -78,7 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Judul Laporan*"
+            android:text="Judul Laporan"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/ooredoo"
             android:textStyle="bold"/>
@@ -98,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Alamat*"
+            android:text="Alamat"
             android:fontFamily="@font/ooredoo"
             android:layout_below="@id/etPhoneNumber"
             android:textStyle="bold"/>
@@ -117,7 +104,7 @@
             android:layout_below="@id/etAddres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deskripsi*"
+            android:text="Deskripsi"
             android:fontFamily="@font/ooredoo"
             android:textStyle="bold"/>
         <EditText
@@ -137,18 +124,6 @@
     </LinearLayout>
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddReport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Posting Laporan"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/ooredoo"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:background="@drawable/rounded_button"
-        tools:ignore="HardcodedText" />
+
 
 </RelativeLayout>
