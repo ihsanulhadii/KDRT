@@ -50,7 +50,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
               .error(R.drawable.image_blank) // Error image if loading fails
               .fit() // Resize the image to fit the ImageView dimensions
               .centerCrop() // Crop the image to fill the ImageView
-              .into(holder.ivThreads); // ImageView to load the image into
+              .into(holder.ivThread); // ImageView to load the image into
       // Set data lainnya sesuai kebutuhan
 
       holder.tvShortDescription.setText(thread.getKronologisingkat());
@@ -82,12 +82,12 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
 
    public class ThreadViewHolder extends RecyclerView.ViewHolder {
       TextView titleTextView,tvShortDescription,tvDate,tvAuthor;
-      ImageView ivThreads;
+      ImageView ivThread;
 
       public ThreadViewHolder(@NonNull View itemView) {
          super(itemView);
          titleTextView = itemView.findViewById(R.id.tvTitle);
-         ivThreads = itemView.findViewById(R.id.ivThreads);
+         ivThread = itemView.findViewById(R.id.ivThread);
          tvShortDescription = itemView.findViewById(R.id.tvShortDescription);
          tvDate = itemView.findViewById(R.id.tvDate);
          tvAuthor = itemView.findViewById(R.id.tvAuthor);

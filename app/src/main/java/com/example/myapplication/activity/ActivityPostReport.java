@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,7 +49,7 @@ public class ActivityPostReport extends AppCompatActivity {
    ImageView ivBack, ivAddImage,ivClearImage;
 
 
-   EditText etTitleReport, etPhoneNumber,etAddres, etDescription;
+   EditText etTitleReport,etAddres, etDescription;
 
    AppCompatButton btnAddReport;
 
@@ -73,8 +72,6 @@ public class ActivityPostReport extends AppCompatActivity {
    private FusedLocationProviderClient fusedLocationProviderClient;
 
    private Boolean isPostSuccess = false;
-
-   private TextView tvTitleToolbar;
    private LinearLayout llAddImage;
 
 
@@ -84,6 +81,7 @@ public class ActivityPostReport extends AppCompatActivity {
       setContentView(R.layout.activity_report);
 
       sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
+      phoneNumber = sharedPreferences.getString("phoneNumber","");
 
       userId = sharedPreferences.getString("userId","");
 
@@ -98,11 +96,26 @@ public class ActivityPostReport extends AppCompatActivity {
       getLocation();
 
 
-      ivBack = findViewById(R.id.ivBack);
-      llAddImage = findViewById(R.id.llAddImage);
-      tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+      //initiate lottie
+      lottieLoading = new LottieProgressDialog(this, false, null, null, null, null, LottieProgressDialog.SAMPLE_1, null, null);
 
-      tvTitleToolbar.setText("Tambah Threads");
+      //ini untuk initiate/pengenalakan variabel
+      ivBack = findViewById(R.id.ivBack);
+      btnAddReport = findViewById(R.id.btnAddReport);
+      etTitleReport = findViewById(R.id.etTitleReport);
+      etAddres = findViewById(R.id.etAddres);
+      etDescription = findViewById(R.id.etDescription);
+      ivAddImage = findViewById(R.id.ivAddImage);
+      ivClearImage = findViewById(R.id.ivClearImage);
+      llAddImage = findViewById(R.id.llAddImage);
+
+      llAddImage.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            showDialogCameraGallery();
+         }
+      });
+
 
       ivBack.setOnClickListener(new View.OnClickListener() {
          @Override
@@ -114,20 +127,6 @@ public class ActivityPostReport extends AppCompatActivity {
          }
       });
 
-
-
-      //initiate lottie
-      lottieLoading = new LottieProgressDialog(this, false, null, null, null, null, LottieProgressDialog.SAMPLE_1, null, null);
-
-      //ini untuk initiate/pengenalakan variabel
-
-      btnAddReport = findViewById(R.id.btnAddReport);
-      etTitleReport = findViewById(R.id.etTitleReport);
-      etPhoneNumber = findViewById(R.id.etPhoneNumber);
-      etAddres = findViewById(R.id.etAddres);
-      etDescription = findViewById(R.id.etDescription);
-      ivAddImage = findViewById(R.id.ivAddImage);
-      ivClearImage = findViewById(R.id.ivClearImage);
 
 
       ivAddImage.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +143,6 @@ public class ActivityPostReport extends AppCompatActivity {
                     //kita buat String dari semua edittext dulu untuk validasi
 
                     titleReport = etTitleReport.getText().toString();
-                    phoneNumber = etPhoneNumber.getText().toString();
                     addres = etAddres.getText().toString();
                     description = etDescription.getText().toString();
 
@@ -153,10 +151,6 @@ public class ActivityPostReport extends AppCompatActivity {
                     //jika judul kosong
                     if (titleReport.isEmpty()) {
                        showToast("Judul Harus diisi");
-                    }
-                    //jika no hp kosong
-                    else if (phoneNumber.isEmpty()) {
-                       showToast("Nomor Harus diisi");
                     }
                     //jika alamat kosong
                     else if (addres.isEmpty()) {
@@ -352,9 +346,10 @@ public class ActivityPostReport extends AppCompatActivity {
       data.put("title",titleReport);
       data.put("id",idReport);
       data.put("userId",userId);
-      data.put("nohp",phoneNumber);
-      data.put("alamat",addres);
-      data.put("kronologikeseluruhan", description);
+      data.put("phoneNumber",phoneNumber);
+      data.put("address",addres);
+      data.put("status","open");
+      data.put("description", description);
       data.put("img", urlImage);
 
       Map<String, Object> date = new HashMap<>();
@@ -369,7 +364,7 @@ public class ActivityPostReport extends AppCompatActivity {
 
 
       //collection database
-      db.collection("report").document(idReport).set(data)
+      db.collection("reports").document(idReport).set(data)
               .addOnSuccessListener(new OnSuccessListener<Void>() {
                  @Override
                  public void onSuccess(Void aVoid) {
@@ -392,9 +387,8 @@ public class ActivityPostReport extends AppCompatActivity {
       etDescription.setText("");
       etTitleReport.setText("");
       etAddres.setText("");
-      etPhoneNumber.setText("");
       ivClearImage.setVisibility(View.GONE);
-      ivAddImage.setImageDrawable(getDrawable(R.drawable.image_blank));
+      ivAddImage.setImageDrawable(null);
 
    }
 

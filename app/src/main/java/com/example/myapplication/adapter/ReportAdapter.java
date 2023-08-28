@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,29 +22,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
+public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ThreadViewHolder> {
 
-   private List<ReportModel> reportList;
-   private List<User> userList;
+   private List<ReportModel> reportModelList;
 
-   public ReportAdapter(List<ReportModel> reportList,List<User> userList) {
-      this.reportList = reportList;
-      this.userList = userList;
+   public ReportAdapter(List<ReportModel> reportModelList) {
+      this.reportModelList = reportModelList;
    }
+
    @NonNull
    @Override
-   public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+   public ThreadViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
-      return new ReportViewHolder(view);
+      return new ThreadViewHolder(view);
    }
 
+   @SuppressLint("SetTextI18n")
    @Override
-   public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
-      ReportModel report = reportList.get(position);
-      User user = userList.get(position);
-      holder.titleTextView.setText(report.getTitle());
+   public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
+      ReportModel reportModel = reportModelList.get(position);
+      holder.titleTextView.setText(reportModel.getTitle());
       Picasso.get()
-              .load(report.getImg())  // Assuming getImg() returns the image URL
+              .load(reportModel.getImg())  // Assuming getImg() returns the image URL
               /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
               .error(R.drawable.image_blank) // Error image if loading fails
               .fit() // Resize the image to fit the ImageView dimensions
@@ -51,9 +51,9 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
               .into(holder.ivReport); // ImageView to load the image into
       // Set data lainnya sesuai kebutuhan
 
-      holder.tvDescription.setText(report.getKeseluruhan());
+      holder.tvDescription.setText(reportModel.getDescription());
 
-      Date datePublish = report.getDateValue("createdDate");
+      Date datePublish = reportModel.getDateValue("createdDate");
 
       String inputDateString = datePublish.toString();
       SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US);
@@ -69,25 +69,26 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
          e.printStackTrace();
       }
 
-      holder.tvAuthor.setText("Oleh "+user.getName());
+      holder.tvStatus.setText("Status "+reportModel.getStatus());
+
    }
 
    @Override
    public int getItemCount() {
-      return reportList.size();
+      return reportModelList.size();
    }
 
-   public class ReportViewHolder extends RecyclerView.ViewHolder {
-      TextView titleTextView,tvDescription,tvDate,tvAuthor;
+   public class ThreadViewHolder extends RecyclerView.ViewHolder {
+      TextView titleTextView,tvDescription,tvDate,tvStatus;
       ImageView ivReport;
 
-      public ReportViewHolder(@NonNull View itemView) {
+      public ThreadViewHolder(@NonNull View itemView) {
          super(itemView);
          titleTextView = itemView.findViewById(R.id.tvTitle);
          ivReport = itemView.findViewById(R.id.ivReport);
          tvDescription = itemView.findViewById(R.id.tvDescription);
          tvDate = itemView.findViewById(R.id.tvDate);
-         tvAuthor = itemView.findViewById(R.id.tvAuthor);
+         tvStatus = itemView.findViewById(R.id.tvStatus);
 
          // Inisialisasi elemen UI lainnya
       }
