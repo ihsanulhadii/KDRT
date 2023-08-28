@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -145,22 +146,21 @@ public class ActivityListReport extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     swipeRefreshLayout.setRefreshing(false);
+                    rlLoading.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null) {
                             for (DocumentSnapshot document : querySnapshot) {
                                 ReportModel reportModel = document.toObject(ReportModel.class);
                                 reportModelList.add(reportModel);
+                            }
 
-                                if(!reportModelList.isEmpty()){
-                                    lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                    reportAdapter.notifyDataSetChanged();
-                                    rlEmpty.setVisibility(View.GONE);
-                                    rlLoading.setVisibility(View.GONE);
-
-                                }else {
-                                    rlEmpty.setVisibility(View.VISIBLE);
-                                }
+                            if(!reportModelList.isEmpty()){
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                reportAdapter.notifyDataSetChanged();
+                                rlEmpty.setVisibility(View.GONE);
+                            }else {
+                                rlEmpty.setVisibility(View.VISIBLE);
 
                             }
 
