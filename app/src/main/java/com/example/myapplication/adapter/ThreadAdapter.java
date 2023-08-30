@@ -26,10 +26,22 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
    private List<ThreadModel> threadList;
    private List<User> userList;
 
+   public interface OnItemClickListener {
+      void onItemClick(ThreadModel thread, User user);
+   }
+
+   private OnItemClickListener clickListener;
+
+   public void setOnItemClickListener(OnItemClickListener listener) {
+      this.clickListener = listener;
+   }
+
    public ThreadAdapter(List<ThreadModel> threadList,List<User> userList) {
       this.threadList = threadList;
       this.userList = userList;
    }
+
+
 
    @NonNull
    @Override
@@ -72,6 +84,15 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
       }
 
       holder.tvAuthor.setText("Oleh "+user.getName());
+
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            if (clickListener != null) {
+               clickListener.onItemClick(thread, user);
+            }
+         }
+      });
 
    }
 

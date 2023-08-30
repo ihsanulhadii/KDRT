@@ -1,6 +1,11 @@
 package com.example.myapplication.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +15,16 @@ public class ThreadModel implements Serializable {
     private String title;
     private String img;
     private String kronologisingkat;
-    private String keseluruhan;
+
+    public String getKronologikeseluruhan() {
+        return kronologikeseluruhan;
+    }
+
+    public void setKronologikeseluruhan(String kronologikeseluruhan) {
+        this.kronologikeseluruhan = kronologikeseluruhan;
+    }
+
+    private String kronologikeseluruhan;
     private String id;
 
     public HashMap<String, Object> getDate() {
@@ -56,13 +70,6 @@ public class ThreadModel implements Serializable {
         this.kronologisingkat = kronologisingkat;
     }
 
-    public String getKeseluruhan() {
-        return keseluruhan;
-    }
-
-    public void setKeseluruhan(String keseluruhan) {
-        this.keseluruhan = keseluruhan;
-    }
 
     public String getId() {
         return id;
@@ -83,5 +90,4 @@ public class ThreadModel implements Serializable {
         }
         return null;
     }
-
 }

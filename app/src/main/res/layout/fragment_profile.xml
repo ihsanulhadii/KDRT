@@ -36,19 +36,15 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/rounded_foto" />
 
-        <ImageView
-            android:id="@+id/tvLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tvFullname"
+            android:id="@+id/tvNamaLengkap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Full Name" />
+            android:text="Nama Lengkap" />
 
         <EditText
-            android:id="@+id/etFullname"
+            android:id="@+id/etNamaLengkap"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -57,14 +53,14 @@
             android:paddingHorizontal="10dp" />
 
         <TextView
-            android:id="@+id/tvNomor"
+            android:id="@+id/tvNomorHp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Mobile Phone Number" />
+            android:text="Nomor Hp" />
 
         <EditText
-            android:id="@+id/etPhoneNumber"
+            android:id="@+id/etNomorHp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -108,9 +104,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Date of Birth" />
+            android:text="Tanggal Lahir" />
 
         <EditText
+            android:id="@+id/etTanggalLahir"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"

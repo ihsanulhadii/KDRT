@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -167,6 +168,16 @@ public class ActivityListThreads extends AppCompatActivity {
                                                             if(!threadList.isEmpty()){
                                                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                                                                 threadAdapter.notifyDataSetChanged();
+                                                                threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
+                                                                    @Override
+                                                                    public void onItemClick(ThreadModel thread, User user) {
+                                                                        Intent intent = new Intent(ActivityListThreads.this, ActivityDetailThreads.class);
+                                                                        intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
+                                                                        intent.putExtra("img",thread.getImg());
+                                                                        intent.putExtra("description",thread.getKronologikeseluruhan());
+                                                                        startActivity(intent);
+                                                                    }
+                                                                });
                                                                 rlEmpty.setVisibility(View.GONE);
                                                                 rlLoading.setVisibility(View.GONE);
 
@@ -185,6 +196,12 @@ public class ActivityListThreads extends AppCompatActivity {
                     }
                 });
     }
+
+
+    private void showToast(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
 
 
     private void loadMoreThreads() {

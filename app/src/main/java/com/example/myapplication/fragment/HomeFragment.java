@@ -8,17 +8,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityChat;
+import com.example.myapplication.activity.ActivityDetailReport;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
 import com.example.myapplication.activity.ActivityPostReport;
+import com.example.myapplication.adapter.ArtikelAdapter;
+import com.example.myapplication.adapter.ReportAdapter;
+import com.example.myapplication.model.ArtikelModel;
+import com.example.myapplication.model.ReportModel;
+import com.example.myapplication.model.User;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class HomeFragment extends Fragment {
 
@@ -27,6 +49,28 @@ public class HomeFragment extends Fragment {
     ImageView ivChat;
 
     TextView tvUsername;
+    private RecyclerView recyclerView;
+    private ArtikelAdapter artikelAdapter;
+
+    private List<ArtikelModel> artikelModelList = new ArrayList<>();
+
+    private List<User>userList = new ArrayList<>();
+
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+    private CollectionReference artikelCollection = firestore.collection("artikel");
+
+    private DocumentSnapshot lastVisible;
+
+    private boolean isScrolling = false;
+
+    private int visibleThreshold = 5;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private RelativeLayout rlEmpty,rlLoading;
+
+
+
 
     SharedPreferences sharedPreferences;
 
@@ -50,37 +94,87 @@ public class HomeFragment extends Fragment {
         ivChat = rootView.findViewById(R.id.ivChat);
         tvUsername = rootView.findViewById(R.id.tvUsername);
 
-        tvUsername.setText("Hallo "+sharedPreferences.getString("username",""));
+        tvUsername.setText("Hallo " + sharedPreferences.getString("username", ""));
 
         ivThreads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent nextPage = new Intent(getActivity(), ActivityListThreads.class );
-                startActivity(nextPage);
-            }
-        }
+                                         @Override
+                                         public void onClick(View view) {
+                                             Intent nextPage = new Intent(getActivity(), ActivityListThreads.class);
+                                             startActivity(nextPage);
+                                         }
+                                     }
         );
 
         ivReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pageReport = new Intent(getActivity(), ActivityListReport.class);
-                startActivity(pageReport);
-            }
-        }
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent pageReport = new Intent(getActivity(), ActivityListReport.class);
+                                            startActivity(pageReport);
+                                        }
+                                    }
         );
-        ivChat.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent pageChat = new Intent(getActivity(), ActivityChat.class);
-                startActivity(pageChat);
-            }
-        }
+        ivChat.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View view) {
+                                          Intent pageChat = new Intent(getActivity(), ActivityChat.class);
+                                          startActivity(pageChat);
+                                      }
+                                  }
         );
+
+        getListArtikel();
 
 
         return rootView;
 
 
     }
+    private void getListArtikel() {
+        // Clear the existing artikelList before loading new data
+        artikelModelList.clear();
+
+        artikelCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+                .limit(10)
+                .get()
+                .addOnCompleteListener(task -> {
+                    swipeRefreshLayout.setRefreshing(false);
+                    rlLoading.setVisibility(View.GONE);
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null) {
+                            ArtikelModel artikelModel;
+                            for (DocumentSnapshot document : querySnapshot) {
+                                artikelModel = document.toObject(ArtikelModel.class);
+                                artikelModelList.add(artikelModel);
+                            }
+
+                            if (!artikelModelList.isEmpty()) {
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                artikelAdapter.notifyDataSetChanged();
+
+                                /*artikelAdapter.setOnItemClickListener(new ReportAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(ArtikelModel artikelModel) {
+                                        Intent intent = new Intent(HomeFragment.this, ActivityDetailReport.class);
+                                        intent.putExtra("title", artikelModel.getTitle()); // Kirim data artikel ke aktivitas detail
+                                        intent.putExtra("img",artikelModel.getImg());
+                                        intent.putExtra("description",artikelModel.getDescription());
+                                        startActivity(intent);
+                                    }
+                                });*/
+
+                                rlEmpty.setVisibility(View.GONE);
+                            } else {
+                                rlEmpty.setVisibility(View.VISIBLE);
+
+                            }
+
+                        }
+                    }
+
+                });
+
+
+    }
+
 }

@@ -42,6 +42,8 @@
         <activity android:name=".activity.ActivityChat"/>
         <activity android:name=".activity.ActivityListThreads"/>
         <activity android:name=".activity.ActivityListReport"/>
+        <activity android:name=".activity.ActivityDetailThreads"/>
+        <activity android:name=".activity.ActivityDetailReport"/>
 
 
 

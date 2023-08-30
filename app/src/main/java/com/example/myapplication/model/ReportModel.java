@@ -7,6 +7,12 @@ import java.util.HashMap;
 
 public class ReportModel implements Serializable {
     private String userId;
+    private String title;
+    private String img;
+    private String status;
+    private String description;
+    private String id;
+
 
     public String getUserId() {
         return userId;
@@ -56,11 +62,7 @@ public class ReportModel implements Serializable {
         this.id = id;
     }
 
-    private String title;
-    private String img;
-    private String status;
-    private String description;
-    private String id;
+
 
     public HashMap<String, Object> getDate() {
         return date;

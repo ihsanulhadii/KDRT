@@ -42,6 +42,7 @@ public class ActivityListReport extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ReportAdapter reportAdapter;
     private List<ReportModel> reportModelList = new ArrayList<>();
+    private List<User>userList = new ArrayList<>();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference threadsCollection = firestore.collection("reports");
     private DocumentSnapshot lastVisible;
@@ -118,7 +119,7 @@ public class ActivityListReport extends AppCompatActivity {
 
                 if (isScrolling && lastVisibleItem + visibleThreshold >= totalItemCount) {
                     isScrolling = false;
-                    loadMoreThreads();
+                    loadMoreReport();
                 }
             }
         });
@@ -150,29 +151,40 @@ public class ActivityListReport extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null) {
+                            ReportModel reportModel;
                             for (DocumentSnapshot document : querySnapshot) {
-                                ReportModel reportModel = document.toObject(ReportModel.class);
+                                reportModel = document.toObject(ReportModel.class);
                                 reportModelList.add(reportModel);
                             }
 
-                            if(!reportModelList.isEmpty()){
+                            if (!reportModelList.isEmpty()) {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                                 reportAdapter.notifyDataSetChanged();
+
+                                reportAdapter.setOnItemClickListener(new ReportAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(ReportModel reportModel) {
+                                        Intent intent = new Intent(ActivityListReport.this, ActivityDetailReport.class);
+                                        intent.putExtra("title", reportModel.getTitle()); // Kirim data report ke aktivitas detail
+                                        intent.putExtra("img",reportModel.getImg());
+                                        intent.putExtra("description",reportModel.getDescription());
+                                        startActivity(intent);
+                                    }
+                                });
+
                                 rlEmpty.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 rlEmpty.setVisibility(View.VISIBLE);
 
                             }
 
                         }
-                    } else {
-                        // Handle errors
                     }
                 });
     }
 
 
-    private void loadMoreThreads() {
+    private void loadMoreReport() {
         threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
                 .limit(10)

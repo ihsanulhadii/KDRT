@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
 
+    android:orientation="vertical">
 
     <include layout="@layout/layout_toolbar"/>
 
@@ -20,109 +20,32 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bukti Foto"
-            android:textSize="16sp"
+            android:text="Suami  Ku KDRT"
+            android:textSize="25sp"
             android:fontFamily="@font/ooredoo" />
 
-        <RelativeLayout
-            android:id="@+id/x"
+        <ImageView
+            android:layout_marginTop="15dp"
+            android:id="@+id/ivReport"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="@drawable/dash_border"
-            android:layout_marginTop="10dp">
+            android:layout_height="200dp" />
 
-
-            <LinearLayout
-                android:id="@+id/llAddImage"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/ivAddImage"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-
-
-            <ImageView
-                android:id="@+id/ivClearImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:visibility="gone"
-                app:srcCompat="@drawable/baseline_cancel_24" />
-
-
-        </RelativeLayout>
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Judul Laporan"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/ooredoo"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:id="@+id/etTitleReport"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:paddingHorizontal="10dp"
-            android:inputType="text"
-            android:background="@drawable/rounded_threads"/>
-
-
-        <TextView
-            android:id="@+id/tvAddres"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Alamat"
-            android:fontFamily="@font/ooredoo"
-            android:layout_below="@id/etPhoneNumber"
-            android:textStyle="bold"/>
-        <EditText
-            android:id="@+id/etAddres"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/tvAddres"
-            android:layout_marginTop="5dp"
-            android:paddingHorizontal="10dp"
-            android:inputType="text"
-            android:background="@drawable/rounded_threads"/>
-        <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/tvDescription"
-            android:layout_below="@id/etAddres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deskripsi"
-            android:fontFamily="@font/ooredoo"
-            android:textStyle="bold"/>
-        <EditText
-            android:layout_below="@+id/tvDescription"
-            android:id="@+id/etDescription"
-            android:gravity="top"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rounded_threads"
-            android:paddingTop="10dp"
-            android:paddingHorizontal="10dp"
-            android:inputType="textMultiLine"
-            android:paddingStart="10dp"
-            tools:ignore="HardcodedText" />
+            android:fontFamily="@font/nunito_regular"
+            android:layout_marginTop="15dp"
+            android:textStyle="bold" />
+
 
     </LinearLayout>
-
 
 
 

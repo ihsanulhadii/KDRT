@@ -26,6 +26,16 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ThreadView
 
    private List<ReportModel> reportModelList;
 
+   public interface OnItemClickListener {
+      void onItemClick(ReportModel reportModel);
+   }
+
+   private OnItemClickListener clickListener;
+
+   public void setOnItemClickListener(OnItemClickListener listener) {
+      this.clickListener = listener;
+   }
+
    public ReportAdapter(List<ReportModel> reportModelList) {
       this.reportModelList = reportModelList;
    }
@@ -70,6 +80,15 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ThreadView
       }
 
       holder.tvStatus.setText("Status "+reportModel.getStatus());
+
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            if (clickListener != null) {
+               clickListener.onItemClick(reportModel);
+            }
+         }
+      });
 
    }
 
