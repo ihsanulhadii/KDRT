@@ -9,17 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
-import com.example.myapplication.model.ArtikelModel;
-import com.example.myapplication.model.ReportModel;
+import com.example.myapplication.model.ArticleModel;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ItemViewHolder> {
 
     private Context context;
-    private List<ArtikelModel> artikelList;
+    private List<ArticleModel> artikelList;
     public interface OnItemClickListener {
-        void onItemClick(ArtikelModel artikeltModel);
+        void onItemClick(ArticleModel artikeltModel);
     }
 
     private ArtikelAdapter.OnItemClickListener clickListener;
@@ -28,28 +32,57 @@ public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ItemView
         this.clickListener = listener;
     }
 
-    public ArtikelAdapter(Context context, List<ArtikelModel> itemList) {
+    public ArtikelAdapter(Context context, List<ArticleModel> itemList) {
         this.context = context;
-        this.artikelList = artikelList;
+        this.artikelList = itemList;
     }
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_home, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_article, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        ArtikelModel item = artikelList.get(position);
+        ArticleModel item = artikelList.get(position);
 
-        holder.titleTextView.setText(item.getTitle());
-        holder.descriptionTextView.setText(item.getDescription());
+        holder.tvTitle.setText(item.getTitle());
+        holder.tvContent.setText(item.getContent());
+
+
+        Date datePublish = item.getDateValue("createdDate");
+
+        String inputDateString = datePublish.toString();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd MMMM yyyy", new Locale("id", "ID")); // Indonesian locale
+
+        try {
+            Date date = inputFormat.parse(inputDateString);
+            String outputDate = outputFormat.format(date);
+            holder.tvDate.setText(outputDate);
+
+            System.out.println(outputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Load image using Picasso or any other image loading library
-        Picasso.get().load(item.getImg()).into(holder.imageView);
+        Picasso.get().load(item.getImg()).into(holder.ivArticle);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (clickListener != null) {
+                    clickListener.onItemClick(item);
+                }
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -57,15 +90,15 @@ public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ItemView
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-        TextView titleTextView;
-        TextView descriptionTextView;
+        ImageView ivArticle;
+        TextView tvTitle,tvDate,tvContent;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            ivArticle = itemView.findViewById(R.id.ivArticle);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            tvContent=  itemView.findViewById(R.id.tvContent);
         }
     }
 }

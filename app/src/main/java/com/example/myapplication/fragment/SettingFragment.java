@@ -40,19 +40,9 @@ public class SettingFragment extends Fragment {
 
         sharedPreferences = getActivity().getSharedPreferences("kdrt", Context.MODE_PRIVATE);
 
-        tvProfile = rootView.findViewById(R.id.tvProfile);
         tvLogOut = rootView.findViewById(R.id.tvLogOut);
 
 
-        tvProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent pageProfile = new Intent(getActivity(), ProfileFragment.class);
-                startActivity(pageProfile);
-                getActivity().finish();
-            }
-        }
-        );
 
 
         tvLogOut.setOnClickListener(new View.OnClickListener() {

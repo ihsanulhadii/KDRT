@@ -12,14 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.ReportAdapter;
-import com.example.myapplication.model.ReportModel;
+import com.example.myapplication.adapter.ArtikelAdapter;
+import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,19 +29,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityListReport extends AppCompatActivity {
+public class ActivityListArticle extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ReportAdapter reportAdapter;
-    private List<ReportModel> reportModelList = new ArrayList<>();
+    private ArtikelAdapter artikelAdapter;
+    private List<ArticleModel> articleModelList = new ArrayList<>();
     private List<User>userList = new ArrayList<>();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private CollectionReference threadsCollection = firestore.collection("reports");
+    private CollectionReference articelCollection = firestore.collection("articles");
     private DocumentSnapshot lastVisible;
     private boolean isScrolling = false;
     private int visibleThreshold = 5;
 
-    private AppCompatButton btnAddReport;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -57,7 +55,7 @@ public class ActivityListReport extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_report);
+        setContentView(R.layout.activity_list_article);
 
         sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
         userId = sharedPreferences.getString("userId","");
@@ -66,8 +64,8 @@ public class ActivityListReport extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        reportAdapter = new ReportAdapter(reportModelList);
-        recyclerView.setAdapter(reportAdapter);
+        artikelAdapter = new ArtikelAdapter(this,articleModelList);
+        recyclerView.setAdapter(artikelAdapter);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         ivBack = findViewById(R.id.ivBack);
@@ -75,7 +73,7 @@ public class ActivityListReport extends AppCompatActivity {
         rlLoading = findViewById(R.id.rlLoading);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
 
-        tvTitleToolbar.setText("List Report");
+        tvTitleToolbar.setText("List Artikel");
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,15 +82,6 @@ public class ActivityListReport extends AppCompatActivity {
         });
 
 
-        btnAddReport = findViewById(R.id.btnAddReport);
-
-        btnAddReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityListReport.this,ActivityPostReport.class);
-                startActivityForResult(intent,1313);
-            }
-        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -112,31 +101,31 @@ public class ActivityListReport extends AppCompatActivity {
 
                 if (isScrolling && lastVisibleItem + visibleThreshold >= totalItemCount) {
                     isScrolling = false;
-                    loadMoreReport();
+                    loadMoreArticel();
                 }
             }
         });
 
-        loadReport();
+        getListArticle();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                loadReport();
+                getListArticle();
             }
         });
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadReport() {
+    private void getListArticle() {
         // Clear the existing threadList before loading new data
-        reportModelList.clear();
+        articleModelList.clear();
 
-        threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+        articelCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .limit(10)
-                .whereEqualTo("userId",userId)
+                .whereEqualTo("isPublish", true)
                 .get()
                 .addOnCompleteListener(task -> {
                     swipeRefreshLayout.setRefreshing(false);
@@ -144,23 +133,23 @@ public class ActivityListReport extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
                         if (querySnapshot != null) {
-                            ReportModel reportModel;
+                            ArticleModel articleModel;
                             for (DocumentSnapshot document : querySnapshot) {
-                                reportModel = document.toObject(ReportModel.class);
-                                reportModelList.add(reportModel);
+                                articleModel = document.toObject(ArticleModel.class);
+                                articleModelList.add(articleModel);
                             }
 
-                            if (!reportModelList.isEmpty()) {
+                            if (!articleModelList.isEmpty()) {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                reportAdapter.notifyDataSetChanged();
+                                artikelAdapter.notifyDataSetChanged();
 
-                                reportAdapter.setOnItemClickListener(new ReportAdapter.OnItemClickListener() {
+                                artikelAdapter.setOnItemClickListener(new ArtikelAdapter.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(ReportModel reportModel) {
-                                        Intent intent = new Intent(ActivityListReport.this, ActivityDetailReport.class);
-                                        intent.putExtra("title", reportModel.getTitle()); // Kirim data report ke aktivitas detail
-                                        intent.putExtra("img",reportModel.getImg());
-                                        intent.putExtra("description",reportModel.getDescription());
+                                    public void onItemClick(ArticleModel articleModel) {
+                                        Intent intent = new Intent(ActivityListArticle.this, ActivityDetailArticle.class);
+                                        intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
+                                        intent.putExtra("img",articleModel.getImg());
+                                        intent.putExtra("content",articleModel.getContent());
                                         startActivity(intent);
                                     }
                                 });
@@ -177,8 +166,8 @@ public class ActivityListReport extends AppCompatActivity {
     }
 
 
-    private void loadMoreReport() {
-        threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+    private void loadMoreArticel() {
+        articelCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
                 .limit(10)
                 .whereEqualTo("userId",userId)
@@ -189,12 +178,12 @@ public class ActivityListReport extends AppCompatActivity {
                         if (querySnapshot != null) {
                             if (!querySnapshot.isEmpty()) { // Check if there are documents in the query result
                                 for (DocumentSnapshot document : querySnapshot) {
-                                    ReportModel reportModel = document.toObject(ReportModel.class);
-                                    reportModelList.add(reportModel);
+                                    ArticleModel articleModel = document.toObject(ArticleModel.class);
+                                    articleModelList.add(articleModel);
 
                                 }
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                reportAdapter.notifyDataSetChanged();
+                                artikelAdapter.notifyDataSetChanged();
                             }
                         }
                     } else {
@@ -211,7 +200,7 @@ public class ActivityListReport extends AppCompatActivity {
             if(data.hasExtra("isLoad")){
                 Boolean isLoad = data.getBooleanExtra("isLoad",false);
                 if(isLoad){
-                    loadReport();
+                    getListArticle();
                 }
             }
         }

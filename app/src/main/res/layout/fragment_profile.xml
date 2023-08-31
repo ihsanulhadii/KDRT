@@ -38,13 +38,13 @@
 
 
         <TextView
-            android:id="@+id/tvNamaLengkap"
+            android:id="@+id/tvFullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nama Lengkap" />
 
         <EditText
-            android:id="@+id/etNamaLengkap"
+            android:id="@+id/etFullname"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
@@ -53,14 +53,14 @@
             android:paddingHorizontal="10dp" />
 
         <TextView
-            android:id="@+id/tvNomorHp"
+            android:id="@+id/tvPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Nomor Hp" />
 
         <EditText
-            android:id="@+id/etNomorHp"
+            android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
