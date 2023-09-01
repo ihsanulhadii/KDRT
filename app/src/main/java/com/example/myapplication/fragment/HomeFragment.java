@@ -22,7 +22,7 @@ import com.example.myapplication.activity.ActivityDetailArticle;
 import com.example.myapplication.activity.ActivityListArticle;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
-import com.example.myapplication.adapter.ArtikelAdapter;
+import com.example.myapplication.adapter.ArticleAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,13 +36,13 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    ImageView ivThreads,ivArticle;
+    ImageView ivThreads;
     ImageView ivReport;
     ImageView ivChat;
 
-    TextView tvUsername, tvTitle, tvDate, tvContent, tvSeeAll;
+    TextView tvUsername, tvSeeAll;
     private RecyclerView recyclerView;
-    private ArtikelAdapter artikelAdapter;
+    private ArticleAdapter articleAdapter;
 
 
     private List<ArticleModel> articleModelList = new ArrayList<>();
@@ -81,14 +81,10 @@ public class HomeFragment extends Fragment {
 
         // You can initialize UI components and handle interactions here
 
-        ivThreads = rootView.findViewById(R.id.ivThreads);
+        ivThreads = rootView.findViewById(R.id.ivThread);
         ivReport = rootView.findViewById(R.id.ivReport);
         ivChat = rootView.findViewById(R.id.ivChat);
         tvUsername = rootView.findViewById(R.id.tvUsername);
-        ivArticle = rootView.findViewById(R.id.ivArticle);
-        tvTitle = rootView.findViewById(R.id.tvTitle);
-        tvDate = rootView.findViewById(R.id.tvDate);
-        tvContent = rootView.findViewById(R.id.tvContent);
         tvSeeAll = rootView.findViewById(R.id.tvSeeAll);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
@@ -96,8 +92,8 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        artikelAdapter = new ArtikelAdapter(getActivity(),articleModelList);
-        recyclerView.setAdapter(artikelAdapter);
+        articleAdapter = new ArticleAdapter(getActivity(),articleModelList);
+        recyclerView.setAdapter(articleAdapter);
 
         tvUsername.setText("Hallo " + sharedPreferences.getString("username", ""));
 
@@ -167,9 +163,9 @@ public class HomeFragment extends Fragment {
 
                             if (!articleModelList.isEmpty()) {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                artikelAdapter.notifyDataSetChanged();
+                                articleAdapter.notifyDataSetChanged();
 
-                                artikelAdapter.setOnItemClickListener(new ArtikelAdapter.OnItemClickListener() {
+                                articleAdapter.setOnItemClickListener(new ArticleAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ArticleModel articleModel) {
                                         Intent intent = new Intent(getActivity(), ActivityDetailArticle.class);

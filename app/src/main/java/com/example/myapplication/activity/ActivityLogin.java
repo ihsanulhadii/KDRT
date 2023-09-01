@@ -148,9 +148,10 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
 
+
+                            /////////////////////////////
                             Map<String, Object> userMap = new HashMap<>();
                             userMap.put("email", email);
-
                             db.collection("users").document(user.getUid())
                                     .get()
                                     .addOnSuccessListener(documentSnapshot -> {
@@ -228,6 +229,9 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
         editor.putString("email",user.getEmail());
         editor.putString("phoneNumber",user.getPhoneNumber());
         editor.putString("username",user.getName());
+        editor.putString("avatar", user.getAvatar());
+        editor.putString("birthDate",user.getBirthDate());
+        editor.putString("gender",user.getGender());
         editor.putBoolean("isLogin",true);
         editor.apply();
 

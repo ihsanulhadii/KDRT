@@ -12,9 +12,13 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activity.ActivityEditProfile;
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends Fragment {
 
@@ -22,9 +26,16 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
     }
 
-    EditText etName,etEmail,etPhoneNumber;
+    EditText etName,etEmail,etPhoneNumber,etBirthDate, etGender;
+
+    RoundedImageView ivAddImage;
+
+    AppCompatButton btnEditProfile;
 
     SharedPreferences sharedPreferences;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_PICK = 2;
 
     @Nullable
     @Override
@@ -39,12 +50,74 @@ public class ProfileFragment extends Fragment {
         etName = rootView.findViewById(R.id.etFullname);
         etPhoneNumber = rootView.findViewById(R.id.etPhoneNumber);
         etEmail = rootView.findViewById(R.id.etEmail);
-        etName.setText(sharedPreferences.getString("username",""));
-        etEmail.setText(sharedPreferences.getString("email",""));
-        etPhoneNumber.setText(sharedPreferences.getString("phoneNumber",""));
+        etBirthDate = rootView.findViewById(R.id.etBirthDate);
+        etGender = rootView.findViewById(R.id.etGender);
+
+        btnEditProfile = rootView.findViewById(R.id.btnEditProfile);
+        ivAddImage = rootView.findViewById(R.id.ivAddImage);
+
+        etName.setClickable(false);
+        etName.setFocusable(false);
+
+        etPhoneNumber.setClickable(false);
+        etPhoneNumber.setFocusable(false);
+
+        etEmail.setClickable(false);
+        etEmail.setFocusable(false);
+
+        etBirthDate.setClickable(false);
+        etBirthDate.setFocusable(false);
+
+        etGender.setClickable(false);
+        etGender.setFocusable(false);
+
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ActivityEditProfile.class);
+                startActivityForResult(intent,1111);
+
+            }
+        });
+
+        updateView();
+
 
 
 
         return rootView;
+    }
+
+    private void updateView(){
+
+        String username = sharedPreferences.getString("username","");
+        etName.setText(username);
+
+        etEmail.setText(sharedPreferences.getString("email",""));
+        etPhoneNumber.setText(sharedPreferences.getString("phoneNumber",""));
+        etBirthDate.setText(sharedPreferences.getString("birthDate",""));
+        etGender.setText(sharedPreferences.getString("gender",""));
+        String avatar = sharedPreferences.getString("avatar","");
+
+        if(!avatar.isEmpty()){
+            Picasso.get()
+                    .load(avatar)  // Assuming getImg() returns the image URL
+                    /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
+                    .error(R.drawable.profile1) // Error image if loading fails
+                    .fit() // Resize the image to fit the ImageView dimensions
+                    .centerCrop() // Crop the image to fill the ImageView
+                    .into(ivAddImage); // ImageView to load the image into
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1111){
+            sharedPreferences = getActivity().getSharedPreferences("kdrt",Context.MODE_PRIVATE);
+            updateView();
+        }
     }
 }

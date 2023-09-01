@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ItemViewHolder> {
+public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ItemViewHolder> {
 
     private Context context;
     private List<ArticleModel> artikelList;
@@ -26,13 +26,13 @@ public class ArtikelAdapter extends RecyclerView.Adapter<ArtikelAdapter.ItemView
         void onItemClick(ArticleModel artikeltModel);
     }
 
-    private ArtikelAdapter.OnItemClickListener clickListener;
+    private ArticleAdapter.OnItemClickListener clickListener;
 
-    public void setOnItemClickListener(ArtikelAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(ArticleAdapter.OnItemClickListener listener) {
         this.clickListener = listener;
     }
 
-    public ArtikelAdapter(Context context, List<ArticleModel> itemList) {
+    public ArticleAdapter(Context context, List<ArticleModel> itemList) {
         this.context = context;
         this.artikelList = itemList;
     }

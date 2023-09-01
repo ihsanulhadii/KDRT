@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.ArtikelAdapter;
+import com.example.myapplication.adapter.ArticleAdapter;
+import com.example.myapplication.adapter.ArticleListAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,7 +33,7 @@ import java.util.List;
 public class ActivityListArticle extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArtikelAdapter artikelAdapter;
+    private ArticleListAdapter articleListAdapter;
     private List<ArticleModel> articleModelList = new ArrayList<>();
     private List<User>userList = new ArrayList<>();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -64,8 +65,8 @@ public class ActivityListArticle extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        artikelAdapter = new ArtikelAdapter(this,articleModelList);
-        recyclerView.setAdapter(artikelAdapter);
+        articleListAdapter = new ArticleListAdapter(this,articleModelList);
+        recyclerView.setAdapter(articleListAdapter);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         ivBack = findViewById(R.id.ivBack);
@@ -141,9 +142,9 @@ public class ActivityListArticle extends AppCompatActivity {
 
                             if (!articleModelList.isEmpty()) {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                artikelAdapter.notifyDataSetChanged();
+                                articleListAdapter.notifyDataSetChanged();
 
-                                artikelAdapter.setOnItemClickListener(new ArtikelAdapter.OnItemClickListener() {
+                                articleListAdapter.setOnItemClickListener(new ArticleListAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ArticleModel articleModel) {
                                         Intent intent = new Intent(ActivityListArticle.this, ActivityDetailArticle.class);
@@ -183,7 +184,7 @@ public class ActivityListArticle extends AppCompatActivity {
 
                                 }
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                artikelAdapter.notifyDataSetChanged();
+                                articleListAdapter.notifyDataSetChanged();
                             }
                         }
                     } else {

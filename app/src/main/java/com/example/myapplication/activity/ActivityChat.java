@@ -14,7 +14,7 @@ public class ActivityChat extends AppCompatActivity {
 
     ImageView ivBack;
 
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
@@ -29,5 +29,5 @@ public class ActivityChat extends AppCompatActivity {
         }
         );
 
-    }
+    }*/
 }

@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-storage:20.2.1'
 
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 
     //ini library untuk authentifikasi untuk login pakai google
