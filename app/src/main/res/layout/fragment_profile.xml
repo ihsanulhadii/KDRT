@@ -20,7 +20,7 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivAddImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -29,10 +29,6 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="20dp"
-        app:riv_oval="false"
-        app:riv_border_width="2dp"
-        app:riv_border_color="#FF0000"
-        app:riv_corner_radius="180dp"
         android:src="@drawable/profile1" />
 
 
@@ -134,7 +130,7 @@
             android:layout_marginTop="20dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/rounded_button"
-            android:text="Edit Profile"
+            android:text="Simpan"
             android:textColor="@color/white" />
 
 
