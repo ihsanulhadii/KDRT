@@ -243,6 +243,7 @@ public class ActivityRegister extends AppCompatActivity {
         data.put("avatar","");
         data.put("gender","");
         data.put("birthDate","");
+        data.put("type","user");
         data.put("password", Base64.encodeToString(password.getBytes(), Base64.DEFAULT));
 
         Map<String, Object> date = new HashMap<>();

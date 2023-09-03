@@ -14,6 +14,16 @@ public class User implements Serializable {
     private String gender;
     private String birthDate;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+
     public HashMap<String, Object> getDate() {
         return date;
     }

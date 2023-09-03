@@ -51,6 +51,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ItemView
         holder.tvTitle.setText(item.getTitle());
         holder.tvContent.setText(item.getContent());
 
+        if(position==1){
+
+        }
+
 
         Date datePublish = item.getDateValue("createdDate");
 

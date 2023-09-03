@@ -39,13 +39,12 @@
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.ActivityPostThreads"/>
         <activity android:name=".activity.ActivityPostReport"/>
-        <activity android:name=".activity.ActivityChat"/>
+        <activity android:name=".activity.ChatActivity"/>
         <activity android:name=".activity.ActivityListThreads"/>
         <activity android:name=".activity.ActivityListArticle"/>
         <activity android:name=".activity.ActivityDetailThreads"/>
         <activity android:name=".activity.ActivityDetailReport"/>
         <activity android:name=".activity.ActivityDetailArticle"/>
-        <activity android:name=".activity.ActivityListArticle"/>
         <activity android:name=".activity.ActivityListReport"/>
         <activity android:name=".activity.ActivityEditProfile"/>
 
