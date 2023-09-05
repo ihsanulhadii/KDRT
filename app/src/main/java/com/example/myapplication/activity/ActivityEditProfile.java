@@ -1,27 +1,45 @@
 package com.example.myapplication.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class ActivityEditProfile extends AppCompatActivity {
 
@@ -51,6 +69,14 @@ public class ActivityEditProfile extends AppCompatActivity {
    private LottieProgressDialog lottieLoading;
 
    String createdDate;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_PICK = 2;
+
+    Bitmap imageBitmap;
+    private String urlImage;
+
+    private Boolean updateAvatar = false;
 
 
    @Override
@@ -107,6 +133,13 @@ public class ActivityEditProfile extends AppCompatActivity {
                  .into(ivAddImage); // ImageView to load the image into
       }
 
+      ivAddImage.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              showDialogCameraGallery();
+          }
+      });
+
       btnEditProfile.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
@@ -125,13 +158,141 @@ public class ActivityEditProfile extends AppCompatActivity {
                 showToast("gender tidak boleh kosong");
             }
             else {
-               editProfile();
+                if(updateAvatar){
+                    uploadImageToFirebaseStorage();
+                }else {
+                    editProfile();
+                }
             }
          }
       });
 
-
    }
+
+
+    private void uploadImageToFirebaseStorage(){
+       showLoading();
+        // Reference to your Firebase Storage location
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+// Create a child reference in the "images" folder
+        StorageReference imageRef = storageRef.child("profileUser/" + UUID.randomUUID().toString());
+
+// Get the image data (assuming you have a Bitmap imageBitmap)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageData = baos.toByteArray();
+
+// Upload the image to Firebase Storage
+        UploadTask uploadTask = imageRef.putBytes(imageData);
+
+// Monitor the upload task
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Image upload successful, get the download URL
+                imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            urlImage = downloadUri.toString();
+                            editProfile();
+                            // Handle the image URL here (e.g., save it to a database)
+                        } else {
+                            hideLoading();
+                            showToast("Failed Upload Image");
+                            // Handle the error
+                        }
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle the error
+            }
+        });
+
+    }
+
+    private void showDialogCameraGallery(){
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_pick_image, null);
+
+        Button btnCamera = dialogView.findViewById(R.id.btnCamera);
+        Button btnGallery = dialogView.findViewById(R.id.btnGallery);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setView(dialogView);
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera();
+                dialog.dismiss();
+            }
+        });
+
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private void openGallery() {
+        Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_PICK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                imageBitmap = (Bitmap) extras.get("data");
+                ivAddImage.setImageBitmap(imageBitmap);
+                updateAvatar = true;
+                //Jika Image Sudah tampil , munculkan tombol clear image
+               // ivClearImage.setVisibility(View.VISIBLE);
+               // setupClearImage();
+            }
+        } else if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            ivAddImage.setImageURI(selectedImageUri);
+            updateAvatar = true;
+            //  Uri selectedImageUri = data.getData();
+
+            try {
+                // Convert the selected image URI to a Bitmap
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+
+                // Now you can use 'imageBitmap' to upload to Firebase Storage
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //Jika Image Sudah tampil , munculkan tombol clear image
+           // ivClearImage.setVisibility(View.VISIBLE);
+          //  setupClearImage();
+        }
+    }
 
 
     private void showDatePickerDialog() {
@@ -178,6 +339,9 @@ public class ActivityEditProfile extends AppCompatActivity {
       updates.put("phoneNumber",phoneNumber);
       updates.put("birthDate",birthDate);
       updates.put("gender",gender);
+      if(updateAvatar){
+          updates.put("avatar",urlImage);
+      }
 
 
       Map<String, Object> date = new HashMap<>();
@@ -195,6 +359,9 @@ public class ActivityEditProfile extends AppCompatActivity {
                  editor.putString("birthDate",birthDate);
                  editor.putString("gender",gender);
                  editor.putString("createdDate",createdDate);
+                 if(updateAvatar){
+                     editor.putString("avatar",urlImage);
+                 }
                  editor.apply();
 
                  hideLoading();

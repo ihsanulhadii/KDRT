@@ -20,6 +20,8 @@ import com.example.myapplication.activity.ActivityEditProfile;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileFragment extends Fragment {
 
     // Required empty constructor
@@ -28,7 +30,7 @@ public class ProfileFragment extends Fragment {
 
     EditText etName,etEmail,etPhoneNumber,etBirthDate, etGender;
 
-    RoundedImageView ivAddImage;
+    CircleImageView ivAddImage;
 
     AppCompatButton btnEditProfile;
 
@@ -72,6 +74,7 @@ public class ProfileFragment extends Fragment {
         etGender.setFocusable(false);
 
 
+        btnEditProfile.setText("Ubah Profil");
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

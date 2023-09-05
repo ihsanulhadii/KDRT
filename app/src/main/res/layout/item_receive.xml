@@ -27,7 +27,7 @@
             app:srcCompat="@drawable/avatar" />
 
         <TextView
-            android:id="@+id/message"
+            android:id="@+id/chatModel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"

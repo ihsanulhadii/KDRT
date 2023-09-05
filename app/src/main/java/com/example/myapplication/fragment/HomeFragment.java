@@ -31,9 +31,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
 
@@ -59,6 +62,8 @@ public class HomeFragment extends Fragment {
     private boolean isScrolling = false;
 
     private int visibleThreshold = 5;
+
+    private CircleImageView ivAvatar;
 
 
 
@@ -87,6 +92,7 @@ public class HomeFragment extends Fragment {
         ivChat = rootView.findViewById(R.id.ivChat);
         tvUsername = rootView.findViewById(R.id.tvUsername);
         tvSeeAll = rootView.findViewById(R.id.tvSeeAll);
+        ivAvatar = rootView.findViewById(R.id.ivAvatar);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -99,6 +105,16 @@ public class HomeFragment extends Fragment {
         tvUsername.setText("Hallo " + sharedPreferences.getString("username", ""));
 
 
+        String avatar = sharedPreferences.getString("avatar","");
+        if(!avatar.isEmpty()){
+            Picasso.get()
+                    .load(avatar)  // Assuming getImg() returns the image URL
+                    /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
+                    .error(R.drawable.profile1) // Error image if loading fails
+                    .fit() // Resize the image to fit the ImageView dimensions
+                    .centerCrop() // Crop the image to fill the ImageView
+                    .into(ivAvatar); // ImageView to load the image into
+        }
 
         ivThreads.setOnClickListener(new View.OnClickListener() {
             @Override
