@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityDetailArticle;
 import com.example.myapplication.activity.ActivityListArticle;
+import com.example.myapplication.activity.ActivityListChatRoom;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
 import com.example.myapplication.activity.ChatActivity;
@@ -119,7 +120,7 @@ public class HomeFragment extends Fragment {
         ivChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pageChat = new Intent(getActivity(), ChatActivity.class);
+                Intent pageChat = new Intent(getActivity(), ActivityListChatRoom.class);
                 startActivity(pageChat);
             }
         }

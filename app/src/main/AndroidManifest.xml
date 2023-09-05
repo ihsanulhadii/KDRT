@@ -47,6 +47,7 @@
         <activity android:name=".activity.ActivityDetailArticle"/>
         <activity android:name=".activity.ActivityListReport"/>
         <activity android:name=".activity.ActivityEditProfile"/>
+        <activity android:name=".activity.ActivityListChatRoom"/>
 
 
 
