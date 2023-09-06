@@ -49,7 +49,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ThreadViewHold
       }else {
          holder.llSender.setVisibility(View.GONE);
          holder.llReceiver.setVisibility(View.VISIBLE);
-         holder.tvChatSender.setText(chatModel.getContent());
+         holder.tvChatReceiver.setText(chatModel.getContent());
       }
 
    }
