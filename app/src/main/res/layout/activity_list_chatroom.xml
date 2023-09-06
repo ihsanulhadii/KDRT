@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:id="@+id/swipeRefresh"
         android:paddingLeft="16dp"
-        android:paddingTop="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp">
 

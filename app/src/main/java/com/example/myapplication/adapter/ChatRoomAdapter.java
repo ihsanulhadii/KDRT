@@ -11,17 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.model.Admin;
 import com.example.myapplication.model.ChatRoomModel;
 import com.example.myapplication.model.ReportModel;
+import com.example.myapplication.model.User;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ThreadViewHolder> {
 
    private List<ChatRoomModel> chatRoomModels;
+   private List<Admin> userList = new ArrayList<>();
 
    public interface OnItemClickListener {
-      void onItemClick(ChatRoomModel reportModel);
+      void onItemClick(ChatRoomModel reportModel,Admin admin);
    }
 
    private OnItemClickListener clickListener;
@@ -30,7 +35,8 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Thread
       this.clickListener = listener;
    }
 
-   public ChatRoomAdapter(List<ChatRoomModel>chatRoomModelList) {
+   public ChatRoomAdapter(List<ChatRoomModel>chatRoomModelList, List<Admin> userList) {
+      this.userList = userList;
       this.chatRoomModels = chatRoomModelList;
    }
 
@@ -45,14 +51,26 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Thread
    @Override
    public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
       ChatRoomModel chatRoomModel = chatRoomModels.get(position);
-      holder.tvKonselor.setText("Admin");
+      if(userList.size()==0){
+         return;
+      }
+      Admin admin = userList.get(position);
+      holder.tvKonselor.setText(admin.getName());
+
+      Picasso.get()
+              .load(admin.getImg())  // Assuming getImg() returns the image URL
+              /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
+              .error(R.drawable.image_blank) // Error image if loading fails
+              .fit() // Resize the image to fit the ImageView dimensions
+              .centerCrop() // Crop the image to fill the ImageView
+              .into(holder.ivAvatar); // ImageView to load the image into
 
 
       holder.itemView.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
             if (clickListener != null) {
-               clickListener.onItemClick(chatRoomModel);
+               clickListener.onItemClick(chatRoomModel,admin);
             }
          }
       });
