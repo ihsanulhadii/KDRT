@@ -20,13 +20,16 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ThreadViewHolder> {
 
    private List<ChatRoomModel> chatRoomModels;
-   private List<Admin> userList = new ArrayList<>();
+
+   private List<Admin> adminList = new ArrayList<>();
 
    public interface OnItemClickListener {
-      void onItemClick(ChatRoomModel reportModel,Admin admin);
+      void onItemClick(ChatRoomModel reportModel, Admin admin);
    }
 
    private OnItemClickListener clickListener;
@@ -35,9 +38,9 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Thread
       this.clickListener = listener;
    }
 
-   public ChatRoomAdapter(List<ChatRoomModel>chatRoomModelList, List<Admin> userList) {
-      this.userList = userList;
+   public ChatRoomAdapter(List<ChatRoomModel>chatRoomModelList,List<Admin> adminList) {
       this.chatRoomModels = chatRoomModelList;
+      this.adminList = adminList;
    }
 
    @NonNull
@@ -50,31 +53,30 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Thread
    @SuppressLint("SetTextI18n")
    @Override
    public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
-      ChatRoomModel chatRoomModel = chatRoomModels.get(position);
-      if(userList.size()==0){
-         return;
-      }
-      Admin admin = userList.get(position);
-      holder.tvKonselor.setText(admin.getName());
+      if(chatRoomModels.size()==adminList.size()){
+         ChatRoomModel chatRoomModel = chatRoomModels.get(position);
+         Admin admin = adminList.get(position);
 
-      Picasso.get()
-              .load(admin.getImg())  // Assuming getImg() returns the image URL
-              /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
-              .error(R.drawable.image_blank) // Error image if loading fails
-              .fit() // Resize the image to fit the ImageView dimensions
-              .centerCrop() // Crop the image to fill the ImageView
-              .into(holder.ivAvatar); // ImageView to load the image into
+         holder.tvKonselor.setText(admin.getName());
+
+         Picasso.get()
+                 .load(admin.getImg())  // Assuming getImg() returns the image URL
+                 .placeholder(R.drawable.avatar) // Placeholder image while loading*//*
+                 .error(R.drawable.avatar) // Error image if loading fails
+                 .fit() // Resize the image to fit the ImageView dimensions
+                 .centerCrop() // Crop the image to fill the ImageView
+                 .into(holder.ivAvatar); // ImageView to load the image into*/
 
 
-      holder.itemView.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
-            if (clickListener != null) {
-               clickListener.onItemClick(chatRoomModel,admin);
+         holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               if (clickListener != null) {
+                  clickListener.onItemClick(chatRoomModel,admin);
+               }
             }
-         }
-      });
-
+         });
+      }
    }
 
    @Override
@@ -84,7 +86,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Thread
 
    public class ThreadViewHolder extends RecyclerView.ViewHolder {
       TextView tvKonselor;
-      ImageView ivAvatar;
+      CircleImageView ivAvatar;
 
       public ThreadViewHolder(@NonNull View itemView) {
          super(itemView);

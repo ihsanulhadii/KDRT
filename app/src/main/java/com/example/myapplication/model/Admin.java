@@ -6,6 +6,16 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Admin implements Serializable {
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String email;
 
     public String getImg() {
