@@ -164,7 +164,7 @@ public class ListRoom extends AppCompatActivity {
     }
 
     private void getAdminList(){
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < articleModelList.size(); i++) {
             String idAdmin = articleModelList.get(i).getSender();
             Log.d("adminya-"+articleModelList.size()+"-"+i, idAdmin);
 
