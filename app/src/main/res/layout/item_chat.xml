@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/receive_drawable"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             android:paddingBottom="5dp"
             android:text="Hallo"
             android:textColor="#000000"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +45,7 @@
         android:id="@+id/llSender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/sent_drawable"
         android:orientation="vertical"
@@ -71,7 +71,7 @@
             android:paddingBottom="5dp"
             android:text="Babi Kau"
             android:textColor="#FFFFFF"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
     </LinearLayout>
 
 </LinearLayout>

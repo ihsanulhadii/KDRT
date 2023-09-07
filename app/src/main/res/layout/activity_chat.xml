@@ -31,7 +31,7 @@
                 app:srcCompat="@drawable/ic_left_arrow" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile"
+                android:id="@+id/ivAvatar"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginLeft="10dp"
@@ -45,7 +45,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Konselor"
@@ -76,7 +76,7 @@
         android:layout_marginBottom="8dp"
         app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSend"
+        app:layout_constraintEnd_toStartOf="@+id/ivSend"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -86,13 +86,13 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/messageBox"
+                android:id="@+id/etMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="Type a chatModel..."
+                android:hint="Ketik Pesan disini"
                 android:inputType="textPersonName"
                 android:padding="8dp"
                 android:textSize="14sp" />
@@ -129,7 +129,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageView
-        android:id="@+id/btnSend"
+        android:id="@+id/ivSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
