@@ -1,6 +1,7 @@
 package com.example.myapplication.activity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -78,8 +79,11 @@ public class ActivityEditProfile extends AppCompatActivity {
 
     private Boolean updateAvatar = false;
 
+    private String[] genderOptions = {"Laki-laki", "Perempuan"};
 
-   @Override
+
+
+    @Override
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.fragment_profile);
@@ -110,7 +114,17 @@ public class ActivityEditProfile extends AppCompatActivity {
       etEmail.setFocusable(false);
       etBirthDate.setClickable(false);
       etBirthDate.setFocusable(false);
+      etGender.setClickable(false);
+      etGender.setFocusable(false);
 
+      etGender.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              showGenderSelectionDialog();
+
+
+          }
+      });
 
       etBirthDate.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -292,6 +306,29 @@ public class ActivityEditProfile extends AppCompatActivity {
            // ivClearImage.setVisibility(View.VISIBLE);
           //  setupClearImage();
         }
+    }
+
+
+    private void showGenderSelectionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pilih Gender")
+                .setItems(genderOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String selectedGender = genderOptions[which];
+                        etGender.setText(selectedGender);
+                        Toast.makeText(getApplicationContext(), "Gender yang dipilih: " + selectedGender, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

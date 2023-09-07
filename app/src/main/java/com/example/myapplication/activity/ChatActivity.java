@@ -21,6 +21,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ChatAdapter;
 import com.example.myapplication.model.ChatModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,7 +31,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -147,31 +153,36 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    /*private void loadMoreReport() {
-        threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
-                .startAfter(lastVisible)
-                .limit(10)
-                .whereEqualTo("userId",userId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null) {
-                            if (!querySnapshot.isEmpty()) { // Check if there are documents in the query result
-                                for (DocumentSnapshot document : querySnapshot) {
-                                    ReportModel reportModel = document.toObject(ReportModel.class);
-                                    chatModelList.add(reportModel);
+    private void postingChat(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                                }
-                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                chatAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    } else {
-                        // Handle errors
+        String idReport = UUID.randomUUID().toString();
+        //untuk field dan value di database
+        Map<String, Object> data = new HashMap<>();
+        data.put("content","");
+        data.put("sender","");
+        data.put("receiver","");
+        data.put("time","");
+
+
+        //collection database
+        db.collection("threads").document(idReport).set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                       // showToast("Posting Berhasil");
                     }
-                });
-    }*/
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                       // showToast("Posting Gagal Error "+e.getMessage());
+                    }
+                });;
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

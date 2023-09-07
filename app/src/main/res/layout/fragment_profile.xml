@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="9dp"
-        android:text="Profile"
+        android:text="Profil"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Gender" />
+            android:text="Jenis Kelamin" />
 
         <EditText
             android:id="@+id/etGender"
