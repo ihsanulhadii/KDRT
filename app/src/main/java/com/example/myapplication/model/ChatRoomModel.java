@@ -6,6 +6,9 @@ import java.io.Serializable;
 public class ChatRoomModel implements Serializable {
 
     private String id;
+    private String receiver;
+    private String sender;
+    private Admin admin;
 
     public String getId() {
         return id;
@@ -31,6 +34,12 @@ public class ChatRoomModel implements Serializable {
         this.sender = sender;
     }
 
-    private String receiver;
-    private String sender;
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
 }

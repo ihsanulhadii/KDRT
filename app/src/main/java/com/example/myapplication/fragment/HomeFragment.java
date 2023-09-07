@@ -21,7 +21,7 @@ import com.example.myapplication.activity.ActivityDetailArticle;
 import com.example.myapplication.activity.ActivityListArticle;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
-import com.example.myapplication.activity.ListRoom;
+import com.example.myapplication.activity.ActivityListChatRoom;
 import com.example.myapplication.adapter.ArticleAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment {
         ivChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pageChat = new Intent(getActivity(), ListRoom.class);
+                Intent pageChat = new Intent(getActivity(), ActivityListChatRoom.class);
                 startActivity(pageChat);
             }
         }

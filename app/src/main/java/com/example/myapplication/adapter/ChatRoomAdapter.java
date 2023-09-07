@@ -60,12 +60,12 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Thread
          holder.tvKonselor.setText(admin.getName());
 
          Picasso.get()
-                 .load(admin.getImg())  // Assuming getImg() returns the image URL
-                 .placeholder(R.drawable.avatar) // Placeholder image while loading*//*
-                 .error(R.drawable.avatar) // Error image if loading fails
-                 .fit() // Resize the image to fit the ImageView dimensions
-                 .centerCrop() // Crop the image to fill the ImageView
-                 .into(holder.ivAvatar); // ImageView to load the image into*/
+                 .load(admin.getImg())
+                 .placeholder(R.drawable.avatar)
+                 .error(R.drawable.avatar)
+                 .fit()
+                 .centerCrop()
+                 .into(holder.ivAvatar);
 
 
          holder.itemView.setOnClickListener(new View.OnClickListener() {

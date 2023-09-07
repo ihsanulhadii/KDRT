@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,26 +21,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ChatRoomAdapter;
-import com.example.myapplication.adapter.ThreadAdapter;
 import com.example.myapplication.model.Admin;
 import com.example.myapplication.model.ChatRoomModel;
-import com.example.myapplication.model.ThreadModel;
-import com.example.myapplication.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListRoom extends AppCompatActivity {
+public class ActivityListChatRoom extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ChatRoomAdapter articleListAdapter;
@@ -120,20 +112,20 @@ public class ListRoom extends AppCompatActivity {
             }
         });
 
-        getListArticle();
+        getListChatRoom();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                getListArticle();
+                getListChatRoom();
             }
         });
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
-    private void getListArticle() {
+    private void getListChatRoom() {
         // Clear the existing threadList before loading new data
         articleModelList.clear();
 
@@ -211,7 +203,7 @@ public class ListRoom extends AppCompatActivity {
                     articleListAdapter.setOnItemClickListener(new ChatRoomAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(ChatRoomModel chatRoomModel, Admin admin) {
-                            Intent intent = new Intent(ListRoom.this, ChatActivity.class);
+                            Intent intent = new Intent(ActivityListChatRoom.this, ChatActivity.class);
                             intent.putExtra("chatroom",chatRoomModel);
                             intent.putExtra("admin",admin);
 
@@ -235,7 +227,7 @@ public class ListRoom extends AppCompatActivity {
             if(data.hasExtra("isLoad")){
                 Boolean isLoad = data.getBooleanExtra("isLoad",false);
                 if(isLoad){
-                    getListArticle();
+                    getListChatRoom();
                 }
             }
         }
