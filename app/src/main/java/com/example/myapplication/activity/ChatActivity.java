@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,8 +29,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -63,6 +68,9 @@ public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private ChatAdapter chatAdapter;
+
+    private ListenerRegistration chatListener; // Add this line to hold the listener registration
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +118,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         getListChat();
+        startChatListener();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -172,6 +181,32 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
+    private void startChatListener() {
+        chatListener = chatCollection.document(chatRoomModel.getId())
+                .collection("chat")
+                .orderBy("time", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                           // Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        // Clear the existing chatModelList before loading new data
+                        chatModelList.clear();
+
+                        for (DocumentSnapshot document : querySnapshot) {
+                            ChatModel chatModel = document.toObject(ChatModel.class);
+                            chatModelList.add(chatModel);
+                        }
+
+                        // Update the UI with the new data
+                        chatAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
 
     private void showToast(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
