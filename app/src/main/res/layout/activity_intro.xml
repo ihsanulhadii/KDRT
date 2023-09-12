@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +14,7 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="30dp"
         android:text="KDRT"
+        android:fontFamily="@font/ooredoo"
         android:textColor="@color/blue"
         android:textSize="40sp"
         android:textStyle="bold" />
@@ -29,18 +29,20 @@
 
     <TextView
         android:id="@+id/tvtagline"
-        android:layout_below="@+id/ivlogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ivlogo"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/nunito_regular"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
-        android:layout_centerInParent="true"
-        android:text="   Breaking the Chains of Abuse:\nEmpower, Educate, and Eradicate!"/>
+        android:text="   Breaking the Chains of Abuse:\nEmpower, Educate, and Eradicate!" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/ooredoo"
         android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="40dp"

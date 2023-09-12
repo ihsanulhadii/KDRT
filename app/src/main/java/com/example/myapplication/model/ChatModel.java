@@ -9,15 +9,15 @@ public class ChatModel {
     private String receiver;
     private String sender;
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getTime() {
+        return time;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
-    private Timestamp timestamp;
+    private Timestamp time;
 
     public String getContent() {
         return content;

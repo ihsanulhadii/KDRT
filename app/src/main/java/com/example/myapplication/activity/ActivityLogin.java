@@ -3,10 +3,12 @@ package com.example.myapplication.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +57,9 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
 
     private LottieProgressDialog lottieLoading;
 
+    private ImageView passwordToggle;
+    private boolean isPasswordVisible = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,14 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        passwordToggle = findViewById(R.id.passwordToggle);
+
+        passwordToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
+        });
 
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +129,24 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
                 }
             }
         });
+    }
+
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            // If password is currently visible, hide it
+            etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordToggle.setImageResource(R.drawable.ic_eye_closed);
+        } else {
+            // If password is currently hidden, show it
+            etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            passwordToggle.setImageResource(R.drawable.ic_eye_open);
+        }
+
+        // Move the cursor to the end of the text to maintain the cursor position
+        etPassword.setSelection(etPassword.getText().length());
+
+        // Toggle the state
+        isPasswordVisible = !isPasswordVisible;
     }
 
     public boolean isValidEmail(String email) {

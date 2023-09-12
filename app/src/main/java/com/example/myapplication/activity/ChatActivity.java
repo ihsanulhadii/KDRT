@@ -1,12 +1,16 @@
 package com.example.myapplication.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -69,7 +74,10 @@ public class ChatActivity extends AppCompatActivity {
 
     private ChatAdapter chatAdapter;
 
+
     private ListenerRegistration chatListener; // Add this line to hold the listener registration
+
+
 
 
     @Override
@@ -83,11 +91,14 @@ public class ChatActivity extends AppCompatActivity {
         chatRoomModel = (ChatRoomModel) getIntent().getSerializableExtra("chatroom");
         admin = (Admin) getIntent().getSerializableExtra("admin");
 
+       // showToast(chatRoomModel.getId());
+
 
         ivAvatar = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
         ivSend = findViewById(R.id.ivSend);
         etMessage = findViewById(R.id.etMessage);
+
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -121,6 +132,12 @@ public class ChatActivity extends AppCompatActivity {
         startChatListener();
     }
 
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null && getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
     @SuppressLint("NotifyDataSetChanged")
     private void getListChat() {
         // Clear the existing threadList before loading new data
@@ -160,14 +177,7 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         etMessage.setText("");
-                        ChatModel chatModel = new ChatModel();
-                        chatModel.setId(idChat);
-                        chatModel.setContent(message);
-                        chatModel.setReceiver(admin.getId());
-                        chatModel.setSender(userId);
-                        chatModel.setTimestamp(timestamp);
-                        chatModelList.add(chatModel);
-                        chatAdapter.notifyDataSetChanged();
+                        hideKeyboard();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -210,5 +220,10 @@ public class ChatActivity extends AppCompatActivity {
 
     private void showToast(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

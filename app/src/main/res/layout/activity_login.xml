@@ -17,11 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
+            android:fontFamily="@font/ooredoo"
             android:textSize="40sp"
             android:textColor="@color/blue"
             android:textStyle="bold" />
         <TextView
             android:id="@+id/tvEmail"
+            android:fontFamily="@font/nunito_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Email"/>
@@ -32,22 +34,43 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
             android:background="@drawable/rounded"
             android:inputType="textEmailAddress" />
         <TextView
             android:id="@+id/tvPassword"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Password"/>
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_marginTop="10dp"
-            android:paddingHorizontal="10dp"
+
+
+        <RelativeLayout
+            android:id="@+id/passwordLayout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/rounded"
-            android:inputType="textPassword"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:background="@drawable/rounded"
+                android:inputType="textPassword" />
+
+            <ImageView
+                android:id="@+id/passwordToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_eye_closed"
+                android:clickable="true"
+                android:padding="8dp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_marginTop="20dp"
@@ -78,6 +101,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
             android:text="Sign In"
+            android:fontFamily="@font/ooredoo"
             android:layout_marginTop="20dp"
             android:textColor="@color/white"/>
 
@@ -91,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
+                android:fontFamily="@font/nunito_regular"
                 android:text="Don't Have Account?"/>
 
             <TextView
@@ -98,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue"
+                android:fontFamily="@font/ooredoo"
                 android:text="Create Account"/>
 
 
