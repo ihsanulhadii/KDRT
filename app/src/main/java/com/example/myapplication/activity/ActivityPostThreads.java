@@ -49,10 +49,10 @@ public class ActivityPostThreads extends AppCompatActivity {
 
     ImageView ivBack, ivAddImage,ivClearImage;
 
-    EditText etTitleReport,etShortDescription,etDescription;
+    EditText etTitleReport,etChoronology;
     AppCompatButton btnAddThreads;
 
-    String titleReport,shortDescription, description;
+    String titleReport, chronology;
 
     private LottieProgressDialog lottieLoading;
 
@@ -118,8 +118,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         //ini untuk initiate/pengenalakan variabel
         btnAddThreads = findViewById(R.id.btnAddThreads);
         etTitleReport = findViewById(R.id.etTitleReport);
-        etShortDescription = findViewById(R.id.etShortDescription);
-        etDescription = findViewById(R.id.etDescription);
+        etChoronology = findViewById(R.id.etChronology);
         ivAddImage = findViewById(R.id.ivAddImage);
         ivClearImage = findViewById(R.id.ivClearImage);
 
@@ -138,8 +137,7 @@ public class ActivityPostThreads extends AppCompatActivity {
                     public void onClick(View view) {
                         //kita buat String dari semua edittext dulu untuk validasi
                         titleReport = etTitleReport.getText().toString();
-                        shortDescription = etShortDescription.getText().toString();
-                        description = etDescription.getText().toString();
+                        chronology = etChoronology.getText().toString();
 
                         // dibawah merupakan validasi
 
@@ -147,14 +145,11 @@ public class ActivityPostThreads extends AppCompatActivity {
                         if (titleReport.isEmpty()) {
                             showToast("Judul Harus diisi");
                         }
-                        //jika kronolgi singkat kosong
-                        else if (shortDescription.isEmpty()) {
-                            showToast("Kronologi Singkat Harus diisi");
+                        //jika kronolgi  kosong
+                        else if (chronology.isEmpty()) {
+                            showToast("Kronologi Harus diisi");
                         }
-                        //jika deskripsi kosong
-                        else if (description.isEmpty()) {
-                            showToast("Deskripsi Harus diisi");
-                        } else {
+                        else {
                             //jika terpenuhi semua
                             showLoading();
                             uploadImageToFirebaseStorage();
@@ -342,8 +337,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         data.put("id",idReport);
         data.put("userId",userId);
         data.put("isPublish",true);
-        data.put("kronologisingkat",shortDescription);
-        data.put("kronologikeseluruhan", description);
+        data.put("chronology", chronology);
         data.put("img",urlImage);
 
         Map<String, Object> date = new HashMap<>();
@@ -380,8 +374,7 @@ public class ActivityPostThreads extends AppCompatActivity {
 
 
     public void clearAllData(){
-        etDescription.setText("");
-        etShortDescription.setText("");
+        etChoronology.setText("");
         etTitleReport.setText("");
         ivClearImage.setVisibility(View.GONE);
         ivAddImage.setImageDrawable(null);

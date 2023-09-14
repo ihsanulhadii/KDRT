@@ -65,7 +65,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
               .into(holder.ivThread); // ImageView to load the image into
       // Set data lainnya sesuai kebutuhan
 
-      holder.tvShortDescription.setText(thread.getKronologisingkat());
+      holder.tvChronology.setText(thread.getChronology());
 
       Date datePublish = thread.getDateValue("createdDate");
 
@@ -102,14 +102,14 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
    }
 
    public class ThreadViewHolder extends RecyclerView.ViewHolder {
-      TextView titleTextView,tvShortDescription,tvDate,tvAuthor;
+      TextView titleTextView,tvChronology,tvDate,tvAuthor;
       ImageView ivThread;
 
       public ThreadViewHolder(@NonNull View itemView) {
          super(itemView);
          titleTextView = itemView.findViewById(R.id.tvTitle);
          ivThread = itemView.findViewById(R.id.ivThread);
-         tvShortDescription = itemView.findViewById(R.id.tvShortDescription);
+         tvChronology = itemView.findViewById(R.id.tvChronology);
          tvDate = itemView.findViewById(R.id.tvDate);
          tvAuthor = itemView.findViewById(R.id.tvAuthor);
 

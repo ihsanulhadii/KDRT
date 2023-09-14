@@ -14,17 +14,17 @@ public class ThreadModel implements Serializable {
     private String userId;
     private String title;
     private String img;
-    private String kronologisingkat;
 
-    public String getKronologikeseluruhan() {
-        return kronologikeseluruhan;
+    public String getChronology() {
+        return chronology;
     }
 
-    public void setKronologikeseluruhan(String kronologikeseluruhan) {
-        this.kronologikeseluruhan = kronologikeseluruhan;
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
     }
 
-    private String kronologikeseluruhan;
+    private String chronology ;
+
     private String id;
 
     public HashMap<String, Object> getDate() {
@@ -60,14 +60,6 @@ public class ThreadModel implements Serializable {
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public String getKronologisingkat() {
-        return kronologisingkat;
-    }
-
-    public void setKronologisingkat(String kronologisingkat) {
-        this.kronologisingkat = kronologisingkat;
     }
 
 

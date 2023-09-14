@@ -9,6 +9,10 @@ public class User implements Serializable {
     private String userId;
     private String email;
     private String name;
+
+
+
+    private String addres;
     private String avatar;
     private String phoneNumber;
     private String gender;
@@ -58,6 +62,9 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getAddres() {return addres;}
+    public void setAddres(String addres) {this.addres = addres;}
 
     public String getAvatar() {
         return avatar;

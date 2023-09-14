@@ -25,7 +25,8 @@
             android:id="@+id/tvFullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Full Name"/>
+            android:text="Nama Lengkap"/>
+
         <EditText
             android:id="@+id/etFullname"
             android:layout_width="match_parent"
@@ -36,11 +37,27 @@
             android:background="@drawable/rounded"/>
 
         <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tvFullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alamat Rumah"/>
+        <EditText
+            android:id="@+id/etAddres"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="10dp"
+            android:inputType="text"
+            android:background="@drawable/rounded"/>
+
+
+        <TextView
             android:id="@+id/tvNomor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Mobile Phone Number"/>
+            android:text="Nomor Hp"/>
 
         <EditText
             android:id="@+id/etPhoneNumber"

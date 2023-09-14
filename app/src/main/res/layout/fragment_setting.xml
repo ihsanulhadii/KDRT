@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="Setting"
         android:textSize="20sp"
         android:textStyle="bold"/>
 

@@ -46,6 +46,8 @@ public class ActivityEditProfile extends AppCompatActivity {
 
    private String fullName;
 
+   private String addres;
+
    private String phoneNumber;
 
    private String email;
@@ -60,7 +62,7 @@ public class ActivityEditProfile extends AppCompatActivity {
 
 
 
-   EditText etFullName, etPhoneNumber, etEmail, etBirthDate, etGender ;
+   EditText etFullName,etAddres, etPhoneNumber, etEmail, etBirthDate, etGender ;
 
    ImageView ivAddImage;
 
@@ -95,6 +97,7 @@ public class ActivityEditProfile extends AppCompatActivity {
        createdDate = sharedPreferences.getString("createdDate","");
 
       etFullName = findViewById(R.id.etFullname);
+      etAddres = findViewById(R.id.etAddres);
       etPhoneNumber = findViewById(R.id.etPhoneNumber);
       etEmail = findViewById(R.id.etEmail);
       etBirthDate = findViewById(R.id.etBirthDate);
@@ -116,6 +119,8 @@ public class ActivityEditProfile extends AppCompatActivity {
       etBirthDate.setFocusable(false);
       etGender.setClickable(false);
       etGender.setFocusable(false);
+      etAddres.setClickable(false);
+      etAddres.setFocusable(false);
 
       etGender.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -159,6 +164,7 @@ public class ActivityEditProfile extends AppCompatActivity {
          public void onClick(View view) {
 
             fullName = etFullName.getText().toString();
+            addres = etAddres.getText().toString();
             phoneNumber = etPhoneNumber.getText().toString();
             birthDate = etBirthDate.getText().toString();
             gender = etGender.getText().toString();
@@ -166,7 +172,9 @@ public class ActivityEditProfile extends AppCompatActivity {
 
             if(fullName.isEmpty()){
                showToast("Nama Tidak Boleh Kosong");
-            }else if(phoneNumber.isEmpty()){
+            } else if (addres.isEmpty()) {
+                showToast("Alamat Tidak Boleh Kosong");
+            } else if(phoneNumber.isEmpty()){
                showToast("No Telp Tidak Boleh Kosong");
             }else if (gender.isEmpty()){
                 showToast("gender tidak boleh kosong");
@@ -373,6 +381,7 @@ public class ActivityEditProfile extends AppCompatActivity {
 
       Map<String, Object> updates = new HashMap<>();
       updates.put("name", fullName);
+      updates.put("addres",addres);
       updates.put("phoneNumber",phoneNumber);
       updates.put("birthDate",birthDate);
       updates.put("gender",gender);
@@ -393,6 +402,7 @@ public class ActivityEditProfile extends AppCompatActivity {
                  SharedPreferences.Editor editor = sharedPreferences.edit();
                  editor.putString("phoneNumber",phoneNumber);
                  editor.putString("username",fullName);
+                 editor.putString("addres", addres);
                  editor.putString("birthDate",birthDate);
                  editor.putString("gender",gender);
                  editor.putString("createdDate",createdDate);

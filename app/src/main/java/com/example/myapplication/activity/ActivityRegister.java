@@ -43,10 +43,10 @@ import java.util.UUID;
 public class ActivityRegister extends AppCompatActivity {
 
     TextView tvAlready;
-    EditText etFullName, etPhoneNumber, etEmail, etPassword;
+    EditText etFullName,etAddres, etPhoneNumber, etEmail, etPassword;
     AppCompatButton btnRegister;
 
-    String email, fullName, phoneNumber, password;
+    String email, fullName,addres, phoneNumber, password;
 
 
     private FirebaseAuth mAuth;
@@ -87,10 +87,12 @@ public class ActivityRegister extends AppCompatActivity {
         //ini untuk initiate/pengenalakan variabel
         tvAlready = findViewById(R.id.tvAlready);
         etFullName = findViewById(R.id.etFullname);
+        etAddres = findViewById(R.id.etAddres);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
+
 
 
         //ini untuk action klik
@@ -112,6 +114,7 @@ public class ActivityRegister extends AppCompatActivity {
                 //kita buat String dari semua edittext dulu untuk validasi
                 email = etEmail.getText().toString();
                 fullName = etFullName.getText().toString();
+                addres = etAddres.getText().toString();
                 phoneNumber = etPhoneNumber.getText().toString();
                 password = etPassword.getText().toString();
 
@@ -121,9 +124,13 @@ public class ActivityRegister extends AppCompatActivity {
                 if (email.isEmpty()) {
                     showToast("Email Harus diisi");
                 }
-                //jika email nama
+                //jika  nama
                 else if (fullName.isEmpty()) {
-                    showToast("Name Harus diisi");
+                    showToast("Nama Harus diisi");
+                }
+                //jika alamat kosong
+                else if (addres.isEmpty()) {
+                    showToast("Alamat harus diisi");
                 }
                 //jika telp kosong
                 else if (phoneNumber.isEmpty()) {
@@ -238,6 +245,7 @@ public class ActivityRegister extends AppCompatActivity {
         Map<String, Object> data = new HashMap<>();
         data.put("userId",userId);
         data.put("name", fullName);
+        data.put("addres",addres);
         data.put("email", email);
         data.put("phoneNumber", phoneNumber);
         data.put("avatar","");

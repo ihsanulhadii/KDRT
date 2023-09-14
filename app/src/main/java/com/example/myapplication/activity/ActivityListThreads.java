@@ -174,7 +174,7 @@ public class ActivityListThreads extends AppCompatActivity {
                                                                         Intent intent = new Intent(ActivityListThreads.this, ActivityDetailThreads.class);
                                                                         intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
                                                                         intent.putExtra("img",thread.getImg());
-                                                                        intent.putExtra("description",thread.getKronologikeseluruhan());
+                                                                        intent.putExtra("chronology",thread.getChronology());
                                                                         startActivity(intent);
                                                                     }
                                                                 });
