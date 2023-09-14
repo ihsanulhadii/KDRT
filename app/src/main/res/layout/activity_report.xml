@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Alamat*"
+            android:text="Alamat Kejadian*"
             android:fontFamily="@font/ooredoo"
             android:layout_below="@id/etPhoneNumber"
             android:textStyle="bold"/>
@@ -117,7 +117,7 @@
             android:layout_below="@id/etAddres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deskripsi*"
+            android:text="Kronologi*"
             android:fontFamily="@font/ooredoo"
             android:textStyle="bold"/>
         <EditText

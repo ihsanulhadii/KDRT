@@ -136,7 +136,6 @@ public class ActivityRegister extends AppCompatActivity {
                 else if (phoneNumber.isEmpty()) {
                     showToast("No Telpon Harus diisi");
                 }
-
                 else if(!isValidEmail(email)){
                     showToast("Format emaill tidak valid");
                 }
