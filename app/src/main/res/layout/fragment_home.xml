@@ -13,7 +13,7 @@
 
 
         <RelativeLayout
-            android:background="@color/blue"
+            android:background="@color/blue1"
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:layout_width="match_parent"

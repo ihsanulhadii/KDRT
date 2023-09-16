@@ -119,8 +119,6 @@ public class ActivityEditProfile extends AppCompatActivity {
       etBirthDate.setFocusable(false);
       etGender.setClickable(false);
       etGender.setFocusable(false);
-      etAddres.setClickable(false);
-      etAddres.setFocusable(false);
 
       etGender.setOnClickListener(new View.OnClickListener() {
           @Override
