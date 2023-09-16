@@ -46,7 +46,7 @@ public class ActivityEditProfile extends AppCompatActivity {
 
    private String fullName;
 
-   private String addres;
+   private String address;
 
    private String phoneNumber;
 
@@ -62,7 +62,7 @@ public class ActivityEditProfile extends AppCompatActivity {
 
 
 
-   EditText etFullName,etAddres, etPhoneNumber, etEmail, etBirthDate, etGender ;
+   EditText etFullName,etAddress, etPhoneNumber, etEmail, etBirthDate, etGender ;
 
    ImageView ivAddImage;
 
@@ -97,7 +97,7 @@ public class ActivityEditProfile extends AppCompatActivity {
        createdDate = sharedPreferences.getString("createdDate","");
 
       etFullName = findViewById(R.id.etFullname);
-      etAddres = findViewById(R.id.etAddres);
+      etAddress = findViewById(R.id.etAddress);
       etPhoneNumber = findViewById(R.id.etPhoneNumber);
       etEmail = findViewById(R.id.etEmail);
       etBirthDate = findViewById(R.id.etBirthDate);
@@ -105,6 +105,7 @@ public class ActivityEditProfile extends AppCompatActivity {
       btnEditProfile = findViewById(R.id.btnEditProfile);
       etGender = findViewById(R.id.etGender);
       etFullName.setText(sharedPreferences.getString("username",""));
+      etAddress.setText(sharedPreferences.getString("address",""));
       etPhoneNumber.setText(sharedPreferences.getString("phoneNumber",""));
       etEmail.setText(sharedPreferences.getString("email",""));
       etBirthDate.setText(sharedPreferences.getString("birthDate",""));
@@ -162,7 +163,7 @@ public class ActivityEditProfile extends AppCompatActivity {
          public void onClick(View view) {
 
             fullName = etFullName.getText().toString();
-            addres = etAddres.getText().toString();
+            address = etAddress.getText().toString();
             phoneNumber = etPhoneNumber.getText().toString();
             birthDate = etBirthDate.getText().toString();
             gender = etGender.getText().toString();
@@ -170,7 +171,7 @@ public class ActivityEditProfile extends AppCompatActivity {
 
             if(fullName.isEmpty()){
                showToast("Nama Tidak Boleh Kosong");
-            } else if (addres.isEmpty()) {
+            } else if (address.isEmpty()) {
                 showToast("Alamat Tidak Boleh Kosong");
             } else if(phoneNumber.isEmpty()){
                showToast("No Telp Tidak Boleh Kosong");
@@ -379,7 +380,7 @@ public class ActivityEditProfile extends AppCompatActivity {
 
       Map<String, Object> updates = new HashMap<>();
       updates.put("name", fullName);
-      updates.put("addres",addres);
+      updates.put("address",address);
       updates.put("phoneNumber",phoneNumber);
       updates.put("birthDate",birthDate);
       updates.put("gender",gender);
@@ -400,7 +401,7 @@ public class ActivityEditProfile extends AppCompatActivity {
                  SharedPreferences.Editor editor = sharedPreferences.edit();
                  editor.putString("phoneNumber",phoneNumber);
                  editor.putString("username",fullName);
-                 editor.putString("addres", addres);
+                 editor.putString("address", address);
                  editor.putString("birthDate",birthDate);
                  editor.putString("gender",gender);
                  editor.putString("createdDate",createdDate);

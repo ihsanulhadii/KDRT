@@ -10,9 +10,7 @@ public class User implements Serializable {
     private String email;
     private String name;
 
-
-
-    private String addres;
+    private String address;
     private String avatar;
     private String phoneNumber;
     private String gender;
@@ -63,9 +61,13 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getAddres() {return addres;}
-    public void setAddres(String addres) {this.addres = addres;}
+    public String getAddress() {
+        return address;
+    }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public String getAvatar() {
         return avatar;
     }

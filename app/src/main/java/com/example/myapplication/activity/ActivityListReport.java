@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -160,6 +161,7 @@ public class ActivityListReport extends AppCompatActivity {
                                         Intent intent = new Intent(ActivityListReport.this, ActivityDetailReport.class);
                                         intent.putExtra("title", reportModel.getTitle()); // Kirim data report ke aktivitas detail
                                         intent.putExtra("img",reportModel.getImg());
+                                        intent.putExtra("addressChronology",reportModel.getAddressChronology());
                                         intent.putExtra("description",reportModel.getDescription());
                                         startActivity(intent);
                                     }
@@ -174,6 +176,10 @@ public class ActivityListReport extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void showToast(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 

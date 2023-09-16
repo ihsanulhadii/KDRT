@@ -43,10 +43,10 @@ import java.util.UUID;
 public class ActivityRegister extends AppCompatActivity {
 
     TextView tvAlready;
-    EditText etFullName,etAddres, etPhoneNumber, etEmail, etPassword;
+    EditText etFullName,etAddress, etPhoneNumber, etEmail, etPassword;
     AppCompatButton btnRegister;
 
-    String email, fullName,addres, phoneNumber, password;
+    String email, fullName,address, phoneNumber, password;
 
 
     private FirebaseAuth mAuth;
@@ -87,7 +87,7 @@ public class ActivityRegister extends AppCompatActivity {
         //ini untuk initiate/pengenalakan variabel
         tvAlready = findViewById(R.id.tvAlready);
         etFullName = findViewById(R.id.etFullname);
-        etAddres = findViewById(R.id.etAddres);
+        etAddress = findViewById(R.id.etAddress);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -114,7 +114,7 @@ public class ActivityRegister extends AppCompatActivity {
                 //kita buat String dari semua edittext dulu untuk validasi
                 email = etEmail.getText().toString();
                 fullName = etFullName.getText().toString();
-                addres = etAddres.getText().toString();
+                address = etAddress.getText().toString();
                 phoneNumber = etPhoneNumber.getText().toString();
                 password = etPassword.getText().toString();
 
@@ -129,7 +129,7 @@ public class ActivityRegister extends AppCompatActivity {
                     showToast("Nama Harus diisi");
                 }
                 //jika alamat kosong
-                else if (addres.isEmpty()) {
+                else if (address.isEmpty()) {
                     showToast("Alamat harus diisi");
                 }
                 //jika telp kosong
@@ -244,7 +244,7 @@ public class ActivityRegister extends AppCompatActivity {
         Map<String, Object> data = new HashMap<>();
         data.put("userId",userId);
         data.put("name", fullName);
-        data.put("addres",addres);
+        data.put("address",address);
         data.put("email", email);
         data.put("phoneNumber", phoneNumber);
         data.put("avatar","");

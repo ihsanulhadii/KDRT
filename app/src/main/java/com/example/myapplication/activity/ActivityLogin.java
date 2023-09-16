@@ -258,6 +258,7 @@ public class ActivityLogin extends AppCompatActivity implements LoginCallback {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userId",user.getUserId());
         editor.putString("email",user.getEmail());
+        editor.putString("address",user.getAddress());
         editor.putString("phoneNumber",user.getPhoneNumber());
         editor.putString("username",user.getName());
         editor.putString("avatar", user.getAvatar());

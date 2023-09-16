@@ -14,15 +14,6 @@ public class ThreadModel implements Serializable {
     private String userId;
     private String title;
     private String img;
-
-    public String getChronology() {
-        return chronology;
-    }
-
-    public void setChronology(String chronology) {
-        this.chronology = chronology;
-    }
-
     private String chronology ;
 
     private String id;
@@ -36,7 +27,6 @@ public class ThreadModel implements Serializable {
     }
 
     private HashMap<String, Object> date;
-
 
     public String getUserId() {
         return userId;
@@ -52,6 +42,12 @@ public class ThreadModel implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getChronology() {return chronology;}
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
     }
 
     public String getImg() {

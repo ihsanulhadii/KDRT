@@ -38,12 +38,12 @@
 
         <TextView
             android:layout_marginTop="10dp"
-            android:id="@+id/tvAddres"
+            android:id="@+id/tvAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Alamat Rumah"/>
         <EditText
-            android:id="@+id/etAddres"
+            android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"

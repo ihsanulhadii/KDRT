@@ -50,11 +50,11 @@ public class ActivityPostReport extends AppCompatActivity {
    ImageView ivBack, ivAddImage,ivClearImage;
 
 
-   EditText etTitleReport,etAddres, etDescription;
+   EditText etTitleReport,etAddressChoronology, etDescription;
 
    AppCompatButton btnAddReport;
 
-   String titleReport, phoneNumber, addres, description;
+   String titleReport, phoneNumber, addressChoronology, description;
 
    private LottieProgressDialog lottieLoading;
 
@@ -106,7 +106,7 @@ public class ActivityPostReport extends AppCompatActivity {
       ivBack = findViewById(R.id.ivBack);
       btnAddReport = findViewById(R.id.btnAddReport);
       etTitleReport = findViewById(R.id.etTitleReport);
-      etAddres = findViewById(R.id.etAddres);
+      etAddressChoronology = findViewById(R.id.etAddresChoronology);
       etDescription = findViewById(R.id.etDescription);
       ivAddImage = findViewById(R.id.ivAddImage);
       ivClearImage = findViewById(R.id.ivClearImage);
@@ -149,7 +149,7 @@ public class ActivityPostReport extends AppCompatActivity {
                     //kita buat String dari semua edittext dulu untuk validasi
 
                     titleReport = etTitleReport.getText().toString();
-                    addres = etAddres.getText().toString();
+                    addressChoronology = etAddressChoronology.getText().toString();
                     description = etDescription.getText().toString();
 
                     // dibawah merupakan validasi
@@ -159,7 +159,7 @@ public class ActivityPostReport extends AppCompatActivity {
                        showToast("Judul Harus diisi");
                     }
                     //jika alamat kosong
-                    else if (addres.isEmpty()) {
+                    else if (addressChoronology.isEmpty()) {
                        showToast("Alamat Harus diisi");
                     }
                     //jika deskripsi kosong
@@ -353,7 +353,7 @@ public class ActivityPostReport extends AppCompatActivity {
       data.put("id",idReport);
       data.put("userId",userId);
       data.put("phoneNumber",phoneNumber);
-      data.put("address",addres);
+      data.put("addressChoronology",addressChoronology);
       data.put("status","open");
       data.put("description", description);
       data.put("img", urlImage);
@@ -392,7 +392,7 @@ public class ActivityPostReport extends AppCompatActivity {
    public void clearAllData(){
       etDescription.setText("");
       etTitleReport.setText("");
-      etAddres.setText("");
+      etAddressChoronology.setText("");
       ivClearImage.setVisibility(View.GONE);
       ivAddImage.setImageDrawable(null);
 

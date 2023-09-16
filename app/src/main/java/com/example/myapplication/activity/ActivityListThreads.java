@@ -143,55 +143,71 @@ public class ActivityListThreads extends AppCompatActivity {
                     swipeRefreshLayout.setRefreshing(false);
                     if (task.isSuccessful()) {
                         QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null) {
+
+                        if (querySnapshot != null && querySnapshot.size()>0) {
                             for (DocumentSnapshot document : querySnapshot) {
                                 ThreadModel thread = document.toObject(ThreadModel.class);
                                 threadList.add(thread);
-
-
-                                FirebaseFirestore.getInstance().collection("users")
-                                        .document(thread.getUserId()).get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    DocumentSnapshot document = task.getResult();
-                                                    if (document.exists()) {
-                                                        User user = document.toObject(User.class);
-                                                        if (user != null) {
-                                                            userList.add(user);
-                                                        }
-                                                    }
-                                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            if(!threadList.isEmpty()){
-                                                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                                                threadAdapter.notifyDataSetChanged();
-                                                                threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
-                                                                    @Override
-                                                                    public void onItemClick(ThreadModel thread, User user) {
-                                                                        Intent intent = new Intent(ActivityListThreads.this, ActivityDetailThreads.class);
-                                                                        intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
-                                                                        intent.putExtra("img",thread.getImg());
-                                                                        intent.putExtra("chronology",thread.getChronology());
-                                                                        startActivity(intent);
-                                                                    }
-                                                                });
-                                                                rlEmpty.setVisibility(View.GONE);
-                                                                rlLoading.setVisibility(View.GONE);
-
-                                                            }else {
-                                                                rlEmpty.setVisibility(View.VISIBLE);
+                                if(threadList.isEmpty()){
+                                    rlEmpty.setVisibility(View.VISIBLE);
+                                    rlLoading.setVisibility(View.GONE);
+                                }else {
+                                    FirebaseFirestore.getInstance().collection("users")
+                                            .document(thread.getUserId()).get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document = task.getResult();
+                                                        if (document.exists()) {
+                                                            User user = document.toObject(User.class);
+                                                            if (user != null) {
+                                                                userList.add(user);
                                                             }
                                                         }
-                                                    }, 200);
+                                                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                if(!threadList.isEmpty()){
+                                                                    lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                                                    threadAdapter.notifyDataSetChanged();
+                                                                    threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
+                                                                        @Override
+                                                                        public void onItemClick(ThreadModel thread, User user) {
+                                                                            Intent intent = new Intent(ActivityListThreads.this, ActivityDetailThreads.class);
+                                                                            intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
+                                                                            intent.putExtra("img",thread.getImg());
+                                                                            intent.putExtra("chronology",thread.getChronology());
+                                                                            startActivity(intent);
+                                                                        }
+                                                                    });
+                                                                    rlEmpty.setVisibility(View.GONE);
+                                                                    rlLoading.setVisibility(View.GONE);
+
+                                                                }else {
+                                                                    rlEmpty.setVisibility(View.VISIBLE);
+                                                                }
+                                                            }
+                                                        }, 200);
+                                                    }
                                                 }
-                                            }
-                                        });
+                                            });
+
+
+                                }
                             }
+                        }else {
+                            rlEmpty.setVisibility(View.VISIBLE);
+                            rlLoading.setVisibility(View.GONE);
                         }
+
+
+
+
+
+
                     } else {
+                        showToast(String.valueOf(threadList.size()));
                         // Handle errors
                     }
                 });

@@ -14,7 +14,8 @@ import com.squareup.picasso.Picasso;
 public class ActivityDetailReport extends AppCompatActivity {
 
     private String title,img,description;
-    private TextView tvDescription,tvTitle,tvTitleToolbar;
+    String addressChronology="";
+    private TextView tvDescription,tvAddressChronology, tvTitle,tvTitleToolbar;
     private ImageView ivReport,ivBack;
 
     @Override
@@ -25,16 +26,19 @@ public class ActivityDetailReport extends AppCompatActivity {
         title = getIntent().getStringExtra("title");
         img = getIntent().getStringExtra("img");
         description = getIntent().getStringExtra("description");
+        addressChronology = getIntent().getStringExtra("addressChronology");
 
 
         tvDescription = findViewById(R.id.tvDescription);
         ivReport = findViewById(R.id.ivReport);
         tvTitle = findViewById(R.id.tvTitle);
+        tvAddressChronology = findViewById(R.id.tvAddressChoronology);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
         tvTitleToolbar.setText("Detail Report");
         ivBack = findViewById(R.id.ivBack);
 
         tvDescription.setText(description);
+        tvAddressChronology.setText(addressChronology);
         tvTitle.setText(title);
 
 

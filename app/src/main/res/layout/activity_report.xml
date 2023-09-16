@@ -84,7 +84,7 @@
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/etTitleReport"
+            android:id="@+id/tvAddressChoronology"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
@@ -94,7 +94,7 @@
 
 
         <TextView
-            android:id="@+id/tvAddres"
+            android:id="@+id/tvAddressChoronology"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -103,10 +103,10 @@
             android:layout_below="@id/etPhoneNumber"
             android:textStyle="bold"/>
         <EditText
-            android:id="@+id/etAddres"
+            android:id="@+id/etAddresChoronology"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@id/tvAddres"
+            android:layout_below="@id/tvAddressChoronology"
             android:layout_marginTop="5dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
@@ -114,14 +114,14 @@
         <TextView
             android:layout_marginTop="10dp"
             android:id="@+id/tvDescription"
-            android:layout_below="@id/etAddres"
+            android:layout_below="@id/etAddresChoronology"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kronologi*"
             android:fontFamily="@font/ooredoo"
             android:textStyle="bold"/>
         <EditText
-            android:layout_below="@+id/tvDescription"
+            android:layout_below="@+id/etDescription"
             android:id="@+id/etDescription"
             android:gravity="top"
             android:layout_width="match_parent"

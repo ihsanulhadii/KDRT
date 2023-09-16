@@ -28,7 +28,7 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
     }
 
-    EditText etName,etAddres,etEmail,etPhoneNumber,etBirthDate, etGender;
+    EditText etName,etAddress,etEmail,etPhoneNumber,etBirthDate, etGender;
 
     CircleImageView ivAddImage;
 
@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
         // You can initialize UI components and handle interactions here
 
         etName = rootView.findViewById(R.id.etFullname);
-        etAddres = rootView.findViewById(R.id.etAddres);
+        etAddress = rootView.findViewById(R.id.etAddress);
         etPhoneNumber = rootView.findViewById(R.id.etPhoneNumber);
         etEmail = rootView.findViewById(R.id.etEmail);
         etBirthDate = rootView.findViewById(R.id.etBirthDate);
@@ -62,8 +62,8 @@ public class ProfileFragment extends Fragment {
         etName.setClickable(false);
         etName.setFocusable(false);
 
-        etAddres.setClickable(false);
-        etAddres.setFocusable(false);
+        etAddress.setClickable(false);
+        etAddress.setFocusable(false);
 
         etPhoneNumber.setClickable(false);
         etPhoneNumber.setFocusable(false);
@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
         String username = sharedPreferences.getString("username","");
         etName.setText(username);
 
-        etAddres.setText(sharedPreferences.getString("addres",""));
+        etAddress.setText(sharedPreferences.getString("address",""));
         etEmail.setText(sharedPreferences.getString("email",""));
         etPhoneNumber.setText(sharedPreferences.getString("phoneNumber",""));
         etBirthDate.setText(sharedPreferences.getString("birthDate",""));

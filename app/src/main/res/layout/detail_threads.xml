@@ -34,7 +34,7 @@
             android:layout_height="200dp" />
 
         <TextView
-            android:id="@+id/tvDescription"
+            android:id="@+id/tvChronology"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deskripsi oicjsaj oijfoijo oijaeofijeofjsofij"

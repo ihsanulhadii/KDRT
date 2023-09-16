@@ -11,7 +11,10 @@ public class ReportModel implements Serializable {
     private String img;
     private String status;
     private String description;
+
+    private String addressChronology="";
     private String id;
+
 
 
     public String getUserId() {
@@ -30,6 +33,14 @@ public class ReportModel implements Serializable {
         this.title = title;
     }
 
+    public String getAddressChronology() {
+        return addressChronology;
+    }
+
+    public void setAddressChronology(String addressChronology) {
+        this.addressChronology = addressChronology;
+    }
+
     public String getImg() {
         return img;
     }
@@ -45,6 +56,8 @@ public class ReportModel implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 
     public String getDescription() {
         return description;
