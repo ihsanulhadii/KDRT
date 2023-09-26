@@ -161,7 +161,7 @@ public class ActivityListReport extends AppCompatActivity {
                                         Intent intent = new Intent(ActivityListReport.this, ActivityDetailReport.class);
                                         intent.putExtra("title", reportModel.getTitle()); // Kirim data report ke aktivitas detail
                                         intent.putExtra("img",reportModel.getImg());
-                                        intent.putExtra("addressChronology",reportModel.getAddressChronology());
+                                        intent.putExtra("address",reportModel.getAddress());
                                         intent.putExtra("description",reportModel.getDescription());
                                         startActivity(intent);
                                     }

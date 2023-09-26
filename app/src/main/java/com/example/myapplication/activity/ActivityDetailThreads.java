@@ -13,8 +13,8 @@ import com.squareup.picasso.Picasso;
 
 public class ActivityDetailThreads extends AppCompatActivity {
 
-    private String title,img,chronology;
-    private TextView tvChronology,tvTitle,tvTitleToolbar;
+    private String title,img,description;
+    private TextView tvDescription,tvTitle,tvTitleToolbar;
     private ImageView ivThread,ivBack;
 
     @Override
@@ -24,17 +24,17 @@ public class ActivityDetailThreads extends AppCompatActivity {
 
         title = getIntent().getStringExtra("title");
         img = getIntent().getStringExtra("img");
-        chronology = getIntent().getStringExtra("chronology");
+        description = getIntent().getStringExtra("description");
 
 
-        tvChronology = findViewById(R.id.tvChronology);
+        tvDescription = findViewById(R.id.tvDescription);
         ivThread = findViewById(R.id.ivThread);
         tvTitle = findViewById(R.id.tvTitle);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
         tvTitleToolbar.setText("Detail Threads");
         ivBack = findViewById(R.id.ivBack);
 
-        tvChronology.setText(chronology);
+        tvDescription.setText(description);
         tvTitle.setText(title);
 
 

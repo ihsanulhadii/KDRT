@@ -76,6 +76,7 @@
 
 
         <TextView
+            android:id="@+id/tvTitleReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Judul Laporan*"
@@ -84,7 +85,7 @@
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/tvAddressChoronology"
+            android:id="@+id/etTitleReport"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
@@ -94,19 +95,17 @@
 
 
         <TextView
-
+            android:id="@+id/tvAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Alamat Kejadian*"
             android:fontFamily="@font/ooredoo"
-            android:layout_below="@id/etPhoneNumber"
             android:textStyle="bold"/>
         <EditText
-            android:id="@+id/etAddresChoronology"
+            android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@id/tvAddressChoronology"
             android:layout_marginTop="5dp"
             android:paddingHorizontal="10dp"
             android:inputType="text"
@@ -114,7 +113,7 @@
         <TextView
             android:layout_marginTop="10dp"
             android:id="@+id/tvDescription"
-            android:layout_below="@id/etAddresChoronology"
+            android:layout_below="@id/etAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kronologi*"

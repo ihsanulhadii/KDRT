@@ -12,7 +12,9 @@ public class ReportModel implements Serializable {
     private String status;
     private String description;
 
-    private String addressChronology="";
+
+
+    private String address="";
     private String id;
 
 
@@ -33,12 +35,12 @@ public class ReportModel implements Serializable {
         this.title = title;
     }
 
-    public String getAddressChronology() {
-        return addressChronology;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddressChronology(String addressChronology) {
-        this.addressChronology = addressChronology;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getImg() {

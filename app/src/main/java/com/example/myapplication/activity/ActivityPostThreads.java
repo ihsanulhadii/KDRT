@@ -49,10 +49,10 @@ public class ActivityPostThreads extends AppCompatActivity {
 
     ImageView ivBack, ivAddImage,ivClearImage;
 
-    EditText etTitleReport,etChoronology;
+    EditText etTitleReport,etDescription;
     AppCompatButton btnAddThreads;
 
-    String titleReport, chronology;
+    String titleReport, description;
 
     private LottieProgressDialog lottieLoading;
 
@@ -118,7 +118,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         //ini untuk initiate/pengenalakan variabel
         btnAddThreads = findViewById(R.id.btnAddThreads);
         etTitleReport = findViewById(R.id.etTitleReport);
-        etChoronology = findViewById(R.id.etChronology);
+        etDescription = findViewById(R.id.etDescription);
         ivAddImage = findViewById(R.id.ivAddImage);
         ivClearImage = findViewById(R.id.ivClearImage);
 
@@ -137,7 +137,7 @@ public class ActivityPostThreads extends AppCompatActivity {
                     public void onClick(View view) {
                         //kita buat String dari semua edittext dulu untuk validasi
                         titleReport = etTitleReport.getText().toString();
-                        chronology = etChoronology.getText().toString();
+                        description = etDescription.getText().toString();
 
                         // dibawah merupakan validasi
 
@@ -146,7 +146,7 @@ public class ActivityPostThreads extends AppCompatActivity {
                             showToast("Judul Harus diisi");
                         }
                         //jika kronolgi  kosong
-                        else if (chronology.isEmpty()) {
+                        else if (description.isEmpty()) {
                             showToast("Kronologi Harus diisi");
                         }
                         else {
@@ -337,7 +337,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         data.put("id",idReport);
         data.put("userId",userId);
         data.put("isPublish",true);
-        data.put("chronology", chronology);
+        data.put("description", description);
         data.put("img",urlImage);
 
         Map<String, Object> date = new HashMap<>();
@@ -374,7 +374,7 @@ public class ActivityPostThreads extends AppCompatActivity {
 
 
     public void clearAllData(){
-        etChoronology.setText("");
+        etDescription.setText("");
         etTitleReport.setText("");
         ivClearImage.setVisibility(View.GONE);
         ivAddImage.setImageDrawable(null);

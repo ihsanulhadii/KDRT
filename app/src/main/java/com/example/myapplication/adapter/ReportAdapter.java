@@ -62,7 +62,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ThreadView
       // Set data lainnya sesuai kebutuhan
 
       holder.tvDescription.setText(reportModel.getDescription());
-      holder.tvAddressChronology.setText(reportModel.getAddressChronology());
+      holder.tvAddress.setText(reportModel.getAddress());
 
       Date datePublish = reportModel.getDateValue("createdDate");
 
@@ -99,14 +99,14 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ThreadView
    }
 
    public class ThreadViewHolder extends RecyclerView.ViewHolder {
-      TextView titleTextView,tvDescription,tvDate,tvStatus, tvAddressChronology;
+      TextView titleTextView,tvDescription,tvDate,tvStatus, tvAddress;
       ImageView ivReport;
 
       public ThreadViewHolder(@NonNull View itemView) {
          super(itemView);
          titleTextView = itemView.findViewById(R.id.tvTitle);
          ivReport = itemView.findViewById(R.id.ivReport);
-         tvAddressChronology = itemView.findViewById(R.id.tvAddressChronology);
+         tvAddress = itemView.findViewById(R.id.tvAddress);
          tvDescription = itemView.findViewById(R.id.tvDescription);
          tvDate = itemView.findViewById(R.id.tvDate);
          tvStatus = itemView.findViewById(R.id.tvStatus);

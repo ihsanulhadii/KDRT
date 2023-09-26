@@ -14,7 +14,10 @@ public class ThreadModel implements Serializable {
     private String userId;
     private String title;
     private String img;
-    private String chronology ;
+
+
+
+    private String description ;
 
     private String id;
 
@@ -44,11 +47,14 @@ public class ThreadModel implements Serializable {
         this.title = title;
     }
 
-    public String getChronology() {return chronology;}
-
-    public void setChronology(String chronology) {
-        this.chronology = chronology;
+    public String getDescription() {
+        return description;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public String getImg() {
         return img;
