@@ -4,12 +4,15 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:layout_height="wrap_content">
 
         <TextView
@@ -132,5 +135,6 @@
 
 
 
+</ScrollView>
 
 </RelativeLayout>

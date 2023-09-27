@@ -9,6 +9,15 @@
 
     <include layout="@layout/layout_toolbar"/>
 
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/btnAddReport"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -127,6 +136,7 @@
             android:layout_height="150dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_threads"
+            android:scrollbars="vertical"
             android:paddingTop="10dp"
             android:paddingHorizontal="10dp"
             android:inputType="textMultiLine"
@@ -134,6 +144,9 @@
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
+
+    </ScrollView>
+
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -149,5 +162,8 @@
         android:textColor="@color/white"
         android:background="@drawable/rounded_button"
         tools:ignore="HardcodedText" />
+
+
+
 
 </RelativeLayout>
