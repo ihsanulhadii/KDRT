@@ -5,135 +5,140 @@
     android:padding="20dp">
 
 
-
-
-    <LinearLayout
-        android:gravity="center"
-        android:layout_centerInParent="true"
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true">
 
-        <TextView
-            android:id="@+id/tvLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:fontFamily="@font/ooredoo"
-            android:textSize="40sp"
-            android:textColor="@color/blue"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvEmail"
-            android:fontFamily="@font/nunito_regular"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:paddingHorizontal="10dp"
-            android:textColor="@color/black"
-            android:background="@drawable/rounded"
-            android:inputType="textEmailAddress" />
-        <TextView
-            android:id="@+id/tvPassword"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito_regular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Password"/>
-
-
-        <RelativeLayout
-            android:id="@+id/passwordLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:fontFamily="@font/ooredoo"
+                android:textSize="40sp"
+                android:textColor="@color/purple1"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvEmail"
+                android:fontFamily="@font/nunito_regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"/>
 
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etEmail"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:paddingHorizontal="10dp"
                 android:textColor="@color/black"
                 android:background="@drawable/rounded"
-                android:inputType="textPassword" />
-
-            <ImageView
-                android:id="@+id/passwordToggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_eye_closed"
-                android:clickable="true"
-                android:padding="8dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:visibility="gone"
-                android:layout_height="wrap_content" />
-
+                android:inputType="textEmailAddress" />
             <TextView
-                android:id="@+id/tvForgot"
+                android:id="@+id/tvPassword"
                 android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_alignParentRight="true"
-                android:text="forgot password?"/>
-
-
-        </RelativeLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="Sign In"
-            android:fontFamily="@font/ooredoo"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:fontFamily="@font/nunito_regular"
-                android:text="Don't Have Account?"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Password"/>
 
-            <TextView
-                android:id="@+id/tvCreateAccount"
+
+            <RelativeLayout
+                android:id="@+id/passwordLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/rounded"
+                    android:inputType="textPassword" />
+
+                <ImageView
+                    android:id="@+id/passwordToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_eye_closed"
+                    android:clickable="true"
+                    android:padding="8dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvForgot"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:text="forgot password?"/>
+
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="Sign In"
+                android:fontFamily="@font/ooredoo"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/blue"
-                android:fontFamily="@font/ooredoo"
-                android:text="Create Account"/>
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="Don't Have Account?"/>
+
+                <TextView
+                    android:id="@+id/tvCreateAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/ooredoo"
+                    android:text="Create Account"/>
+
+
+
+            </LinearLayout>
 
 
         </LinearLayout>
+    </ScrollView>
 
-
-    </LinearLayout>
 
 
 </RelativeLayout>
