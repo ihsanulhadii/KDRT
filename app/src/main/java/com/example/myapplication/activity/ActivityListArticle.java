@@ -52,6 +52,7 @@ public class ActivityListArticle extends AppCompatActivity {
     private String userId;
     private SharedPreferences sharedPreferences;
 
+    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,10 @@ public class ActivityListArticle extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
         userId = sharedPreferences.getString("userId","");
+
+        if(getIntent().hasExtra("query")){
+            query = getIntent().getStringExtra("query");
+        }
 
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -107,7 +112,11 @@ public class ActivityListArticle extends AppCompatActivity {
             }
         });
 
-        getListArticle();
+        if(getIntent().hasExtra("query")){
+            getListArticleSearch(query);
+        }else {
+            getListArticle();
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -116,6 +125,56 @@ public class ActivityListArticle extends AppCompatActivity {
                 getListArticle();
             }
         });
+    }
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void getListArticleSearch(String query) {
+        // Clear the existing threadList before loading new data
+        articleModelList.clear();
+
+        articelCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+                .limit(10)
+                .whereEqualTo("isPublish", true)
+                .whereArrayContains("tags",query)
+                .get()
+                .addOnCompleteListener(task -> {
+                    swipeRefreshLayout.setRefreshing(false);
+                    rlLoading.setVisibility(View.GONE);
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null) {
+                            ArticleModel articleModel;
+                            for (DocumentSnapshot document : querySnapshot) {
+                                articleModel = document.toObject(ArticleModel.class);
+                                articleModelList.add(articleModel);
+                            }
+
+                            if (!articleModelList.isEmpty()) {
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                articleListAdapter.notifyDataSetChanged();
+
+                                articleListAdapter.setOnItemClickListener(new ArticleListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(ArticleModel articleModel) {
+                                        Intent intent = new Intent(ActivityListArticle.this, ActivityDetailArticle.class);
+                                        intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
+                                        intent.putExtra("img",articleModel.getImg());
+                                        intent.putExtra("content",articleModel.getContent());
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                rlEmpty.setVisibility(View.GONE);
+                            } else {
+                                rlEmpty.setVisibility(View.VISIBLE);
+
+                            }
+
+                        }
+                    }
+                });
     }
 
 

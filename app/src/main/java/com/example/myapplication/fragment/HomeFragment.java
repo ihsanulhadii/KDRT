@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +45,8 @@ public class HomeFragment extends Fragment {
     ImageView ivThreads;
     ImageView ivReport;
     ImageView ivChat;
+
+    EditText etSearch;
 
     TextView tvUsername, tvSeeAll;
     private RecyclerView recyclerView;
@@ -92,6 +97,7 @@ public class HomeFragment extends Fragment {
         tvUsername = rootView.findViewById(R.id.tvUsername);
         tvSeeAll = rootView.findViewById(R.id.tvSeeAll);
         ivAvatar = rootView.findViewById(R.id.ivAvatar);
+        etSearch = rootView.findViewById(R.id.etSearch);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -102,6 +108,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(articleAdapter);
 
         tvUsername.setText("Hallo " + sharedPreferences.getString("username", ""));
+
 
 
         String avatar = sharedPreferences.getString("avatar","");
@@ -149,12 +156,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    actionSearch();
+                    return true;
+                }
+                return false;
+            } });
+
         getListArticles();
 
 
         return rootView;
 
 
+    }
+
+    private void actionSearch(){
+        Intent intent = new Intent(getActivity(), ActivityListArticle.class);
+        intent.putExtra("query",etSearch.getText().toString());
+        startActivity(intent);
     }
 
 

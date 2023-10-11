@@ -95,11 +95,14 @@
                     app:srcCompat="@drawable/search" />
 
                 <EditText
+                    android:id="@+id/etSearch"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_centerInParent="true"
                     android:layout_toEndOf="@+id/ivSearchView"
                     android:background="@null"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
                     android:hint="Cari Artikel"
                     android:paddingHorizontal="10dp" />
             </RelativeLayout>
