@@ -21,17 +21,28 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.CounselorAdapter;
 import com.example.myapplication.adapter.ReportAdapter;
+import com.example.myapplication.model.ChatRoom;
+import com.example.myapplication.model.ChatRoomModel;
 import com.example.myapplication.model.CounselorModel;
 import com.example.myapplication.model.ReportModel;
 import com.example.myapplication.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ActivityListCounselor extends AppCompatActivity {
 
@@ -41,6 +52,9 @@ public class ActivityListCounselor extends AppCompatActivity {
     private List<User>userList = new ArrayList<>();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference threadsCollection = firestore.collection("counselor");
+
+    private CollectionReference chatRoomReference = firestore.collection("chats");
+
     private DocumentSnapshot lastVisible;
     private boolean isScrolling = false;
     private int visibleThreshold = 5;
@@ -147,12 +161,7 @@ public class ActivityListCounselor extends AppCompatActivity {
                                 counselorAdapter.setOnItemClickListener(new CounselorAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(CounselorModel counselorModel) {
-                                       /* Intent intent = new Intent(ActivityListCounselor.this, ActivityDetailReport.class);
-                                        intent.putExtra("title", reportModel.getTitle()); // Kirim data report ke aktivitas detail
-                                        intent.putExtra("img",reportModel.getImg());
-                                        intent.putExtra("address",reportModel.getAddress());
-                                        intent.putExtra("description",reportModel.getDescription());
-                                        startActivity(intent);*/
+                                        checkChatRoom(counselorModel);
                                     }
                                 });
 
@@ -165,6 +174,74 @@ public class ActivityListCounselor extends AppCompatActivity {
                         }
                     }
                 });
+
+    }
+
+
+    private void checkChatRoom(CounselorModel counselorModel){
+
+        // CollectionReference chatRoomReference = firestore.collection("chats");
+
+        chatRoomReference
+                .whereEqualTo("counselorId", counselorModel.getId())
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                // Parse the data into a model (e.g., UserModel)
+                                ChatRoom chatRoomModel = document.toObject(ChatRoom.class);
+
+                                if (chatRoomModel != null) {
+                                    // Access data in the UserModel
+                                    String id = chatRoomModel.getId();
+                                    Intent intent = new Intent(ActivityListCounselor.this, ChatActivity.class);
+                                    intent.putExtra("counselor",counselorModel);
+                                    intent.putExtra("chatRoomId",id);
+                                    startActivity(intent);
+                                    // Do something with the parsed data
+                                }
+                            }
+                        } else {
+                            // Create ChatRoom
+                            createChatRoom(counselorModel);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle any errors
+                        showToast(e.getMessage().toString());
+                    }
+                });
+    }
+
+    private void createChatRoom(CounselorModel counselorModel){
+        //String UUID = java.util.UUID.randomUUID().toString();
+        DocumentReference documentReferences = chatRoomReference.document();
+// Create a data map for the document
+        Map<String, Object> data = new HashMap<>();
+        data.put("counselorId", counselorModel.getId());
+        data.put("userId", userId);
+        data.put("id",documentReferences.getId().toString());
+        data.put("updatedDate", Timestamp.now());
+
+        chatRoomReference.document(documentReferences.getId().toString()).set(data)
+                .addOnSuccessListener(aVoid -> {
+
+                    Intent intent = new Intent(ActivityListCounselor.this, ChatActivity.class);
+                    intent.putExtra("counselor",counselorModel);
+                    intent.putExtra("chatRoomId",documentReferences.getId().toString());
+                    startActivity(intent);
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any errors
+                    showToast(e.getMessage().toString());
+                });
+
     }
 
     private void showToast(String message){

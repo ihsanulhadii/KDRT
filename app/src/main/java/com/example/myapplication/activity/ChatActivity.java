@@ -3,12 +3,7 @@ package com.example.myapplication.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -24,10 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ChatAdapter;
-import com.example.myapplication.adapter.ChatRoomAdapter;
 import com.example.myapplication.model.Admin;
 import com.example.myapplication.model.ChatModel;
 import com.example.myapplication.model.ChatRoomModel;
+import com.example.myapplication.model.CounselorModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -39,7 +34,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,8 +51,8 @@ public class ChatActivity extends AppCompatActivity {
     private ImageView ivArticle,ivBack;
     private CircleImageView ivAvatar;
 
-    private ChatRoomModel chatRoomModel;
-    private Admin admin;
+    //private ChatRoomModel chatRoomModel;
+    private CounselorModel counselorModel;
     private EditText etMessage;
     private ImageView ivSend;
 
@@ -78,6 +72,7 @@ public class ChatActivity extends AppCompatActivity {
     private ListenerRegistration chatListener; // Add this line to hold the listener registration
 
 
+    private String chatRoomId;
 
 
     @Override
@@ -88,8 +83,9 @@ public class ChatActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
         userId = sharedPreferences.getString("userId","");
 
-        chatRoomModel = (ChatRoomModel) getIntent().getSerializableExtra("chatroom");
-        admin = (Admin) getIntent().getSerializableExtra("admin");
+       // chatRoomModel = (ChatRoomModel) getIntent().getSerializableExtra("chatroom");
+        chatRoomId = getIntent().getStringExtra("chatRoomId");
+        counselorModel = (CounselorModel) getIntent().getSerializableExtra("counselor");
 
        // showToast(chatRoomModel.getId());
 
@@ -106,10 +102,10 @@ public class ChatActivity extends AppCompatActivity {
         chatAdapter = new ChatAdapter(ChatActivity.this,chatModelList);
         recyclerView.setAdapter(chatAdapter);
 
-        tvName.setText(admin.getName());
+        tvName.setText(counselorModel.getName());
 
         Picasso.get()
-                .load(admin.getImg())
+                .load(counselorModel.getImg())
                 .placeholder(R.drawable.avatar)
                 .error(R.drawable.avatar)
                 .fit() // Resize the image to fit the ImageView dimensions
@@ -143,7 +139,7 @@ public class ChatActivity extends AppCompatActivity {
         // Clear the existing threadList before loading new data
         chatModelList.clear();
 
-        chatCollection.document(chatRoomModel.getId()).collection("chat").orderBy("time", Query.Direction.ASCENDING)
+        chatCollection.document(chatRoomId).collection("chat").orderBy("time", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                    if(task.isSuccessful()){
@@ -168,11 +164,11 @@ public class ChatActivity extends AppCompatActivity {
         data.put("content",message);
         data.put("id",idChat);
         data.put("sender",userId);
-        data.put("receiver",admin.getId());
+        data.put("receiver", counselorModel.getId());
         data.put("time",timestamp);
 
         //collection database
-        db.collection("chats").document(chatRoomModel.getId()).collection("chat").document(idChat).set(data)
+        db.collection("chats").document(chatRoomId).collection("chat").document(idChat).set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -193,7 +189,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private void startChatListener() {
-        chatListener = chatCollection.document(chatRoomModel.getId())
+        chatListener = chatCollection.document(chatRoomId)
                 .collection("chat")
                 .orderBy("time", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp">
 
@@ -54,9 +54,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_gravity="end"
         android:id="@+id/llSender"
-        android:layout_width="wrap_content"
+        android:gravity="end"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginStart="100dp"
@@ -64,6 +64,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:gravity="end"
             android:layout_gravity="end"
             android:background="@drawable/sent_drawable"
             android:layout_width="wrap_content"
@@ -84,7 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Babi Kau xdofjsdoj oiujsdovuj oudjfoiusdhjvoisudfo idsufhsiduhfisudhfidsuhfisduhfisduhfisduhfisudsidufhiduhfsiuhfisduhfsiduhfu"
+                android:layout_gravity="right"
+                android:text="yamete"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp" />
 
