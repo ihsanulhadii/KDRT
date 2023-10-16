@@ -10,24 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.Admin;
-import com.example.myapplication.model.ChatRoomModel;
 import com.example.myapplication.model.CounselorModel;
+import com.example.myapplication.model.ReportModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CounselorListAdapter extends RecyclerView.Adapter<CounselorListAdapter.ThreadViewHolder> {
+public class CounselorAdapter extends RecyclerView.Adapter<CounselorAdapter.ThreadViewHolder> {
 
-   private List<CounselorModel> counselorModels;
-
-   private List<CounselorModel> counselorModelList = new ArrayList<>();
+   private List<CounselorModel> counselorModelList;
 
    public interface OnItemClickListener {
-      void onItemClick(CounselorModel reportModel, Admin admin);
+      void onItemClick(CounselorModel counselorModel);
    }
 
    private OnItemClickListener clickListener;
@@ -36,9 +31,8 @@ public class CounselorListAdapter extends RecyclerView.Adapter<CounselorListAdap
       this.clickListener = listener;
    }
 
-   public CounselorListAdapter(List<CounselorModel>counselorModelList, List<CounselorModel> counselorModelList) {
-      this.counselorModels = counselorModelList;
-      this.counselorModelList = counselorModels;
+   public CounselorAdapter(List<CounselorModel> counselorModelList) {
+      this.counselorModelList = counselorModelList;
    }
 
    @NonNull
@@ -51,35 +45,30 @@ public class CounselorListAdapter extends RecyclerView.Adapter<CounselorListAdap
    @SuppressLint("SetTextI18n")
    @Override
    public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
-      if(counselorModels.size()==counselorModelList.size()){
-         ChatRoomModel chatRoomModel = counselorModels.get(position);
-         CounselorModel counselorModel = counselorModelList.get(position);
+      CounselorModel counselorModel = counselorModelList.get(position);
+      holder.tvKonselor.setText(counselorModel.getName());
 
-         holder.tvKonselor.setText(counselorModel.getName());
-
-         Picasso.get()
-                 .load(counselorModel.getImg())
-                 .placeholder(R.drawable.avatar)
-                 .error(R.drawable.avatar)
-                 .fit()
-                 .centerCrop()
-                 .into(holder.ivAvatar);
-
-
-         holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               if (clickListener != null) {
-                  clickListener.onItemClick(counselorModel,counselorModel);
-               }
+      Picasso.get()
+              .load(counselorModel.getImg())
+              .placeholder(R.drawable.avatar)
+              .error(R.drawable.avatar)
+              .fit()
+              .centerCrop()
+              .into(holder.ivAvatar);
+      holder.itemView.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            if (clickListener != null) {
+               clickListener.onItemClick(counselorModel);
             }
-         });
-      }
+         }
+      });
+
    }
 
    @Override
    public int getItemCount() {
-      return counselorModels.size();
+      return counselorModelList.size();
    }
 
    public class ThreadViewHolder extends RecyclerView.ViewHolder {
