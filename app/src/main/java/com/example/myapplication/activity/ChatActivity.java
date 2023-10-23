@@ -93,6 +93,7 @@ public class ChatActivity extends AppCompatActivity {
         ivAvatar = findViewById(R.id.ivAvatar);
         tvName = findViewById(R.id.tvName);
         ivSend = findViewById(R.id.ivSend);
+        ivBack = findViewById(R.id.ivBack);
         etMessage = findViewById(R.id.etMessage);
 
 
@@ -126,6 +127,13 @@ public class ChatActivity extends AppCompatActivity {
 
         getListChat();
         startChatListener();
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void hideKeyboard() {
