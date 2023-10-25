@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
     private ArticleAdapter articleAdapter;
 
 
+
     private List<ArticleModel> articleModelList = new ArrayList<>();
 
     private List<User>userList = new ArrayList<>();
@@ -71,10 +72,7 @@ public class HomeFragment extends Fragment {
     private CircleImageView ivAvatar;
 
 
-
-
-
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     // Required empty constructor
     public HomeFragment() {
@@ -108,7 +106,8 @@ public class HomeFragment extends Fragment {
         articleAdapter = new ArticleAdapter(getActivity(),articleModelList);
         recyclerView.setAdapter(articleAdapter);
 
-        tvUsername.setText("Hallo " + sharedPreferences.getString("username", ""));
+        tvUsername.setText(sharedPreferences.getString("username", ""));
+        setShortenedUsername();
 
 
 
@@ -173,6 +172,17 @@ public class HomeFragment extends Fragment {
         return rootView;
 
 
+    }
+
+    private void setShortenedUsername() {
+        String username = sharedPreferences.getString("username", ""); // Dapatkan username dari SharedPreferences
+
+        if (username.length() > 15) {
+            // Jika panjang username lebih dari 15 karakter, potong dan tambahkan titik-titik
+            username = username.substring(0, 15) + "...";
+        }
+
+        tvUsername.setText(username);
     }
 
     private void actionSearch(){

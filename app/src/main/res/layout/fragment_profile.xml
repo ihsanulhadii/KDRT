@@ -9,34 +9,43 @@
     android:padding="20dp">
 
 
-    <TextView
-        android:id="@+id/tvTile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="1dp"
-        android:text="Profil"
-        android:textSize="20sp"
-        android:textStyle="bold" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivAddImage"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_below="@+id/tvTile"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="35dp"
-        android:src="@drawable/profile1" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/btnEditProfile"
+        android:layout_centerInParent="true">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/ivAddImage"
+        android:layout_below="@id/tvTile"
         android:gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="1dp"
+            android:text="Profil"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAddImage"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/profile1" />
 
 
         <TextView
@@ -138,6 +147,9 @@
 
     </LinearLayout>
 
+    </ScrollView>
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEditProfile"
@@ -147,6 +159,12 @@
             android:background="@drawable/rounded_button"
             android:text="Simpan"
             android:textColor="@color/white" />
+
+
+
+
+
+
 
 
 </RelativeLayout>
