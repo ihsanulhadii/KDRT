@@ -36,7 +36,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/nunito_regular"
-        android:text="Kunjungi Website\n  KawanCerita.id"
+        android:text="Kunjungi Website\nKawanBercerita.id"
         android:textColor="@color/blue1" />
 
     <Button

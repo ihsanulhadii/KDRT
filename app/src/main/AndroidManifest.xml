@@ -49,6 +49,7 @@
         <activity android:name=".activity.ActivityEditProfile"/>
         <activity android:name=".activity.ActivityListChatRoom"/>
         <activity android:name=".activity.ActivityListCounselor"/>
+        <activity android:name=".activity.ActivityThreadsNew"/>
 
 
 

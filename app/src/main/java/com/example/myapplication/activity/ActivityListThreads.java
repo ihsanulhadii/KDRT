@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ThreadAdapter;
+import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.model.ThreadModel;
 import com.example.myapplication.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,7 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityListThreads extends AppCompatActivity {
+public class ActivityListThreads extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ThreadAdapter threadAdapter;
@@ -56,6 +57,8 @@ public class ActivityListThreads extends AppCompatActivity {
     private ImageView ivBack;
     private TextView tvTitleToolbar;
 
+    String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +67,11 @@ public class ActivityListThreads extends AppCompatActivity {
 
 
 
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        threadAdapter = new ThreadAdapter(threadList,userList);
+        threadAdapter = new ThreadAdapter(getUserId(),threadList,userList);
         recyclerView.setAdapter(threadAdapter);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);

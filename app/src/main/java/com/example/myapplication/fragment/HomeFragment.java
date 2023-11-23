@@ -26,6 +26,7 @@ import com.example.myapplication.activity.ActivityListCounselor;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
 import com.example.myapplication.activity.ActivityListChatRoom;
+import com.example.myapplication.activity.ActivityThreadsNew;
 import com.example.myapplication.adapter.ArticleAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
@@ -125,7 +126,7 @@ public class HomeFragment extends Fragment {
         ivThreads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nextPage = new Intent(getActivity(), ActivityListThreads.class);
+                Intent nextPage = new Intent(getActivity(), ActivityThreadsNew.class);
                 startActivity(nextPage);
             }
         }
