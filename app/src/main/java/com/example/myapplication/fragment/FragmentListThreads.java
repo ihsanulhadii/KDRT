@@ -196,7 +196,7 @@ public class FragmentListThreads extends Fragment {
                                                                     threadAdapter.setOnActionClickListener(new ThreadAdapter.OnActionClickListener() {
                                                                         @Override
                                                                         public void onActionClick(ThreadModel thread, User user,int position) {
-                                                                            showEditDeleteDialog(thread.getId(),position);
+                                                                            showEditDeleteDialog(thread,position);
                                                                         }
                                                                     });
 
@@ -232,7 +232,7 @@ public class FragmentListThreads extends Fragment {
                 });
     }
 
-    public void showEditDeleteDialog(String id,int position) {
+    public void showEditDeleteDialog(ThreadModel thread,int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Action");
         builder.setItems(new CharSequence[]{"Ubah", "Hapus"}, new DialogInterface.OnClickListener() {
@@ -240,16 +240,24 @@ public class FragmentListThreads extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        //deleteThreads(id,position);
-                        showToast("On Prgres");
+                        editThreads(thread);
                         break;
                     case 1:
-                        deleteThreads(id,position);
+                        deleteThreads(thread.getId(),position);
                         break;
                 }
             }
         });
         builder.show();
+    }
+
+    private void editThreads(ThreadModel threadModel){
+        Intent intent = new Intent(getActivity(), ActivityPostThreads.class);
+        intent.putExtra("title",threadModel.getTitle());
+        intent.putExtra("description",threadModel.getDescription());
+        intent.putExtra("image",threadModel.getImg());
+        intent.putExtra("id",threadModel.getId());
+        startActivityForResult(intent,1313);
     }
 
     public void deleteThreads(String id,int position){
@@ -268,10 +276,27 @@ public class FragmentListThreads extends Fragment {
 
     }
 
-    public void editThreads(){
+  /*  public void editThreads(String id,int position){
+        threadsCollection.document(id)
+                .update(
+                        "title", updatedTitle,
+                        "img", updatedImg,
+                        "description", updatedDescription
+                )
+
+
+                .addOnSuccessListener(aVoid -> {
+                    showToast("Threads telah di edit");
+                    // Handle successful edit
+                })
+                .addOnFailureListener(e -> {
+                    showToast("Threads gagal di edit");
+                    // Handle failure
+                });
+
 
     }
-
+*/
 
     private void showToast(String message){
         Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();

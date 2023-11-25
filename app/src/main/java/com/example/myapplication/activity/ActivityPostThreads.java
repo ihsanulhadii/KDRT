@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 
 import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.myapplication.R;
+import com.example.myapplication.model.ThreadModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,10 +35,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,7 +55,9 @@ public class ActivityPostThreads extends AppCompatActivity {
     EditText etTitleReport,etDescription;
     AppCompatButton btnAddThreads;
 
-    String titleReport, description;
+    String titleReport = "" ;
+    String  description = "";
+
 
     private LottieProgressDialog lottieLoading;
 
@@ -66,13 +71,20 @@ public class ActivityPostThreads extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 2;
 
     Bitmap imageBitmap;
-    private String urlImage;
+    private String urlImage="";
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
     private Boolean isPostSuccess = false;
     private TextView tvTitleToolbar;
     private LinearLayout llAddImage;
+
+    private Boolean isEdit = false;
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private CollectionReference threadsCollection = firestore.collection("threads");
+
+
+    private String idThreads = "";
 
 
 
@@ -81,9 +93,33 @@ public class ActivityPostThreads extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_threads);
 
+
+        //ini untuk initiate/pengenalakan variabel
+
+        ivBack = findViewById(R.id.ivBack);
+        llAddImage = findViewById(R.id.llAddImage);
+        tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+        btnAddThreads = findViewById(R.id.btnAddThreads);
+        etTitleReport = findViewById(R.id.etTitleReport);
+        etDescription = findViewById(R.id.etDescription);
+        ivAddImage = findViewById(R.id.ivAddImage);
+        ivClearImage = findViewById(R.id.ivClearImage);
+
+
         sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
 
         userId = sharedPreferences.getString("userId","");
+
+        if(getIntent().hasExtra("title")){
+            titleReport = getIntent().getStringExtra("title");
+            description = getIntent().getStringExtra("description");
+            urlImage = getIntent().getStringExtra("image");
+            idThreads = getIntent().getStringExtra("id");
+
+            isEdit = true;
+
+            setDataUpdate();
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 11);
@@ -95,10 +131,6 @@ public class ActivityPostThreads extends AppCompatActivity {
         //fungsi untuk getLocation
         getLocation();
 
-
-        ivBack = findViewById(R.id.ivBack);
-        llAddImage = findViewById(R.id.llAddImage);
-        tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
 
         tvTitleToolbar.setText("Tambah Threads");
 
@@ -115,12 +147,6 @@ public class ActivityPostThreads extends AppCompatActivity {
         //initiate lottie
         lottieLoading = new LottieProgressDialog(this, false, null, null, null, null, LottieProgressDialog.SAMPLE_1, null, null);
 
-        //ini untuk initiate/pengenalakan variabel
-        btnAddThreads = findViewById(R.id.btnAddThreads);
-        etTitleReport = findViewById(R.id.etTitleReport);
-        etDescription = findViewById(R.id.etDescription);
-        ivAddImage = findViewById(R.id.ivAddImage);
-        ivClearImage = findViewById(R.id.ivClearImage);
 
 
         //klik button add image
@@ -130,6 +156,10 @@ public class ActivityPostThreads extends AppCompatActivity {
                 showDialogCameraGallery();
             }
         });
+
+        if(isEdit){
+            btnAddThreads.setText("Ubah Thread");
+        }
 
 
         btnAddThreads.setOnClickListener((new View.OnClickListener() {
@@ -152,12 +182,28 @@ public class ActivityPostThreads extends AppCompatActivity {
                         else {
                             //jika terpenuhi semua
                             showLoading();
-                            uploadImageToFirebaseStorage();
+
+                            if(isEdit = true){
+                                updateThreads();
+                            }else {
+                                uploadImageToFirebaseStorage();
+                            }
                         }
 
                     }
                 })
         );
+
+    }
+
+    private void setDataUpdate(){
+        etTitleReport.setText(titleReport);
+        etDescription.setText(description);
+
+        ivClearImage.setVisibility(View.VISIBLE);
+        Picasso.get()
+                .load(urlImage)
+                .into(ivAddImage);
 
     }
 
@@ -326,6 +372,31 @@ public class ActivityPostThreads extends AppCompatActivity {
 
 
 
+    private void updateThreads(){
+        threadsCollection.document(idThreads)
+                .update(
+                        "title", titleReport,
+                        "description", description
+                )
+
+
+                .addOnSuccessListener(aVoid -> {
+                    showToast("Threads telah di edit");
+                    isPostSuccess = true;
+                    hideLoading();
+                    Intent intent = new Intent();
+                    intent.putExtra("isLoad",isPostSuccess);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                    // Handle successful edit
+                })
+                .addOnFailureListener(e -> {
+                    showToast("Threads gagal di edit");
+                    hideLoading();
+                    // Handle failure
+                });
+
+    }
 
     private void postingThreads(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();

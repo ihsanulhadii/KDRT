@@ -2,6 +2,7 @@ package com.example.myapplication.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -112,6 +114,9 @@ public class FragmentListMyThreads extends Fragment {
                     isScrolling = true;
                 }
             }
+
+
+
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -222,6 +227,50 @@ public class FragmentListMyThreads extends Fragment {
                         // Handle errors
                     }
                 });
+    }
+
+    public void showEditDeleteDialog(ThreadModel thread,int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Action");
+        builder.setItems(new CharSequence[]{"Ubah", "Hapus"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        editThreads(thread);
+                        break;
+                    case 1:
+                        deleteThreads(thread.getId(),position);
+                        break;
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void editThreads(ThreadModel threadModel){
+        Intent intent = new Intent(getActivity(), ActivityPostThreads.class);
+        intent.putExtra("title",threadModel.getTitle());
+        intent.putExtra("description",threadModel.getDescription());
+        intent.putExtra("image",threadModel.getImg());
+        intent.putExtra("id",threadModel.getId());
+        startActivityForResult(intent,1313);
+    }
+
+    public void deleteThreads(String id,int position){
+        threadsCollection.document(id)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    showToast("Thread telah di hapus");
+                    threadList.remove(position);
+                    threadAdapter.notifyDataSetChanged();
+                    // Handle successful deletion
+                })
+                .addOnFailureListener(e -> {
+                    showToast("Thread gagal di hapus");
+                    // Handle failure
+                });
+
     }
 
 
