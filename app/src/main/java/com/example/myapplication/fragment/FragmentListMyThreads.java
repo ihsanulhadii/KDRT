@@ -197,6 +197,13 @@ public class FragmentListMyThreads extends Fragment {
                                                                             startActivity(intent);
                                                                         }
                                                                     });
+
+                                                                    threadAdapter.setOnActionClickListener(new ThreadAdapter.OnActionClickListener() {
+                                                                        @Override
+                                                                        public void onActionClick(ThreadModel thread, User user,int position) {
+                                                                            showEditDeleteDialog(thread,position);
+                                                                        }
+                                                                    });
                                                                     rlEmpty.setVisibility(View.GONE);
                                                                     rlLoading.setVisibility(View.GONE);
 
