@@ -8,6 +8,7 @@ public class ChatModel {
     private String content;
     private String receiver;
     private String sender;
+    private Timestamp time;
 
     public Timestamp getTime() {
         return time;
@@ -17,7 +18,6 @@ public class ChatModel {
         this.time = time;
     }
 
-    private Timestamp time;
 
     public String getContent() {
         return content;
