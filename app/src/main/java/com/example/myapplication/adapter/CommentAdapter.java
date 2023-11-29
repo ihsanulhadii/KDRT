@@ -44,6 +44,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
       String formattedTime = dateFormat.format(comment.getTime().toDate());
       holder.tvDate.setText(formattedTime);
+
+      holder.tvComment.setText(comment.getContent());
    }
 
    @Override
@@ -53,14 +55,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
    public class CommentViewHolder extends RecyclerView.ViewHolder {
 
-   ImageView ivimage;
-   TextView tvComment, tvDate;
+      ImageView ivimage;
+      TextView tvComment, tvDate;
 
       public CommentViewHolder(@NonNull View itemView) {
          super(itemView);
-         ivimage.findViewById(R.id.ivImage);
-         tvComment.findViewById(R.id.tvComment);
-         tvDate.findViewById(R.id.tvDate);
+         ivimage =  itemView.findViewById(R.id.ivImage);
+         tvComment = itemView.findViewById(R.id.tvComment);
+         tvDate = itemView.findViewById(R.id.tvDate);
 
 
       }

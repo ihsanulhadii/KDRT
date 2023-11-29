@@ -28,6 +28,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ActivityListArticle extends AppCompatActivity {
@@ -210,6 +211,10 @@ public class ActivityListArticle extends AppCompatActivity {
                                         intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
                                         intent.putExtra("img",articleModel.getImg());
                                         intent.putExtra("content",articleModel.getContent());
+                                        intent.putExtra("id",articleModel.getId());
+                                        Date datePublish = articleModel.getDateValue("createdDate");
+                                        String inputDateString = datePublish.toString();
+                                        intent.putExtra("date",inputDateString);
                                         startActivity(intent);
                                     }
                                 });

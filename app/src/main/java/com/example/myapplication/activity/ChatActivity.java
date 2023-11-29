@@ -125,7 +125,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        getListChat();
+        getListComments();
         startChatListener();
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +143,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
     @SuppressLint("NotifyDataSetChanged")
-    private void getListChat() {
+    private void getListComments() {
         // Clear the existing threadList before loading new data
         chatModelList.clear();
 

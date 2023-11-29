@@ -38,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -223,6 +224,10 @@ public class HomeFragment extends Fragment {
                                         intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
                                         intent.putExtra("img",articleModel.getImg());
                                         intent.putExtra("content",articleModel.getContent());
+                                        intent.putExtra("id",articleModel.getId());
+                                        Date datePublish = articleModel.getDateValue("createdDate");
+                                        String inputDateString = datePublish.toString();
+                                        intent.putExtra("date",inputDateString);
                                         startActivity(intent);
                                     }
                                 });
