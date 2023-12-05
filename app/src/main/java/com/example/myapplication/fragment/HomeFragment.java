@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityDetailArticle;
 import com.example.myapplication.activity.ActivityListArticle;
+import com.example.myapplication.activity.ActivityListArticlePopular;
 import com.example.myapplication.activity.ActivityListCounselor;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityListThreads;
@@ -51,7 +52,7 @@ public class HomeFragment extends Fragment {
 
     EditText etSearch;
 
-    TextView tvUsername, tvSeeAll;
+    TextView tvUsername, tvSeeAll, tvPopular;
     private RecyclerView recyclerView;
     private ArticleAdapter articleAdapter;
 
@@ -99,6 +100,7 @@ public class HomeFragment extends Fragment {
         tvSeeAll = rootView.findViewById(R.id.tvSeeAll);
         ivAvatar = rootView.findViewById(R.id.ivAvatar);
         etSearch = rootView.findViewById(R.id.etSearch);
+        tvPopular = rootView.findViewById(R.id.tvPopular);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -151,6 +153,14 @@ public class HomeFragment extends Fragment {
         );
 
         tvSeeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ActivityListArticle.class);
+                startActivity(intent);
+            }
+        });
+
+        tvPopular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ActivityListArticle.class);

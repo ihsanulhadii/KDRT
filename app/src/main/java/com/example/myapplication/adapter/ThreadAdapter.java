@@ -23,22 +23,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import kotlin.collections.ArrayDeque;
 
 public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadViewHolder> {
 
-   private List<ThreadModel> threadList;
-   private List<User> userList;
+   private List<ThreadModel> threadList = new ArrayDeque<>();
 
    private String userId ;
 
    public interface OnItemClickListener {
-      void onItemClick(ThreadModel thread, User user);
+      void onItemClick(ThreadModel thread);
    }
 
    private OnItemClickListener clickListener;
 
    public interface OnActionClickListener {
-      void onActionClick(ThreadModel thread, User user, int position);
+      void onActionClick(ThreadModel thread, int position);
    }
 
    private OnActionClickListener actionClickListener;
@@ -51,9 +53,8 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
       this.actionClickListener = listener;
    }
 
-   public ThreadAdapter(String userId ,List<ThreadModel> threadList,List<User> userList) {
+   public ThreadAdapter(String userId ,List<ThreadModel> threadList) {
       this.threadList = threadList;
-      this.userList = userList;
       this.userId = userId;
    }
 
@@ -70,22 +71,25 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
    @Override
    public void onBindViewHolder(@NonNull ThreadViewHolder holder, int position) {
       ThreadModel thread = threadList.get(position);
-      User user = userList.get(position);
       holder.titleTextView.setText(thread.getTitle());
 
 
-      Picasso.get()
-              .load(thread.getImg())  // Assuming getImg() returns the image URL
-              /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
-              .error(R.drawable.image_blank) // Error image if loading fails
-              .fit() // Resize the image to fit the ImageView dimensions
-              .centerCrop() // Crop the image to fill the ImageView
-              .into(holder.ivThread); // ImageView to load the image into
+      if(!thread.getImg().isEmpty()){
+         Picasso.get()
+                 .load(thread.getImg())  // Assuming getImg() returns the image URL
+                 /*.placeholder(R.drawable.placeholder_image) // Placeholder image while loading*/
+                 .error(R.drawable.image_blank) // Error image if loading fails
+                 .fit() // Resize the image to fit the ImageView dimensions
+                 .centerCrop() // Crop the image to fill the ImageView
+                 .into(holder.ivThread); // ImageView to load the image into
+      }
+
       // Set data lainnya sesuai kebutuhan
 
       holder.tvDescription.setText(thread.getDescription());
 
-      Date datePublish = thread.getDateValue("createdDate");
+
+      Date datePublish = thread.getCreatedDate().toDate();
 
       String inputDateString = datePublish.toString();
       SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US);
@@ -102,9 +106,9 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
          e.printStackTrace();
       }
 
-      holder.tvAuthor.setText("Oleh "+user.getName());
+      holder.tvAuthor.setText("Oleh "+thread.getName());
 
-      if(user.getUserId().equals(userId)){
+      if(thread.getUserId().equals(userId)){
          holder.ivAction.setVisibility(View.VISIBLE);
       }else {
          holder.ivAction.setVisibility(View.GONE);
@@ -114,7 +118,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
          @Override
          public void onClick(View view) {
             if (actionClickListener != null) {
-               actionClickListener.onActionClick(thread, user,holder.getAdapterPosition());
+               actionClickListener.onActionClick(thread,holder.getAdapterPosition());
             }
          }
       });
@@ -123,11 +127,23 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ThreadView
          @Override
          public void onClick(View view) {
             if (clickListener != null) {
-               clickListener.onItemClick(thread, user);
+               clickListener.onItemClick(thread);
             }
          }
       });
 
+   }
+
+   public Date getDateValue(Map<String, Object> date,String key) {
+      if (date != null && date.containsKey(key)) {
+         Object value = date.get(key);
+         if (value instanceof Date) {
+            return (Date) value;
+         } else if (value instanceof com.google.firebase.Timestamp) {
+            return ((com.google.firebase.Timestamp) value).toDate();
+         }
+      }
+      return null;
    }
 
    @Override

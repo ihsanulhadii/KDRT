@@ -58,6 +58,8 @@ public class ActivityPostThreads extends AppCompatActivity {
     String titleReport = "" ;
     String  description = "";
 
+    String urlImg = "";
+
 
     private LottieProgressDialog lottieLoading;
 
@@ -183,7 +185,7 @@ public class ActivityPostThreads extends AppCompatActivity {
                             //jika terpenuhi semua
                             showLoading();
 
-                            if(isEdit = true){
+                            if(isEdit){
                                 updateThreads();
                             }else {
                                 uploadImageToFirebaseStorage();

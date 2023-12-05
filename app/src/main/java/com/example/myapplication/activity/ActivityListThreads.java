@@ -23,6 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.ThreadAdapter;
 import com.example.myapplication.base.BaseActivity;
+import com.example.myapplication.model.CommentModel;
 import com.example.myapplication.model.ThreadModel;
 import com.example.myapplication.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,7 +41,6 @@ public class ActivityListThreads extends BaseActivity {
     private RecyclerView recyclerView;
     private ThreadAdapter threadAdapter;
     private List<ThreadModel> threadList = new ArrayList<>();
-    private List<User>userList = new ArrayList<>();
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private CollectionReference threadsCollection = firestore.collection("threads");
     private CollectionReference userCollection = firestore.collection("users");
@@ -59,26 +59,27 @@ public class ActivityListThreads extends BaseActivity {
 
     String userId;
 
+    private Handler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_threads);
 
+        handler = new Handler(Looper.getMainLooper());
 
-
-
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView  = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        threadAdapter = new ThreadAdapter(getUserId(),threadList,userList);
+        threadAdapter = new ThreadAdapter(getUserId(),threadList);
         recyclerView.setAdapter(threadAdapter);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
-        ivBack = findViewById(R.id.ivBack);
-        rlEmpty = findViewById(R.id.rlEmpty);
-        rlLoading = findViewById(R.id.rlLoading);
-        tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
+        ivBack             = findViewById(R.id.ivBack);
+        rlEmpty            = findViewById(R.id.rlEmpty);
+        rlLoading          = findViewById(R.id.rlLoading);
+        tvTitleToolbar     = findViewById(R.id.tvTitleToolbar);
 
         tvTitleToolbar.setText("List Threads");
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -156,47 +157,52 @@ public class ActivityListThreads extends BaseActivity {
                                     rlEmpty.setVisibility(View.VISIBLE);
                                     rlLoading.setVisibility(View.GONE);
                                 }else {
-                                    FirebaseFirestore.getInstance().collection("users")
-                                            .document(thread.getUserId()).get()
+                                    userCollection
+                                            .document(userId)
+                                            .get()
                                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
-                                                        DocumentSnapshot document = task.getResult();
-                                                        if (document.exists()) {
-                                                            User user = document.toObject(User.class);
-                                                            if (user != null) {
-                                                                userList.add(user);
-                                                            }
-                                                        }
-                                                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                if(!threadList.isEmpty()){
-                                                                    lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                                                    threadAdapter.notifyDataSetChanged();
-                                                                    threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
-                                                                        @Override
-                                                                        public void onItemClick(ThreadModel thread, User user) {
-                                                                            Intent intent = new Intent(ActivityListThreads.this, ActivityDetailThreads.class);
-                                                                            intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
-                                                                            intent.putExtra("img",thread.getImg());
-                                                                            intent.putExtra("description",thread.getDescription());
-                                                                            startActivity(intent);
-                                                                        }
-                                                                    });
-                                                                    rlEmpty.setVisibility(View.GONE);
-                                                                    rlLoading.setVisibility(View.GONE);
+                                                        DocumentSnapshot userDocument = task.getResult();
+                                                        if (userDocument.exists()) {
+                                                            String userName = userDocument.getString("name");
+                                                            String avatar = userDocument.getString("avatar");
 
-                                                                }else {
-                                                                    rlEmpty.setVisibility(View.VISIBLE);
+                                                            Log.d("xxx11",userName +" "+ avatar);
+                                                           /* threadList.add(new ThreadModel(thread.getId(),userId,thread.getDescription(),"" ,userName,avatar));
+                                                            handler.post(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    if(!threadList.isEmpty()){
+                                                                        lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                                                        threadAdapter.notifyDataSetChanged();
+                                                                        threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
+                                                                            @Override
+                                                                            public void onItemClick(ThreadModel thread) {
+                                                                                Intent intent = new Intent(ActivityListThreads.this, ActivityDetailThreads.class);
+                                                                                intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
+                                                                                intent.putExtra("img",thread.getImg());
+                                                                                intent.putExtra("description",thread.getDescription());
+                                                                                startActivity(intent);
+                                                                            }
+                                                                        });
+                                                                        rlEmpty.setVisibility(View.GONE);
+                                                                        rlLoading.setVisibility(View.GONE);
+
+                                                                    }else {
+                                                                        rlEmpty.setVisibility(View.VISIBLE);
+                                                                    }
                                                                 }
-                                                            }
-                                                        }, 200);
+                                                            });*/
+
+
+                                                        }
+                                                    } else {
+                                                        Log.d("xxx",task.getException().getMessage());
                                                     }
                                                 }
                                             });
-
 
                                 }
                             }
@@ -225,7 +231,7 @@ public class ActivityListThreads extends BaseActivity {
 
 
     private void loadMoreThreads() {
-        threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+        /*threadsCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
                 .whereEqualTo("isPublish",true)
                 .limit(10)
@@ -247,7 +253,7 @@ public class ActivityListThreads extends BaseActivity {
                     } else {
                         // Handle errors
                     }
-                });
+                });*/
     }
 
     @Override

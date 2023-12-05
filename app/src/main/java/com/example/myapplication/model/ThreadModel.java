@@ -1,29 +1,46 @@
 package com.example.myapplication.model;
 
+import com.google.firebase.Timestamp;
+
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
+import java.sql.Time;
+import java.util.Map;
 
 public class ThreadModel implements Serializable {
     private String userId;
     private String title;
     private String img;
-
-
-
     private String description ;
-
     private String id;
+    private String name;
+    private String avatar;
 
-    public HashMap<String, Object> getDate() {
-        return date;
+    public Timestamp getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(HashMap<String, Object> date) {
-        this.date = date;
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
     }
 
-    private HashMap<String, Object> date;
+    private Timestamp createdDate;
+
+    public ThreadModel(){
+
+    }
+
+
+    public ThreadModel(String id, String userId, String description, String img, Timestamp createdDate, String name, String avatar) {
+        this.id = id;
+        this.userId = userId;
+        this.description = description;
+        this.img = img;
+        this.name = name;
+        this.createdDate = createdDate;
+        this.avatar = avatar;
+
+    }
+
 
     public String getUserId() {
         return userId;
@@ -67,15 +84,22 @@ public class ThreadModel implements Serializable {
         this.id = id;
     }
 
-    public Date getDateValue(String key) {
-        if (date != null && date.containsKey(key)) {
-            Object value = date.get(key);
-            if (value instanceof Date) {
-                return (Date) value;
-            } else if (value instanceof com.google.firebase.Timestamp) {
-                return ((com.google.firebase.Timestamp) value).toDate();
-            }
-        }
-        return null;
+
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+
 }

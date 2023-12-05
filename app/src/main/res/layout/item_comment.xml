@@ -7,49 +7,66 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llComment"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="100dp"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/avatar" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/ivImage"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/ivImage"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
-                app:srcCompat="@drawable/avatar" />
+                android:id="@+id/tvName"
+                tools:text="Ihsanul Hadi"
+                android:textSize="17dp"/>
 
             <TextView
-                android:id="@+id/tvComment"
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Hallo ssdijvosijo josidvjodsivjdvijsoij dosijsdoivjodsivjsdoivjodijsoivj sdoifjsdoj"
+                android:layout_marginTop="5dp"
+                tools:text="12 September 2023 10 PM"
+                android:fontFamily="@font/nunito_regular"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/tvComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                tools:text="Hallo ini adalah komen untuk artikel" />
+
+
+
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            tools:text="12 September 2023 10 PM"
-            android:fontFamily="@font/nunito_regular"
-            android:textSize="12sp" />
 
-    </LinearLayout>
+
+    </RelativeLayout>
+
 
 <View
     android:layout_marginVertical="5dp"

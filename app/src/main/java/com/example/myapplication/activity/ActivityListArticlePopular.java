@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.ArticleAdapter;
 import com.example.myapplication.adapter.ArticleListAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ActivityListArticle extends AppCompatActivity {
+public class ActivityListArticlePopular extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArticleListAdapter articleListAdapter;
@@ -81,7 +80,7 @@ public class ActivityListArticle extends AppCompatActivity {
         rlLoading = findViewById(R.id.rlLoading);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
 
-        tvTitleToolbar.setText("List Artikel");
+        tvTitleToolbar.setText("List Artikel Populer");
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,7 +160,7 @@ public class ActivityListArticle extends AppCompatActivity {
                                 articleListAdapter.setOnItemClickListener(new ArticleListAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ArticleModel articleModel) {
-                                        Intent intent = new Intent(ActivityListArticle.this, ActivityDetailArticle.class);
+                                        Intent intent = new Intent(ActivityListArticlePopular.this, ActivityDetailArticle.class);
                                         intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
                                         intent.putExtra("img",articleModel.getImg());
                                         intent.putExtra("content",articleModel.getContent());
@@ -209,7 +208,7 @@ public class ActivityListArticle extends AppCompatActivity {
                                 articleListAdapter.setOnItemClickListener(new ArticleListAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ArticleModel articleModel) {
-                                        Intent intent = new Intent(ActivityListArticle.this, ActivityDetailArticle.class);
+                                        Intent intent = new Intent(ActivityListArticlePopular.this, ActivityDetailArticle.class);
                                         intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
                                         intent.putExtra("img",articleModel.getImg());
                                         intent.putExtra("content",articleModel.getContent());
@@ -260,7 +259,7 @@ public class ActivityListArticle extends AppCompatActivity {
     }
 
     public void setToast(String message){
-        Toast.makeText(ActivityListArticle.this,message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(ActivityListArticlePopular.this,message,Toast.LENGTH_SHORT).show();
     }
 
     @Override

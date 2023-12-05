@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,8 +26,10 @@ import com.example.myapplication.adapter.ChatAdapter;
 import com.example.myapplication.adapter.CommentAdapter;
 import com.example.myapplication.model.ChatModel;
 import com.example.myapplication.model.CommentModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -52,11 +57,11 @@ public class ActivityDetailArticle extends AppCompatActivity {
 
     private String title,img,content;
     private TextView tvContent,tvTitle,tvTitleToolbar, tvDate;
-    private ImageView ivArticle,ivBack, ivSend;
+    private ImageView ivArticle,ivBack, ivSend,ivImage;
 
     private EditText etMessage;
 
-    private String message,userId;
+    private String message,userId,avatar;
 
     private SharedPreferences sharedPreferences;
 
@@ -66,6 +71,8 @@ public class ActivityDetailArticle extends AppCompatActivity {
     private List<CommentModel> commentModelList = new ArrayList<>();
     private CollectionReference commentsCollection = firestore.collection("articles");
 
+    private CollectionReference userCollection = firestore.collection("users");
+
     private RecyclerView recyclerView;
 
     private CommentAdapter commentAdapter;
@@ -73,8 +80,10 @@ public class ActivityDetailArticle extends AppCompatActivity {
 
     private String id,date;
 
+
     private ListenerRegistration chatListener;
 
+    private Handler handler;
 
 
     @Override
@@ -82,7 +91,7 @@ public class ActivityDetailArticle extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_article);
 
-
+        handler = new Handler(Looper.getMainLooper());
         sharedPreferences = getSharedPreferences("kdrt",MODE_PRIVATE);
         userId = sharedPreferences.getString("userId","");
 
@@ -103,6 +112,7 @@ public class ActivityDetailArticle extends AppCompatActivity {
         ivSend = findViewById(R.id.ivSend);
         etMessage = findViewById(R.id.etMessage);
         tvDate = findViewById(R.id.tvDate);
+        ivImage = findViewById(R.id.ivImage);
 
         tvContent.setText(content);
         tvTitle.setText(title);
@@ -112,6 +122,7 @@ public class ActivityDetailArticle extends AppCompatActivity {
 
         commentAdapter = new CommentAdapter(ActivityDetailArticle.this,commentModelList);
         recyclerView.setAdapter(commentAdapter);
+
 
 
         ivSend.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +159,7 @@ public class ActivityDetailArticle extends AppCompatActivity {
         }
 
 
-        getListComment();
+        //getListComment();
         startCommentListener();
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +178,7 @@ public class ActivityDetailArticle extends AppCompatActivity {
 
 
     @SuppressLint("NotifyDataSetChanged")
-    private void getListComment() {
+    private void getListComment11() {
         // Clear the existing threadList before loading new data
         commentModelList.clear();
 
@@ -185,6 +196,59 @@ public class ActivityDetailArticle extends AppCompatActivity {
                 });
     }
 
+    /*private void getListComment(){
+        // Mengambil data dari koleksi komentar
+        commentsCollection.document(id).collection("comments").orderBy("time",Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userId = document.getString("userId");
+                                String content = document.getString("content");
+                                Timestamp time = document.getTimestamp("time");
+                               // CommentModel commentModel = document.toObject(CommentModel.class);
+
+                                Log.d("xxx",userId + " "+ content + " "+ time);
+
+                                // Menggunakan userId untuk mengambil data pengguna terkait
+                                userCollection
+                                        .document(userId)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    DocumentSnapshot userDocument = task.getResult();
+                                                    if (userDocument.exists()) {
+                                                        String userName = userDocument.getString("name");
+                                                        String avatar = userDocument.getString("avatar");
+
+                                                        Log.d("xxx11",userName +" "+ avatar);
+                                                        commentModelList.add(new CommentModel(userId,content,userName,avatar,time));
+                                                        handler.post(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                commentAdapter.notifyDataSetChanged();
+                                                            }
+                                                        });
+                                                    }
+                                                } else {
+                                                    Log.d("xxx",task.getException().getMessage());
+                                                    // Handle error
+                                                }
+                                            }
+                                        });
+                            }
+                        } else {
+                            // Handle error
+                        }
+                    }
+                });
+
+    }*/
+
 
     private void startCommentListener() {
         chatListener = commentsCollection.document(id)
@@ -201,13 +265,50 @@ public class ActivityDetailArticle extends AppCompatActivity {
                         // Clear the existing chatModelList before loading new data
                         commentModelList.clear();
 
+
+
                         for (DocumentSnapshot document : querySnapshot) {
-                            CommentModel chatModel = document.toObject(CommentModel.class);
-                            commentModelList.add(chatModel);
+
+                            String userId = document.getString("userId");
+                            String content = document.getString("content");
+                            Timestamp time = document.getTimestamp("time");
+
+                            //CommentModel chatModel = document.toObject(CommentModel.class);
+                           // commentModelList.add(chatModel);
+
+
+
+                            userCollection
+                                    .document(userId)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot userDocument = task.getResult();
+                                                if (userDocument.exists()) {
+                                                    String userName = userDocument.getString("name");
+                                                    String avatar = userDocument.getString("avatar");
+
+                                                    Log.d("xxx11",userName +" "+ avatar);
+                                                    commentModelList.add(new CommentModel(userId,content,userName,avatar,time));
+                                                    handler.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            commentAdapter.notifyDataSetChanged();
+                                                        }
+                                                    });
+                                                }
+                                            } else {
+                                                Log.d("xxx",task.getException().getMessage());
+                                                // Handle error
+                                            }
+                                        }
+                                    });
                         }
 
                         // Update the UI with the new data
-                        commentAdapter.notifyDataSetChanged();
+                        //commentAdapter.notifyDataSetChanged();
                     }
                 });
     }
