@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -68,7 +69,7 @@ public class ActivityListArticle extends AppCompatActivity {
             query = getIntent().getStringExtra("query");
         }
 
-
+        Log.d("terbaru"," pesanns");
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -110,13 +111,24 @@ public class ActivityListArticle extends AppCompatActivity {
                 if (isScrolling && lastVisibleItem + visibleThreshold >= totalItemCount) {
                     isScrolling = false;
 
-                    loadMoreArticel();
+
+                    if(getIntent().hasExtra("popular"))
+                    {
+                        loadMoreArticelPopular();
+                    }
+                    else
+                    {
+                        loadMoreArticel();
+                    }
                 }
             }
         });
 
         if(getIntent().hasExtra("query")){
             getListArticleSearch(query);
+        }
+        else if(getIntent().hasExtra("popular")){
+            getListArticlePopular();
         }else {
             getListArticle();
         }
@@ -125,7 +137,20 @@ public class ActivityListArticle extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                getListArticle();
+                if(getIntent().hasExtra("popular"))
+                {
+                    getListArticlePopular();
+                }
+                else if (getIntent().hasExtra("query"))
+                {
+                    getListArticleSearch(query);
+                }
+                else
+                {
+                    getListArticle();
+                }
+
+
             }
         });
     }
@@ -232,9 +257,85 @@ public class ActivityListArticle extends AppCompatActivity {
                 });
     }
 
+    private void getListArticlePopular() {
+        // Clear the existing threadList before loading new data
+        articleModelList.clear();
+
+        articelCollection.orderBy("commentCount", Query.Direction.DESCENDING)
+                .limit(10)
+                .whereEqualTo("isPublish", true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    swipeRefreshLayout.setRefreshing(false);
+                    rlLoading.setVisibility(View.GONE);
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null) {
+                            ArticleModel articleModel;
+                            for (DocumentSnapshot document : querySnapshot) {
+                                articleModel = document.toObject(ArticleModel.class);
+                                articleModelList.add(articleModel);
+                            }
+
+                            if (!articleModelList.isEmpty()) {
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                articleListAdapter.notifyDataSetChanged();
+
+                                articleListAdapter.setOnItemClickListener(new ArticleListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(ArticleModel articleModel) {
+                                        Intent intent = new Intent(ActivityListArticle.this, ActivityDetailArticle.class);
+                                        intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
+                                        intent.putExtra("img",articleModel.getImg());
+                                        intent.putExtra("content",articleModel.getContent());
+                                        intent.putExtra("id",articleModel.getId());
+                                        Date datePublish = articleModel.getDateValue("createdDate");
+                                        String inputDateString = datePublish.toString();
+                                        intent.putExtra("date",inputDateString);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                rlEmpty.setVisibility(View.GONE);
+                            } else {
+                                rlEmpty.setVisibility(View.VISIBLE);
+
+                            }
+
+                        }
+                    }
+                });
+    }
+
 
     private void loadMoreArticel() {
         articelCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+                .startAfter(lastVisible)
+                .limit(10)
+                .whereEqualTo("isPublish", true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null) {
+                            if (!querySnapshot.isEmpty()) { // Check if there are documents in the query result
+                                for (DocumentSnapshot document : querySnapshot) {
+                                    ArticleModel articleModel = document.toObject(ArticleModel.class);
+                                    articleModelList.add(articleModel);
+
+                                }
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                articleListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    } else {
+                        // Handle errors
+                    }
+                });
+    }
+
+    private void loadMoreArticelPopular() {
+        articelCollection.orderBy("commentCount", Query.Direction.DESCENDING)
                 .startAfter(lastVisible)
                 .limit(10)
                 .whereEqualTo("isPublish", true)

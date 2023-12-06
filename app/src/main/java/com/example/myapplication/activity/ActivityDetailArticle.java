@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -181,7 +182,6 @@ public class ActivityDetailArticle extends AppCompatActivity {
     private void getListComment11() {
         // Clear the existing threadList before loading new data
         commentModelList.clear();
-
         commentsCollection.document(id).collection("comments").orderBy("time", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -318,30 +318,48 @@ public class ActivityDetailArticle extends AppCompatActivity {
 
         String idComment = UUID.randomUUID().toString();
         Timestamp timestamp = Timestamp.now();
-        //untuk field dan value di database
-        Map<String, Object> data = new HashMap<>();
-        data.put("content",message);
-        data.put("userId",userId);
-        data.put("time",timestamp);
-        data.put("id",idComment);
 
-        //collection database
-        db.collection("articles").document(id).collection("comments").document(idComment).set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        etMessage.setText("");
-                        hideKeyboard();
-                    }
+        // Untuk field dan value di database
+        Map<String, Object> data = new HashMap<>();
+        data.put("content", message);
+        data.put("userId", userId);
+        data.put("time", timestamp);
+        data.put("id", idComment);
+
+        // Collection database
+        db.collection("articles")
+                .document(id)
+                .collection("comments")
+                .document(idComment)
+                .set(data)
+                .addOnSuccessListener(aVoid -> {
+                    etMessage.setText("");
+                    hideKeyboard();
+
+                    // Update commentCount di koleksi articles
+                    updateCommentCount();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // hideLoading();
-                        showToast("Komen Gagal terkirim "+e.getMessage());
-                    }
+                .addOnFailureListener(e -> showToast("Komen Gagal terkirim " + e.getMessage()));
+    }
+
+    private void updateCommentCount() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Update commentCount dengan increment 1
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("commentCount", FieldValue.increment(1));
+
+        db.collection("articles")
+                .document(id)
+                .update(updateData)
+                .addOnSuccessListener(aVoid -> {
+                    // Berhasil melakukan update commentCount
+                })
+                .addOnFailureListener(e -> {
+                    // Gagal melakukan update commentCount
                 });
     }
+
 
     private void showToast(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();

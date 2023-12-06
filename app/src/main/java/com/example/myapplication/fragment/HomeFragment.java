@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityDetailArticle;
 import com.example.myapplication.activity.ActivityListArticle;
-import com.example.myapplication.activity.ActivityListArticlePopular;
 import com.example.myapplication.activity.ActivityListCounselor;
 import com.example.myapplication.activity.ActivityListReport;
-import com.example.myapplication.activity.ActivityListThreads;
-import com.example.myapplication.activity.ActivityListChatRoom;
 import com.example.myapplication.activity.ActivityThreadsNew;
 import com.example.myapplication.adapter.ArticleAdapter;
+import com.example.myapplication.adapter.ArticlePopularAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
 import com.google.firebase.firestore.CollectionReference;
@@ -54,11 +53,16 @@ public class HomeFragment extends Fragment {
 
     TextView tvUsername, tvSeeAll, tvPopular;
     private RecyclerView recyclerView;
+    private RecyclerView recyclerView2 ;
     private ArticleAdapter articleAdapter;
+    private ArticlePopularAdapter articlePopularAdapter;
 
 
 
     private List<ArticleModel> articleModelList = new ArrayList<>();
+
+
+    private List<ArticleModel> articleModelList2 = new ArrayList<>();
 
     private List<User>userList = new ArrayList<>();
 
@@ -109,6 +113,14 @@ public class HomeFragment extends Fragment {
 
         articleAdapter = new ArticleAdapter(getActivity(),articleModelList);
         recyclerView.setAdapter(articleAdapter);
+
+        recyclerView2 = rootView.findViewById(R.id.recyclerView2);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView2.setLayoutManager(layoutManager2);
+
+
+        articlePopularAdapter = new ArticlePopularAdapter(getActivity(),articleModelList2);
+        recyclerView2.setAdapter(articlePopularAdapter);
 
         tvUsername.setText(sharedPreferences.getString("username", ""));
         setShortenedUsername();
@@ -164,7 +176,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ActivityListArticle.class);
+                intent.putExtra("popular","popular");
                 startActivity(intent);
+
             }
         });
 
@@ -178,7 +192,9 @@ public class HomeFragment extends Fragment {
                 return false;
             } });
 
-        getListArticles();
+       getListArticles();
+
+        getListArticlesPopular();
 
 
         return rootView;
@@ -250,6 +266,65 @@ public class HomeFragment extends Fragment {
 
                         }
                     }
+
+                });
+
+
+    }
+
+    private void getListArticlesPopular() {
+        // Clear the existing artikelList before loading new data
+        articleModelList2.clear();
+        artikelCollection.orderBy("commentCount", Query.Direction.DESCENDING)
+                .limit(10)
+                .whereEqualTo("isPublish",true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    Log.d("xxx11",task.isSuccessful()+" pesann");
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null) {
+                            Log.d("xxx11","pesann 2");
+                            ArticleModel articleModel2;
+                            for (DocumentSnapshot document : querySnapshot) {
+                                articleModel2 = document.toObject(ArticleModel.class);
+                                articleModelList2.add(articleModel2);
+                            }
+
+                            if (!articleModelList2.isEmpty()) {
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                articlePopularAdapter.notifyDataSetChanged();
+
+                                articlePopularAdapter.setOnItemClickListener(new ArticlePopularAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(ArticleModel articleModel) {
+                                        Intent intent = new Intent(getActivity(), ActivityDetailArticle.class);
+                                        intent.putExtra("title", articleModel.getTitle()); // Kirim data report ke aktivitas detail
+                                        intent.putExtra("img",articleModel.getImg());
+                                        intent.putExtra("content",articleModel.getContent());
+                                        intent.putExtra("id",articleModel.getId());
+                                        Date datePublish = articleModel.getDateValue("createdDate");
+                                        String inputDateString = datePublish.toString();
+                                        intent.putExtra("date",inputDateString);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                // rlEmpty.setVisibility(View.GONE);
+                            } else {
+                                //  rlEmpty.setVisibility(View.VISIBLE);
+
+                            }
+
+                        }
+                    }
+                    else {
+                        Exception e = task.getException();
+                        if (e != null) {
+                            Log.e("FirestoreQuery", "Error: " + e.getMessage());
+                        }
+                    }
+
 
                 });
 
