@@ -2,6 +2,7 @@ package com.example.myapplication.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,6 +86,8 @@ public class ActivityDetailArticle extends AppCompatActivity {
     private ListenerRegistration chatListener;
 
     private Handler handler;
+
+    private Boolean isRefresh = false;
 
 
     @Override
@@ -335,6 +338,7 @@ public class ActivityDetailArticle extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     etMessage.setText("");
                     hideKeyboard();
+                    isRefresh = true;
 
                     // Update commentCount di koleksi articles
                     updateCommentCount();
@@ -363,5 +367,14 @@ public class ActivityDetailArticle extends AppCompatActivity {
 
     private void showToast(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("isRefresh",isRefresh);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }

@@ -160,6 +160,7 @@ public class FragmentListThreads extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String id = document.getString("id");
+                                String title = document.getString("title");
                                 String userId = document.getString("userId");
                                 String description = document.getString("description");
                                 String img = document.getString("img");
@@ -182,7 +183,7 @@ public class FragmentListThreads extends Fragment {
                                                             String userName = userDocument.getString("name");
                                                             String avatar = userDocument.getString("avatar");
 
-                                                            threadList.add(new ThreadModel(id,userId,description,img,timestamp,userName,avatar));
+                                                            threadList.add(new ThreadModel(id,title,userId,description,img,timestamp,userName,avatar));
                                                             handler.post(new Runnable() {
                                                                 @Override
                                                                 public void run() {
@@ -248,6 +249,8 @@ public class FragmentListThreads extends Fragment {
             }
         });
         builder.show();
+
+
     }
 
     private void editThreads(ThreadModel threadModel){
@@ -343,6 +346,7 @@ public class FragmentListThreads extends Fragment {
                                 String userId = document.getString("userId");
                                 String description = document.getString("description");
                                 String img = document.getString("img");
+                                String title = document.getString("title");
                                 Timestamp timestamp = document.getTimestamp("date.createdDate");
 
 
@@ -358,7 +362,7 @@ public class FragmentListThreads extends Fragment {
                                                     String userName = userDocument.getString("name");
                                                     String avatar = userDocument.getString("avatar");
 
-                                                    threadList.add(new ThreadModel(id,userId,description,img,timestamp,userName,avatar));
+                                                    threadList.add(new ThreadModel(id,title,userId,description,img,timestamp,userName,avatar));
                                                     handler.post(new Runnable() {
                                                         @Override
                                                         public void run() {

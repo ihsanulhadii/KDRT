@@ -26,13 +26,13 @@ import com.example.myapplication.activity.ActivityListArticle;
 import com.example.myapplication.activity.ActivityListCounselor;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityThreadsNew;
-import com.example.myapplication.adapter.ArticleAdapter;
-import com.example.myapplication.adapter.ArticlePopularAdapter;
+import com.example.myapplication.adapter.ArticleHomeAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -54,10 +54,8 @@ public class HomeFragment extends Fragment {
     TextView tvUsername, tvSeeAll, tvPopular;
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2 ;
-    private ArticleAdapter articleAdapter;
-    private ArticlePopularAdapter articlePopularAdapter;
-
-
+    private ArticleHomeAdapter articleAdapter;
+    private ArticleHomeAdapter articlePopularAdapter;
 
     private List<ArticleModel> articleModelList = new ArrayList<>();
 
@@ -111,7 +109,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        articleAdapter = new ArticleAdapter(getActivity(),articleModelList);
+        articleAdapter = new ArticleHomeAdapter(getActivity(),articleModelList);
         recyclerView.setAdapter(articleAdapter);
 
         recyclerView2 = rootView.findViewById(R.id.recyclerView2);
@@ -119,7 +117,7 @@ public class HomeFragment extends Fragment {
         recyclerView2.setLayoutManager(layoutManager2);
 
 
-        articlePopularAdapter = new ArticlePopularAdapter(getActivity(),articleModelList2);
+        articlePopularAdapter = new ArticleHomeAdapter(getActivity(),articleModelList2);
         recyclerView2.setAdapter(articlePopularAdapter);
 
         tvUsername.setText(sharedPreferences.getString("username", ""));
@@ -168,7 +166,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ActivityListArticle.class);
-                startActivity(intent);
+                startActivityForResult(intent,1414);
             }
         });
 
@@ -177,7 +175,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ActivityListArticle.class);
                 intent.putExtra("popular","popular");
-                startActivity(intent);
+                startActivityForResult(intent,1414);
 
             }
         });
@@ -243,7 +241,7 @@ public class HomeFragment extends Fragment {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                                 articleAdapter.notifyDataSetChanged();
 
-                                articleAdapter.setOnItemClickListener(new ArticleAdapter.OnItemClickListener() {
+                                articleAdapter.setOnItemClickListener(new ArticleHomeAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ArticleModel articleModel) {
                                         Intent intent = new Intent(getActivity(), ActivityDetailArticle.class);
@@ -254,7 +252,7 @@ public class HomeFragment extends Fragment {
                                         Date datePublish = articleModel.getDateValue("createdDate");
                                         String inputDateString = datePublish.toString();
                                         intent.putExtra("date",inputDateString);
-                                        startActivity(intent);
+                                        startActivityForResult(intent,1616);
                                     }
                                 });
 
@@ -270,6 +268,23 @@ public class HomeFragment extends Fragment {
                 });
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1616){
+            Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
+            if(isRefresh){
+                getListArticles();
+            }
+
+        }else if(requestCode==1617){
+            Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
+            if(isRefresh){
+                getListArticlesPopular();
+            }
+        }
     }
 
     private void getListArticlesPopular() {
@@ -295,7 +310,7 @@ public class HomeFragment extends Fragment {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                                 articlePopularAdapter.notifyDataSetChanged();
 
-                                articlePopularAdapter.setOnItemClickListener(new ArticlePopularAdapter.OnItemClickListener() {
+                                articlePopularAdapter.setOnItemClickListener(new ArticleHomeAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ArticleModel articleModel) {
                                         Intent intent = new Intent(getActivity(), ActivityDetailArticle.class);
@@ -306,7 +321,7 @@ public class HomeFragment extends Fragment {
                                         Date datePublish = articleModel.getDateValue("createdDate");
                                         String inputDateString = datePublish.toString();
                                         intent.putExtra("date",inputDateString);
-                                        startActivity(intent);
+                                        startActivityForResult(intent,1617);
                                     }
                                 });
 

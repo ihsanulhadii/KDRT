@@ -14,6 +14,7 @@ public class ThreadModel implements Serializable {
     private String id;
     private String name;
     private String avatar;
+    private Timestamp createdDate;
 
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -23,15 +24,16 @@ public class ThreadModel implements Serializable {
         this.createdDate = createdDate;
     }
 
-    private Timestamp createdDate;
+
 
     public ThreadModel(){
 
     }
 
 
-    public ThreadModel(String id, String userId, String description, String img, Timestamp createdDate, String name, String avatar) {
+    public ThreadModel(String id,String title, String userId, String description, String img, Timestamp createdDate, String name, String avatar) {
         this.id = id;
+        this.title = title;
         this.userId = userId;
         this.description = description;
         this.img = img;

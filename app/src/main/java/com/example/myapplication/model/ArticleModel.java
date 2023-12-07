@@ -10,6 +10,16 @@ public class ArticleModel implements Serializable {
 
     private String img ;
 
+    public Long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Long commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    private Long commentCount;
+
     public String getId() {
         return id;
     }

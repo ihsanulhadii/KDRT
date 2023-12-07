@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/itemView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_marginTop="5dp"
     android:layout_height="wrap_content"
@@ -9,13 +11,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:elevation="1dp"
-        app:cardCornerRadius="10dp"
         android:layout_margin="2dp"
+        app:cardCornerRadius="5dp"
+        android:layout_marginBottom="2dp"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -31,7 +34,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="0dp"
                     app:cardCornerRadius="10dp">
 
                     <ImageView
@@ -88,6 +91,58 @@
                 android:ellipsize="end"
                 android:textSize="15sp"
                 tools:text="Description" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        app:srcCompat="@drawable/ic_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tvCommentCount"
+                        android:text="10 Komentar"
+                        android:layout_marginStart="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llShare"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        app:srcCompat="@drawable/baseline_share_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="Bagikan"
+                        android:layout_marginStart="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

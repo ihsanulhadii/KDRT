@@ -18,46 +18,46 @@
             android:layout_height="250dp">
 
 
-        <RelativeLayout
-            android:background="#B28CFF"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="70dp">
+            <RelativeLayout
+                android:background="#B28CFF"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="18dp"
-                app:srcCompat="@drawable/baseline_notifications_24" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="18dp"
+                    app:srcCompat="@drawable/baseline_notifications_24" />
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="18dp"
-                android:src="@drawable/avatar" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="18dp"
+                    android:src="@drawable/avatar" />
 
-            <TextView
-                android:id="@+id/tvUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@+id/ivAvatar"
-                android:fontFamily="@font/ooredoo"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Hi...Coklatttttt" />
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/ivAvatar"
+                    android:fontFamily="@font/ooredoo"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Hi...Coklatttttt" />
 
-        </RelativeLayout>
+            </RelativeLayout>
 
 
             <TextView
@@ -72,42 +72,42 @@
                 android:textStyle="bold"/>
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginHorizontal="18dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="9dp"
-            app:cardCornerRadius="8dp">
-
-            <RelativeLayout
+            <androidx.cardview.widget.CardView
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginHorizontal="18dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:cardElevation="9dp"
+                app:cardCornerRadius="8dp">
 
-
-                <ImageView
-                    android:id="@+id/ivSearchView"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true"
-                    android:paddingVertical="10dp"
-                    app:srcCompat="@drawable/search" />
-
-                <EditText
-                    android:id="@+id/etSearch"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:layout_toEndOf="@+id/ivSearchView"
-                    android:background="@null"
-                    android:hint="Cari Artikel"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:paddingHorizontal="10dp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_height="match_parent">
+
+
+                    <ImageView
+                        android:id="@+id/ivSearchView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:paddingVertical="10dp"
+                        app:srcCompat="@drawable/search" />
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:layout_toEndOf="@+id/ivSearchView"
+                        android:background="@null"
+                        android:hint="Cari Artikel"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:paddingHorizontal="10dp" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <LinearLayout
@@ -176,12 +176,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/ivReport"
-                        android:padding="15dp"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        app:srcCompat="@drawable/report"/>
+                        <ImageView
+                            android:id="@+id/ivReport"
+                            android:padding="15dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            app:srcCompat="@drawable/report"/>
 
                     </RelativeLayout>
 
@@ -216,12 +216,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/ivChat"
-                        android:padding="15dp"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        app:srcCompat="@drawable/chat"/>
+                        <ImageView
+                            android:id="@+id/ivChat"
+                            android:padding="15dp"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            app:srcCompat="@drawable/chat"/>
 
                     </RelativeLayout>
 
@@ -251,11 +251,13 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Artikel"
+                android:text="Artikel Terbaru"
                 android:fontFamily="@font/ooredoo"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -263,14 +265,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/nunito_regular"
+                android:textSize="14sp"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/ooredoo"
                 android:layout_alignParentRight="true"
                 android:text="Lihat Semua"/>
 
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginHorizontal="18dp"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -294,11 +297,13 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Artikel Populer"
                 android:fontFamily="@font/ooredoo"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -306,14 +311,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/nunito_regular"
+                android:fontFamily="@font/ooredoo"
+                android:textSize="14sp"
+                android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
                 android:text="Lihat Semua"/>
 
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginHorizontal="18dp"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -323,10 +329,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView2"/>
-
-
-
-
 
         </LinearLayout>
 

@@ -2,11 +2,15 @@ package com.example.myapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ItemViewHolder> {
+public class ArticleHomeAdapter extends RecyclerView.Adapter<ArticleHomeAdapter.ItemViewHolder> {
 
     private Context context;
     private List<ArticleModel> artikelList;
@@ -31,13 +35,13 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         void onItemClick(ArticleModel artikeltModel);
     }
 
-    private ArticleListAdapter.OnItemClickListener clickListener;
+    private ArticleHomeAdapter.OnItemClickListener clickListener;
 
-    public void setOnItemClickListener(ArticleListAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(ArticleHomeAdapter.OnItemClickListener listener) {
         this.clickListener = listener;
     }
 
-    public ArticleListAdapter(Context context, List<ArticleModel> itemList) {
+    public ArticleHomeAdapter(Context context, List<ArticleModel> itemList) {
         this.context = context;
         this.artikelList = itemList;
     }
@@ -55,7 +59,56 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvContent.setText(item.getContent());
+
         holder.tvCommentCount.setText(item.getCommentCount().toString()+" Komentar");
+
+
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        Display display = windowManager.getDefaultDisplay();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+
+
+        if (position == 0) {
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.setMarginStart(holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.padding));
+            holder.itemView.setLayoutParams(layoutParams);
+        }
+
+        float scaleFactor = 1.5f;
+
+        int width = 0;
+        if (artikelList != null && (artikelList.size() == 1 || artikelList.size() == 2)) {
+            width = (int) ((display.getWidth() / 2) * scaleFactor) - 10;
+        } else {
+            width = (int) ((display.getWidth() / 2) * scaleFactor) - 10;
+        }
+
+      // RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.rlView.getLayoutParams();
+        ViewGroup.LayoutParams params = holder.rlView.getLayoutParams();
+        if (params != null) {
+            params.width = width;
+            // params.height = width; // Uncomment this line if you also want to set the height
+            holder.rlView.setLayoutParams(params);
+        }
+
+
+        holder.llShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+
+                // Menentukan tipe konten yang akan dibagikan (URL dalam contoh ini)
+                shareIntent.putExtra(Intent.EXTRA_TEXT, Constant.urlArticle+item.getId());
+                shareIntent.setType("text/plain");
+
+                // Menampilkan aplikasi yang mendukung fungsi share
+                context.startActivity(Intent.createChooser(shareIntent, "Bagikan URL melalui"));
+            }
+        });
+
+
 
 
         Date datePublish = item.getDateValue("createdDate");
@@ -76,21 +129,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
         // Load image using Picasso or any other image loading library
         Picasso.get().load(item.getImg()).into(holder.ivArticle);
-
-        holder.llShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-
-                // Menentukan tipe konten yang akan dibagikan (URL dalam contoh ini)
-                shareIntent.putExtra(Intent.EXTRA_TEXT, Constant.urlArticle+item.getId());
-                shareIntent.setType("text/plain");
-
-                // Menampilkan aplikasi yang mendukung fungsi share
-                context.startActivity(Intent.createChooser(shareIntent, "Bagikan URL melalui"));
-            }
-        });
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +151,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView ivArticle;
         TextView tvTitle,tvDate,tvContent,tvCommentCount;
+        RelativeLayout rlView;
+
 
         LinearLayout llShare;
 
@@ -122,6 +162,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvContent=  itemView.findViewById(R.id.tvContent);
+            rlView = itemView.findViewById(R.id.itemView);
             tvCommentCount = itemView.findViewById(R.id.tvCommentCount);
             llShare = itemView.findViewById(R.id.llShare);
         }

@@ -164,7 +164,7 @@ public class FragmentListMyThreads extends Fragment {
                                 String description = document.getString("description");
                                 String img = document.getString("img");
                                 Timestamp timestamp = document.getTimestamp("date.createdDate");
-
+                                String title = document.getString("title");
 
                                 if(task.getResult().size()>0){
                                     QuerySnapshot querySnapshot = task.getResult();
@@ -181,7 +181,7 @@ public class FragmentListMyThreads extends Fragment {
                                                             String userName = userDocument.getString("name");
                                                             String avatar = userDocument.getString("avatar");
 
-                                                            threadList.add(new ThreadModel(id,userId,description,img,timestamp,userName,avatar));
+                                                            threadList.add(new ThreadModel(id,title,userId,description,img,timestamp,userName,avatar));
                                                             handler.post(new Runnable() {
                                                                 @Override
                                                                 public void run() {
@@ -196,6 +196,14 @@ public class FragmentListMyThreads extends Fragment {
                                                                             intent.putExtra("img",thread.getImg());
                                                                             intent.putExtra("description",thread.getDescription());
                                                                             startActivity(intent);
+                                                                        }
+                                                                    });
+
+
+                                                                    threadAdapter.setOnActionClickListener(new ThreadAdapter.OnActionClickListener() {
+                                                                        @Override
+                                                                        public void onActionClick(ThreadModel thread, int position) {
+                                                                            showEditDeleteDialog(thread,position);
                                                                         }
                                                                     });
 
@@ -339,7 +347,7 @@ public class FragmentListMyThreads extends Fragment {
                                 String description = document.getString("description");
                                 String img = document.getString("img");
                                 Timestamp timestamp = document.getTimestamp("date.createdDate");
-
+                                String title = document.getString("title");
 
 
                                 QuerySnapshot querySnapshot = task.getResult();
@@ -353,7 +361,7 @@ public class FragmentListMyThreads extends Fragment {
                                                     String userName = userDocument.getString("name");
                                                     String avatar = userDocument.getString("avatar");
 
-                                                    threadList.add(new ThreadModel(id,userId,description,img,timestamp,userName,avatar));
+                                                    threadList.add(new ThreadModel(id,title,userId,description,img,timestamp,userName,avatar));
                                                     handler.post(new Runnable() {
                                                         @Override
                                                         public void run() {

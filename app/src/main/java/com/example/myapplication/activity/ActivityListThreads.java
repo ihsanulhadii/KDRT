@@ -170,7 +170,7 @@ public class ActivityListThreads extends BaseActivity {
                                                             String avatar = userDocument.getString("avatar");
 
                                                             Log.d("xxx11",userName +" "+ avatar);
-                                                           /* threadList.add(new ThreadModel(thread.getId(),userId,thread.getDescription(),"" ,userName,avatar));
+                                                          // threadList.add(new ThreadModel(thread.getId(),userId,thread.getDescription(),"" ,userName,avatar));
                                                             handler.post(new Runnable() {
                                                                 @Override
                                                                 public void run() {
@@ -194,7 +194,7 @@ public class ActivityListThreads extends BaseActivity {
                                                                         rlEmpty.setVisibility(View.VISIBLE);
                                                                     }
                                                                 }
-                                                            });*/
+                                                            });
 
 
                                                         }
