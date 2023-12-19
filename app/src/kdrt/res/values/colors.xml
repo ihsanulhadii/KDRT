@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_button_intro">#9b59b6</color>
+    <color name="backgorund">#B28CFF</color>
+    <color name="threads">#B28CFF</color>
+    <color name="report">#B28CFF</color>
+    <color name="chat">#B28CFF</color>
+    <color name="login">#B28CFF</color>
+
+</resources>

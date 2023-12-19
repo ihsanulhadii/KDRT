@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "83313894601",
+    "project_id": "sawit-website",
+    "storage_bucket": "sawit-website.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83313894601:android:87fd02f328bea019895918",
+        "android_client_info": {
+          "package_name": "com.sawit.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk5kzAk9jRtwu9ux0UVgRLjoZfxKlSkQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
