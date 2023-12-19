@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,6 +76,8 @@ public class HomeFragment extends Fragment {
     private int visibleThreshold = 5;
 
     private CircleImageView ivAvatar;
+
+    private RelativeLayout rlEmpty,rlLoading;
 
 
     private SharedPreferences sharedPreferences;
@@ -256,9 +259,10 @@ public class HomeFragment extends Fragment {
                                     }
                                 });
 
-                               // rlEmpty.setVisibility(View.GONE);
+
+                                //rlEmpty.setVisibility(View.GONE);
                             } else {
-                              //  rlEmpty.setVisibility(View.VISIBLE);
+                                //rlEmpty.setVisibility(View.VISIBLE);
 
                             }
 
@@ -274,15 +278,19 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1616){
-            Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
-            if(isRefresh){
-                getListArticles();
+            if(data.hasExtra("isRefresh")){
+                Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
+                if(isRefresh){
+                    getListArticles();
+                }
             }
 
         }else if(requestCode==1617){
-            Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
-            if(isRefresh){
-                getListArticlesPopular();
+            if(data.hasExtra("isRefresh")){
+                Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
+                if(isRefresh){
+                    getListArticlesPopular();
+                }
             }
         }
     }
@@ -325,9 +333,9 @@ public class HomeFragment extends Fragment {
                                     }
                                 });
 
-                                // rlEmpty.setVisibility(View.GONE);
+                                 //rlEmpty.setVisibility(View.GONE);
                             } else {
-                                //  rlEmpty.setVisibility(View.VISIBLE);
+                                  //rlEmpty.setVisibility(View.VISIBLE);
 
                             }
 

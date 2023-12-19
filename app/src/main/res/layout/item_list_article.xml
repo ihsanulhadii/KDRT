@@ -113,7 +113,7 @@
 
                     <TextView
                         android:id="@+id/tvCommentCount"
-                        android:text="10 Komentar"
+                        android:text="0 Komentar"
                         android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>

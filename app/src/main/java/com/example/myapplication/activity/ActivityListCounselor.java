@@ -13,28 +13,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.CounselorAdapter;
-import com.example.myapplication.adapter.ReportAdapter;
 import com.example.myapplication.model.ChatRoom;
-import com.example.myapplication.model.ChatRoomModel;
 import com.example.myapplication.model.CounselorModel;
-import com.example.myapplication.model.ReportModel;
 import com.example.myapplication.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -42,7 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class ActivityListCounselor extends AppCompatActivity {
 
@@ -91,7 +85,7 @@ public class ActivityListCounselor extends AppCompatActivity {
         rlLoading = findViewById(R.id.rlLoading);
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
 
-        tvTitleToolbar.setText("List Konselor");
+        tvTitleToolbar.setText(Constants.titleToolbar);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

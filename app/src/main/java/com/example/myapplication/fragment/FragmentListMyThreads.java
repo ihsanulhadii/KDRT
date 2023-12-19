@@ -1,6 +1,5 @@
 package com.example.myapplication.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,13 +25,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityDetailThreads;
-import com.example.myapplication.activity.ActivityListThreads;
 import com.example.myapplication.activity.ActivityPostThreads;
 import com.example.myapplication.adapter.ThreadAdapter;
 import com.example.myapplication.model.ThreadModel;
-import com.example.myapplication.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -45,7 +43,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FragmentListMyThreads extends Fragment {
 
@@ -73,6 +70,7 @@ public class FragmentListMyThreads extends Fragment {
 
     String userId;
     Handler handler;
+
 
 
     @Override
@@ -149,6 +147,7 @@ public class FragmentListMyThreads extends Fragment {
 
 
     private void loadThreads(){
+        threadList.clear();
         threadsCollection.orderBy("date.createdDate",Query.Direction.DESCENDING)
                 .limit(10)
                 .whereEqualTo("isPublish",true)
@@ -158,13 +157,21 @@ public class FragmentListMyThreads extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+
+                            if(task.getResult().isEmpty()){
+                                swipeRefreshLayout.setRefreshing(false);
+                                rlEmpty.setVisibility(View.VISIBLE);
+                                rlLoading.setVisibility(View.GONE);
+                            }
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id = document.getString("id");
+
                                 String userId = document.getString("userId");
-                                String description = document.getString("description");
                                 String img = document.getString("img");
                                 Timestamp timestamp = document.getTimestamp("date.createdDate");
                                 String title = document.getString("title");
+
+                                String id = document.getString(Constants.id);;
+                                String description = document.getString(Constants.description);
 
                                 if(task.getResult().size()>0){
                                     QuerySnapshot querySnapshot = task.getResult();
@@ -341,13 +348,17 @@ public class FragmentListMyThreads extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id = document.getString("id");
                                 String userId = document.getString("userId");
-                                String description = document.getString("description");
                                 String img = document.getString("img");
                                 Timestamp timestamp = document.getTimestamp("date.createdDate");
                                 String title = document.getString("title");
+                                String id = document.getString(Constants.id);;
+                                String description = document.getString(Constants.description);
+
+                                Log.d("roxy",id+" --");
+                                Log.d("roxy2",description+" --");
 
 
                                 QuerySnapshot querySnapshot = task.getResult();

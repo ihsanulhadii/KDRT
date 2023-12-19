@@ -169,6 +169,9 @@ public class ActivityDetailArticle extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("isRefresh",isRefresh);
+                setResult(RESULT_OK,intent);
                 finish();
             }
         });

@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
-import com.example.myapplication.constant.Constant;
 import com.example.myapplication.model.ArticleModel;
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +84,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
                 shareIntent.setAction(Intent.ACTION_SEND);
 
                 // Menentukan tipe konten yang akan dibagikan (URL dalam contoh ini)
-                shareIntent.putExtra(Intent.EXTRA_TEXT, Constant.urlArticle+item.getId());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, Constants.urlArticle+item.getId());
                 shareIntent.setType("text/plain");
 
                 // Menampilkan aplikasi yang mendukung fungsi share

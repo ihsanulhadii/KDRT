@@ -1,9 +1,6 @@
 package com.example.myapplication.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
-import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.model.ThreadModel;
-import com.example.myapplication.model.User;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;

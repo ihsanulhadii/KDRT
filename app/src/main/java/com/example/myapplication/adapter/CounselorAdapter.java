@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.CounselorModel;
-import com.example.myapplication.model.ReportModel;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 

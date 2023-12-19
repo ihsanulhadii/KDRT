@@ -14,8 +14,8 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="30dp"
         android:fontFamily="@font/ooredoo"
-        android:text="Kawan Cerita"
-        android:textColor="@color/purple1"
+        android:text="@string/app_name"
+        android:textColor="@color/login"
         android:textSize="40sp"
         android:textStyle="bold" />
 
@@ -34,10 +34,11 @@
         android:layout_below="@+id/ivlogo"
         android:layout_centerInParent="true"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="18dp"
         android:fontFamily="@font/nunito_regular"
-        android:text="Kunjungi Website\nKawanBercerita.id"
-        android:textColor="@color/blue1" />
+        android:gravity="center"
+        android:text="@string/visit_web"
+        android:textColor="@color/color_button_intro" />
 
     <Button
         android:id="@+id/btnOpenWebsite"

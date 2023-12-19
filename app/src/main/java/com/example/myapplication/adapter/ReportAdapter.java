@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.model.ReportModel;
-import com.example.myapplication.model.ThreadModel;
-import com.example.myapplication.model.User;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;

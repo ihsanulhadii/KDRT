@@ -1,6 +1,5 @@
 package com.example.myapplication.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,21 +19,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityDetailThreads;
-import com.example.myapplication.activity.ActivityListThreads;
 import com.example.myapplication.activity.ActivityPostThreads;
-import com.example.myapplication.activity.ActivityThreadsNew;
 import com.example.myapplication.adapter.ThreadAdapter;
 import com.example.myapplication.model.ThreadModel;
-import com.example.myapplication.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -46,7 +42,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,6 +135,7 @@ public class FragmentListThreads extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
                 swipeRefreshLayout.setRefreshing(true);
                 loadThreads();
             }
@@ -150,6 +146,7 @@ public class FragmentListThreads extends Fragment {
 
 
      private void loadThreads(){
+         threadList.clear();
          threadsCollection.orderBy("date.createdDate",Query.Direction.DESCENDING)
                  .limit(10)
                  .whereEqualTo("isPublish",true)
@@ -158,78 +155,93 @@ public class FragmentListThreads extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id = document.getString("id");
-                                String title = document.getString("title");
-                                String userId = document.getString("userId");
-                                String description = document.getString("description");
-                                String img = document.getString("img");
-                                Timestamp timestamp = document.getTimestamp("date.createdDate");
+                            if(task.getResult().isEmpty()){
+                                swipeRefreshLayout.setRefreshing(false);
+                                rlEmpty.setVisibility(View.VISIBLE);
+                                rlLoading.setVisibility(View.GONE);
+                            }else {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String title = document.getString("title");
+                                    String userId = document.getString("userId");
 
-                                Map<String, Object> date = document.getData();
+                                    Log.d("roxyxxPPP", title + " --");
 
-                                if(task.getResult().size()>0){
-                                    QuerySnapshot querySnapshot = task.getResult();
+                                    String id = document.getString(Constants.id);
+                                    ;
+                                    String description = document.getString(Constants.description);
 
-                                    userCollection
-                                            .document(userId)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot userDocument = task.getResult();
-                                                        if (userDocument.exists()) {
-                                                            String userName = userDocument.getString("name");
-                                                            String avatar = userDocument.getString("avatar");
+                                    Log.d("roxyxx", id + " --");
+                                    Log.d("roxy2zz", description + " --");
 
-                                                            threadList.add(new ThreadModel(id,title,userId,description,img,timestamp,userName,avatar));
-                                                            handler.post(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    swipeRefreshLayout.setRefreshing(false);
-                                                                    lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                                                    threadAdapter.notifyDataSetChanged();
-                                                                    threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
-                                                                        @Override
-                                                                        public void onItemClick(ThreadModel thread) {
-                                                                            Intent intent = new Intent(getActivity(), ActivityDetailThreads.class);
-                                                                            intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
-                                                                            intent.putExtra("img",thread.getImg());
-                                                                            intent.putExtra("description",thread.getDescription());
-                                                                            startActivity(intent);
+                                    String img = document.getString("img");
+                                    Timestamp timestamp = document.getTimestamp("date.createdDate");
+
+                                    Map<String, Object> date = document.getData();
+
+                                    if (task.getResult().size() > 0) {
+                                        QuerySnapshot querySnapshot = task.getResult();
+
+                                        userCollection
+                                                .document(userId)
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot userDocument = task.getResult();
+                                                            if (userDocument.exists()) {
+                                                                String userName = userDocument.getString("name");
+                                                                String avatar = userDocument.getString("avatar");
+
+                                                                threadList.add(new ThreadModel(id, title, userId, description, img, timestamp, userName, avatar));
+                                                                handler.post(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        swipeRefreshLayout.setRefreshing(false);
+                                                                        lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                                                        threadAdapter.notifyDataSetChanged();
+                                                                        threadAdapter.setOnItemClickListener(new ThreadAdapter.OnItemClickListener() {
+                                                                            @Override
+                                                                            public void onItemClick(ThreadModel thread) {
+                                                                                Intent intent = new Intent(getActivity(), ActivityDetailThreads.class);
+                                                                                intent.putExtra("title", thread.getTitle()); // Kirim data thread ke aktivitas detail
+                                                                                intent.putExtra("img", thread.getImg());
+                                                                                intent.putExtra("description", thread.getDescription());
+                                                                                startActivity(intent);
+                                                                            }
+                                                                        });
+
+                                                                        if (!threadList.isEmpty()) {
+                                                                            rlEmpty.setVisibility(View.GONE);
+                                                                            rlLoading.setVisibility(View.GONE);
+                                                                        } else {
+                                                                            rlEmpty.setVisibility(View.VISIBLE);
                                                                         }
-                                                                    });
-
-                                                                    if(!threadList.isEmpty()){
-                                                                        rlEmpty.setVisibility(View.GONE);
-                                                                        rlLoading.setVisibility(View.GONE);
-                                                                    }else {
-                                                                        rlEmpty.setVisibility(View.VISIBLE);
                                                                     }
-                                                                }
-                                                            });
+                                                                });
+                                                            }
+                                                        } else {
+                                                            Log.d("xxx", task.getException().getMessage());
+                                                            // Handle error
                                                         }
-                                                    } else {
-                                                        Log.d("xxx",task.getException().getMessage());
-                                                        // Handle error
                                                     }
-                                                }
-                                            });
-                                }else {
-                                    rlEmpty.setVisibility(View.VISIBLE);
-                                    rlLoading.setVisibility(View.GONE);
+                                                });
+                                    } else {
+                                        rlEmpty.setVisibility(View.VISIBLE);
+                                        rlLoading.setVisibility(View.GONE);
+                                    }
                                 }
-
                             }
                         } else {
                             //Error Boskuh
+
                             showToast(task.getException().getMessage()+".");
                         }
                     }
                 });
 
     }
+
 
 
     public void showEditDeleteDialog(ThreadModel thread,int position) {
@@ -342,15 +354,18 @@ public class FragmentListThreads extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String id = document.getString("id");
+
                                 String userId = document.getString("userId");
-                                String description = document.getString("description");
                                 String img = document.getString("img");
                                 String title = document.getString("title");
                                 Timestamp timestamp = document.getTimestamp("date.createdDate");
 
+                                Log.d("roxQQQQ",title+" --");
+                                String id = document.getString(Constants.id);;
+                                String description = document.getString(Constants.description);
 
-
+                                Log.d("roxyxx",id+" --");
+                                Log.d("roxy2zz",description+" --");
                                 QuerySnapshot querySnapshot = task.getResult();
                                 userCollection
                                         .document(userId)

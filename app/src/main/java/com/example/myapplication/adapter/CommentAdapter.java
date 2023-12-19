@@ -49,13 +49,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
       holder.tvName.setText(comment.getName());
       Log.d("xxx22",comment.getName()+" --");
 
-      Picasso.get()
-              .load(comment.getAvatar())
-              .placeholder(R.drawable.avatar)
-              .error(R.drawable.avatar)
-              .fit()
-              .centerCrop()
-              .into(holder.ivImage);
+      if(comment.getAvatar()==null||comment.getAvatar().isEmpty()){
+         //comment.avatar nya null / kosong
+
+      }else {
+         Picasso.get()
+                 .load(comment.getAvatar())
+                 .placeholder(R.drawable.avatar)
+                 .error(R.drawable.avatar)
+                 .fit()
+                 .centerCrop()
+                 .into(holder.ivImage);
+      }
 /*
       holder.txtContent.setText(comment.getContent());*/
 

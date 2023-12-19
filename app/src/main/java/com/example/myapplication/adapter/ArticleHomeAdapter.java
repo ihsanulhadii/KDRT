@@ -16,8 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
-import com.example.myapplication.constant.Constant;
 import com.example.myapplication.model.ArticleModel;
 import com.squareup.picasso.Picasso;
 
@@ -60,7 +60,10 @@ public class ArticleHomeAdapter extends RecyclerView.Adapter<ArticleHomeAdapter.
         holder.tvTitle.setText(item.getTitle());
         holder.tvContent.setText(item.getContent());
 
-        holder.tvCommentCount.setText(item.getCommentCount().toString()+" Komentar");
+        if(item.getCommentCount()!=null){
+            holder.tvCommentCount.setText(item.getCommentCount().toString()+" Komentar");
+        }
+
 
 
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -100,7 +103,7 @@ public class ArticleHomeAdapter extends RecyclerView.Adapter<ArticleHomeAdapter.
                 shareIntent.setAction(Intent.ACTION_SEND);
 
                 // Menentukan tipe konten yang akan dibagikan (URL dalam contoh ini)
-                shareIntent.putExtra(Intent.EXTRA_TEXT, Constant.urlArticle+item.getId());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, Constants.urlArticle+item.getId());
                 shareIntent.setType("text/plain");
 
                 // Menampilkan aplikasi yang mendukung fungsi share

@@ -3,12 +3,12 @@
 
     <stroke
         android:width="2dp"
-        android:color="@color/purple1" />
+        android:color="@color/color_button_intro" />
 
     <corners
         android:radius="5dp" />
 
-    <solid android:color="@color/purple1"/>
+    <solid android:color="@color/color_button_intro"/>
 
     <padding
         android:bottom="0dip"

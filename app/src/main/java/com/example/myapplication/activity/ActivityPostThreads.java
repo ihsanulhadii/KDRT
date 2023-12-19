@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,8 +27,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.devhoony.lottieproegressdialog.LottieProgressDialog;
+import com.example.myapplication.Constants;
 import com.example.myapplication.R;
-import com.example.myapplication.model.ThreadModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,6 +48,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 
 public class ActivityPostThreads extends AppCompatActivity {
 
@@ -135,6 +137,8 @@ public class ActivityPostThreads extends AppCompatActivity {
 
 
         tvTitleToolbar.setText("Tambah Threads");
+
+
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,7 +382,7 @@ public class ActivityPostThreads extends AppCompatActivity {
         threadsCollection.document(idThreads)
                 .update(
                         "title", titleReport,
-                        "description", description
+                        Constants.description, description
                 )
 
 
@@ -407,10 +411,10 @@ public class ActivityPostThreads extends AppCompatActivity {
         //untuk field dan value di database
         Map<String, Object> data = new HashMap<>();
         data.put("title",titleReport);
-        data.put("id",idReport);
+        data.put(Constants.id,idReport);
         data.put("userId",userId);
         data.put("isPublish",true);
-        data.put("description", description);
+        data.put(Constants.description, description);
         data.put("img",urlImage);
 
         Map<String, Object> date = new HashMap<>();
@@ -456,9 +460,12 @@ public class ActivityPostThreads extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         Intent intent = new Intent();
-        intent.putExtra("isLoad",isPostSuccess);
-        setResult(RESULT_OK,intent);
+        intent.putExtra("isLoad", isPostSuccess);
+        setResult(RESULT_OK, intent);
         finish();
     }
+
+
 }
