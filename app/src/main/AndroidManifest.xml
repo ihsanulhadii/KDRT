@@ -36,7 +36,6 @@
         </activity>
         <activity android:name=".activity.ActivityLogin"/>
         <activity android:name=".activity.ActivityRegister"/>
-        <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.ActivityPostThreads"/>
         <activity android:name=".activity.ActivityPostReport"/>
         <activity android:name=".activity.ChatActivity"/>
