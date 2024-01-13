@@ -266,19 +266,19 @@
                 android:layout_height="wrap_content"
                 android:text="Artikel Terbaru"
                 android:fontFamily="@font/ooredoo"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tvSeeAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textSize="14sp"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/ooredoo"
                 android:layout_alignParentRight="true"
-                android:text="Lihat Semua"/>
+                android:layout_centerInParent="true"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/ooredoo"
+                android:text="Lihat Semua"
+                android:textSize="18sp" />
 
         </RelativeLayout>
 

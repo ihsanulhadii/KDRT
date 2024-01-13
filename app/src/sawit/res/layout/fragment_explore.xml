@@ -360,12 +360,12 @@
                 android:id="@+id/tvEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/ooredoo"
-                android:textSize="14sp"
-                android:layout_centerInParent="true"
-                android:layout_alignParentRight="true"
-                android:text="Lihat Semua"/>
+                android:text="Lihat Semua"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

@@ -6,6 +6,8 @@
     <application>
         <activity android:name=".activity.ContohActivity"/>
         <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.ActivityDetailEvent"/>
+        <activity android:name=".activity.ActivityListEvent"/>
     </application>
 
 </manifest>

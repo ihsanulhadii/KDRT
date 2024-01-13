@@ -23,12 +23,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activity.ActivityDetailArticle;
+import com.example.myapplication.activity.ActivityDetailEvent;
 import com.example.myapplication.activity.ActivityListArticle;
 import com.example.myapplication.activity.ActivityListCounselor;
+import com.example.myapplication.activity.ActivityListEvent;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityThreadsNew;
 import com.example.myapplication.adapter.ArticleExploreAdapter;
+import com.example.myapplication.adapter.EventListAdapter;
 import com.example.myapplication.model.ArticleModel;
+import com.example.myapplication.model.EventModel;
 import com.example.myapplication.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -51,22 +55,30 @@ public class ExploreFragment extends Fragment {
 
     EditText etSearch;
 
-    TextView tvUsername, tvSeeAll, tvPopular;
+    TextView tvUsername, tvSeeAll, tvPopular,tvEvent;
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2 ;
+
+    private RecyclerView recyclerView3;
     private ArticleExploreAdapter articleAdapter;
+
     private ArticleExploreAdapter articlePopularAdapter;
+
+    private EventListAdapter eventListAdapter;
 
     private List<ArticleModel> articleModelList = new ArrayList<>();
 
-
     private List<ArticleModel> articleModelList2 = new ArrayList<>();
+
+    private List<EventModel> eventModelList3 = new ArrayList<>();
 
     private List<User>userList = new ArrayList<>();
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     private CollectionReference artikelCollection = firestore.collection("articles");
+
+    private CollectionReference eventCollection = firestore.collection("event");
 
     private DocumentSnapshot lastVisible;
 
@@ -105,6 +117,7 @@ public class ExploreFragment extends Fragment {
         ivAvatar = rootView.findViewById(R.id.ivAvatar);
         etSearch = rootView.findViewById(R.id.etSearch);
         tvPopular = rootView.findViewById(R.id.tvPopular);
+        tvEvent = rootView.findViewById(R.id.tvEvent);
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -121,6 +134,13 @@ public class ExploreFragment extends Fragment {
 
         articlePopularAdapter = new ArticleExploreAdapter(getActivity(),articleModelList2);
         recyclerView2.setAdapter(articlePopularAdapter);
+
+        recyclerView3 = rootView.findViewById(R.id.recyclerView3);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        recyclerView3.setLayoutManager(layoutManager3);
+
+        eventListAdapter = new EventListAdapter(getActivity(),eventModelList3);
+        recyclerView3.setAdapter(eventListAdapter);
 
         tvUsername.setText(sharedPreferences.getString("username", ""));
         setShortenedUsername();
@@ -182,6 +202,14 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+        tvEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ActivityListEvent.class);
+                startActivityForResult(intent, 311);
+            }
+        });
+
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -195,6 +223,8 @@ public class ExploreFragment extends Fragment {
        getListArticles();
 
         getListArticlesPopular();
+
+            getListEvent();
 
 
         return rootView;
@@ -276,22 +306,29 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1616){
-            if(data.hasExtra("isRefresh")){
-                Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
-                if(isRefresh){
+        if (requestCode == 1616) {
+            if (data.hasExtra("isRefresh")) {
+                boolean isRefresh = data.getBooleanExtra("isRefresh", false);
+                if (isRefresh) {
                     getListArticles();
                 }
             }
-
-        }else if(requestCode==1617){
-            if(data.hasExtra("isRefresh")){
-                Boolean isRefresh = data.getBooleanExtra("isRefresh",false);
-                if(isRefresh){
+        } else if (requestCode == 1617) {
+            if (data.hasExtra("isRefresh")) {
+                boolean isRefresh = data.getBooleanExtra("isRefresh", false);
+                if (isRefresh) {
                     getListArticlesPopular();
                 }
             }
+        } else if (requestCode == 1618) {
+            if (data.hasExtra("isRefresh")) {
+                boolean isRefresh = data.getBooleanExtra("isRefresh", false);
+                if (isRefresh) {
+                    getListEvent();
+                }
+            }
         }
+
     }
 
     private void getListArticlesPopular() {
@@ -352,6 +389,61 @@ public class ExploreFragment extends Fragment {
 
 
     }
+    private void getListEvent() {
+        // Clear the existing artikelList before loading new data
+        eventModelList3.clear();
+
+        eventCollection.orderBy("date.createdDate", Query.Direction.DESCENDING)
+                .limit(10)
+                .whereEqualTo("isPublish",true)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null) {
+                            EventModel eventModel;
+                            for (DocumentSnapshot document : querySnapshot) {
+                                eventModel = document.toObject(EventModel.class);
+                                eventModelList3.add(eventModel);
+                            }
+
+                            if (!eventModelList3.isEmpty()) {
+                                lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                                eventListAdapter.notifyDataSetChanged();
+
+                                eventListAdapter.setOnItemClickListener(new EventListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(EventModel eventModel) {
+                                        Intent intent = new Intent(getActivity(), ActivityDetailEvent.class);
+                                        intent.putExtra("title", eventModel.getTitle()); // Kirim data report ke aktivitas detail
+                                        intent.putExtra("img",eventModel.getImg());
+                                        intent.putExtra("content",eventModel.getContent());
+                                        intent.putExtra("id",eventModel.getId());
+                                        intent.putExtra("link",eventModel.getLink());
+                                        intent.putExtra("tanggal",eventModel.getTanggal());
+
+                                        Date datePublish = eventModel.getDateValue("createdDate");
+                                        String inputDateString = datePublish.toString();
+                                        intent.putExtra("date",inputDateString);
+                                        startActivity(intent);
+                                    }
+                                });
+
+
+                                //rlEmpty.setVisibility(View.GONE);
+                            } else {
+                                //rlEmpty.setVisibility(View.VISIBLE);
+
+                            }
+
+                        }
+                    }
+
+                });
+
+
+    }
+
 
 
 
