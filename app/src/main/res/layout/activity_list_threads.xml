@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_alignParentBottom="true"
-                android:text="Buat Threads"
+                android:text="Buat Opinions"
                 android:textAllCaps="false"
                 android:fontFamily="@font/ooredoo"
                 android:textColor="@color/white"

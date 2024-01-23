@@ -62,10 +62,37 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Item
         if(item.getCommentCount()!=null){
             holder.tvCommentCount.setText(item.getCommentCount().toString()+" Komentar");
         }
+/*
+
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        Display display = windowManager.getDefaultDisplay();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
 
 
+        if (position == 0) {
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.setMarginStart(holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.padding));
+            holder.itemView.setLayoutParams(layoutParams);
+        }
 
+        float scaleFactor = 1.5f;
 
+        int width = 0;
+        if (eventList != null && (eventList.size() == 1 || eventList.size() == 2)) {
+            width = (int) ((display.getWidth() / 2) * scaleFactor) - 10;
+        } else {
+            width = (int) ((display.getWidth() / 2) * scaleFactor) - 10;
+        }
+
+        // RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.rlView.getLayoutParams();
+        ViewGroup.LayoutParams params = holder.rlView.getLayoutParams();
+        if (params != null) {
+            params.width = width;
+            // params.height = width; // Uncomment this line if you also want to set the height
+            holder.rlView.setLayoutParams(params);
+        }
+*/
 
         Date datePublish = item.getDateValue("createdDate");
 
@@ -136,6 +163,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Item
             llShare = itemView.findViewById(R.id.llShare);
             tvDateEvent = itemView.findViewById(R.id.tvDateEvent);
             tvLink = itemView.findViewById(R.id.tvLink);
+            rlView = itemView.findViewById(R.id.itemView);
+
+
         }
     }
 }

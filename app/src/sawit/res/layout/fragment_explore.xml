@@ -161,7 +161,7 @@
                     android:textStyle="bold"
                     android:fontFamily="@font/ooredoo"
                     android:textSize="18sp"
-                    android:text = "Threads"/>
+                    android:text = "Opinion"/>
 
             </LinearLayout>
 
@@ -379,6 +379,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerView3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView4"/>
 
         </LinearLayout>
 

@@ -152,7 +152,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Posting Threads"
+        android:text="Posting Opinions"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/ooredoo"

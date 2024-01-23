@@ -30,7 +30,7 @@ import com.example.myapplication.activity.ActivityListEvent;
 import com.example.myapplication.activity.ActivityListReport;
 import com.example.myapplication.activity.ActivityThreadsNew;
 import com.example.myapplication.adapter.ArticleExploreAdapter;
-import com.example.myapplication.adapter.EventListAdapter;
+import com.example.myapplication.adapter.EventExploreAdapter;
 import com.example.myapplication.model.ArticleModel;
 import com.example.myapplication.model.EventModel;
 import com.example.myapplication.model.User;
@@ -64,7 +64,7 @@ public class ExploreFragment extends Fragment {
 
     private ArticleExploreAdapter articlePopularAdapter;
 
-    private EventListAdapter eventListAdapter;
+    private EventExploreAdapter eventExploreAdapter;
 
     private List<ArticleModel> articleModelList = new ArrayList<>();
 
@@ -78,7 +78,7 @@ public class ExploreFragment extends Fragment {
 
     private CollectionReference artikelCollection = firestore.collection("articles");
 
-    private CollectionReference eventCollection = firestore.collection("event");
+    private CollectionReference eventCollection = firestore.collection("Event");
 
     private DocumentSnapshot lastVisible;
 
@@ -139,8 +139,8 @@ public class ExploreFragment extends Fragment {
         LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         recyclerView3.setLayoutManager(layoutManager3);
 
-        eventListAdapter = new EventListAdapter(getActivity(),eventModelList3);
-        recyclerView3.setAdapter(eventListAdapter);
+        eventExploreAdapter = new EventExploreAdapter(getActivity(),eventModelList3);
+        recyclerView3.setAdapter(eventExploreAdapter);
 
         tvUsername.setText(sharedPreferences.getString("username", ""));
         setShortenedUsername();
@@ -409,9 +409,9 @@ public class ExploreFragment extends Fragment {
 
                             if (!eventModelList3.isEmpty()) {
                                 lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
-                                eventListAdapter.notifyDataSetChanged();
+                                eventExploreAdapter.notifyDataSetChanged();
 
-                                eventListAdapter.setOnItemClickListener(new EventListAdapter.OnItemClickListener() {
+                                eventExploreAdapter.setOnItemClickListener(new EventExploreAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(EventModel eventModel) {
                                         Intent intent = new Intent(getActivity(), ActivityDetailEvent.class);

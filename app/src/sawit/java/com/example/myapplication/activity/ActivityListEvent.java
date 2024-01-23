@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.ArticleListAdapter;
+import com.example.myapplication.adapter.EventExploreAdapter;
 import com.example.myapplication.adapter.EventListAdapter;
 import com.example.myapplication.model.EventModel;
 import com.example.myapplication.model.User;

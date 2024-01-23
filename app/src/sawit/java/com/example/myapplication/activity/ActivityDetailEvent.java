@@ -118,6 +118,11 @@ public class ActivityDetailEvent extends AppCompatActivity {
 
         tvContent.setText(content);
         tvTitle.setText(title);
+        tvDateEvent.setText(tanggal);
+        tvLink.setText(link);
+  
+
+
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

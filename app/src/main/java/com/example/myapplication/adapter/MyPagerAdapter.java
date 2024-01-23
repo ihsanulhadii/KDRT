@@ -9,7 +9,7 @@ import com.example.myapplication.fragment.FragmentListThreads;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
    private final Fragment[] fragments = {new FragmentListThreads(), new FragmentListMyThreads()};
-   private final String[] tabTitles = {"Threads", "My Threads"};
+   private final String[] tabTitles = {"Opinions", "My Opinions"};
 
    public MyPagerAdapter(FragmentManager fragmentManager) {
       super(fragmentManager);

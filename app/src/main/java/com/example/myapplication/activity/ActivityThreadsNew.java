@@ -30,7 +30,7 @@ public class ActivityThreadsNew extends AppCompatActivity {
         tvTitleToolbar = findViewById(R.id.tvTitleToolbar);
         ivBack = findViewById(R.id.ivBack);
 
-        tvTitleToolbar.setText("List Threads");
+        tvTitleToolbar.setText("List Opinions");
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
